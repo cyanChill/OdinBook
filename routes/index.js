@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const indexController = require("../controllers/indexController");
+const authRoutes = require("./auth");
 
-router.get("/", indexController.homeGet);
+router.get("/", async (req, res, next) => {
+  return res.status(200).json({ message: "Successfully pinged api." });
+});
+
+router.use("/auth", authRoutes);
 
 module.exports = router;

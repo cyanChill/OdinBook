@@ -11,7 +11,7 @@ const UserSchema = Schema({
   posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
   friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
   friendRequests: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  facebookId: { type: String, required: false },
+  facebookId: { type: String },
 });
 
 UserSchema.virtual("full_name").get(function () {
