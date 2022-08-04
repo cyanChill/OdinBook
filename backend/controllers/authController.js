@@ -1,8 +1,8 @@
 const { body, validationResult } = require("express-validator");
 const passport = require("passport");
 
-const { hashPassword } = require("../lib/hash");
-const { issueToken } = require("../lib/jwt");
+const { hashPassword } = require("../utils/hash");
+const { issueToken } = require("../utils/jwt");
 const User = require("../models/User");
 
 exports.signupPost = [
@@ -92,6 +92,7 @@ exports.normLoginPost = async (req, res, next) => {
 exports.facebookLoginGet = async (req, res, next) => {
   // Successfuly authentication, send back token
   try {
+    console.log(req.user);
     const token = issueToken(req.user);
     return res.status(200).json({
       message: "Successfully logged in via Facebook.",
