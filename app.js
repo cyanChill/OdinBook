@@ -2,11 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-require("./lib/mongoConfig");
+require("./utils/mongoConfig");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const isDevelopment = process.env.NODE_ENV === "development";
-require("./lib/passportConfig");
+require("./utils/passportConfig");
 
 const indexRouter = require("./routes/index");
 

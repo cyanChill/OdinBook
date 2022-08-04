@@ -4,13 +4,13 @@ const passport = require("passport");
 
 const authController = require("../controllers/authController");
 
-/* Handle User Signups */
+/* Handle user signups */
 router.post("/signup", authController.signupPost);
 
-/* Handle Non-Facebook Login */
+/* Handle non-Facebook logins */
 router.post("/login", authController.normLoginPost);
 
-/* Handle Facebook Login */
+/* Handle Facebook logins */
 router.get(
   "/login/facebook",
   passport.authenticate("facebook", { scope: ["email"], session: false })
@@ -21,13 +21,13 @@ router.get(
   passport.authenticate("facebook", {
     scope: ["email"],
     session: false,
-    failureRedirect: "/login/facebook",
+    failureRedirect: "/api/auth/login/facebook",
     failureMessage: true,
   }),
   authController.facebookLoginGet
 );
 
-/* Verify If JWT Token is Still Valid */
+/* Verify if JWT token is still valid */
 router.get(
   "/validateToken",
   passport.authenticate("jwt", { session: false }),

@@ -5,7 +5,7 @@ const JWTStrategy = require("passport-jwt").Strategy;
 const ExtractJWT = require("passport-jwt").ExtractJwt;
 
 const User = require("../models/User");
-const { verifyPassword } = require("../lib/hash.js");
+const { verifyPassword } = require("./hash.js");
 
 const IncorCredsInfo = { message: "Incorrect username or password." };
 
@@ -69,9 +69,9 @@ const JWTStrategyOpts = {
 passport.use(
   new JWTStrategy(JWTStrategyOpts, async (jwt_payload, done) => {
     try {
-      return cb(null, jwt_payload.user);
+      return done(null, jwt_payload.id);
     } catch {
-      return cb(err, false);
+      return done(err, false);
     }
   })
 );
