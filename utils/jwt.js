@@ -17,7 +17,7 @@ exports.readToken = (req, res, next) => {
     if (err) return res.status(403).json({ message: "Invalid token." });
     if (authData) {
       req.userId = authData.id;
-      next();
+      return next();
     }
   });
 };
