@@ -19,10 +19,9 @@ exports.signupPost = [
     .isAlpha("en-US")
     .withMessage("Last name must contain only alphabet characters."),
   body("email", "An email is required.").trim().isEmail().escape(),
-  body("password")
+  body("password", "Password must be atleast 6 characters long.")
     .trim()
     .isLength({ min: 6 })
-    .withMessage("Password must be atleast 6 characters long.")
     .escape(),
 
   async (req, res, next) => {
@@ -45,7 +44,7 @@ exports.signupPost = [
 
     if (!errors.isEmpty()) {
       return res.status(409).json({
-        message: "Something is wrong with your input",
+        message: "Something is wrong with your input.",
         inputData: userBody,
         errors: errors.errors,
       });

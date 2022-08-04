@@ -19,10 +19,20 @@ exports.allUsersGet = async (req, res, next) => {
 
 exports.userGet = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.userId)
-      .populate("posts")
-      .populate("friends")
-      .populate("friendRequests");
+    let user;
+    if (!req.isFriendOrOwner) {
+      // If current user isn't friend of :userId, return basic information
+      // & friendRequests list
+      user = await User.findById(
+        req.params.userId,
+        "first_name last_name profilePicUrl friendRequests"
+      ).populate("friendRequests");
+    } else {
+      user = await User.findById(req.params.userId)
+        .populate("posts")
+        .populate("friends")
+        .populate("friendRequests");
+    }
     return res.status(200).json({
       message: "Successfully found user.",
       user: user,
@@ -131,5 +141,9 @@ exports.updateProfilePut = [
 ];
 
 exports.updateProfilePicPut = async (req, res, next) => {
+  return res.status(501).json({ message: "Route not implemented." });
+};
+
+exports.userDelete = async (req, res, next) => {
   return res.status(501).json({ message: "Route not implemented." });
 };
