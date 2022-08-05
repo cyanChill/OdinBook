@@ -4,6 +4,8 @@ const router = express.Router();
 const routeMiddleware = require("../utils/routeMiddleware");
 const usersController = require("../controllers/usersController");
 
+// ⭐ Current Route: "/api/users" ⭐
+
 /* ❗ Middlewares ❗ */
 // :userId parameter must link to a valid user
 router.use("/:userId", routeMiddleware.validUserId);

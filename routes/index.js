@@ -11,8 +11,6 @@ router.get("/", async (req, res, next) => {
   return res.status(200).json({ message: "Successfully pinged api." });
 });
 
-router.use("/auth", authRoutes);
-
 /* ❗ Middlewares ❗ */
 // User must be logged in to access the following route
 router.use(passport.authenticate("jwt", { session: false }));
@@ -20,6 +18,7 @@ router.use(passport.authenticate("jwt", { session: false }));
 router.use(readToken);
 
 /* ❗ Routes ❗ */
+router.use("/auth", authRoutes);
 router.use("/users", usersRoutes);
 router.use("/posts", postsRoutes);
 

@@ -46,7 +46,7 @@ exports.signupPost = [
       return res.status(409).json({
         message: "Something is wrong with your input.",
         inputData: userBody,
-        errors: errors.errors,
+        errors: errors.array(),
       });
     }
     // To not send hashed password back to frontend
