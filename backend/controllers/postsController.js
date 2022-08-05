@@ -1,5 +1,10 @@
 const { body, validationResult } = require("express-validator");
 
+const {
+  validateImg,
+  convertImgAndUploadToFirebase,
+  deleteImageFromUrl,
+} = require("../utils/imgs");
 const Post = require("../models/Post");
 
 exports.getFeedPosts = async (req, res, next) => {
@@ -29,20 +34,33 @@ exports.createPost = [
 
   async (req, res, next) => {
     const errors = validationResult(req);
-
-    const postBody = {
-      author: req.userId,
-      content: req.body.content,
-      timestamp: Date.now(),
-      imgUrl: "",
-    };
-
+    // Proceed with validate image if we attached one with the post
+    if (req.file !== undefined) validateImg(req.file, errors.errors);
     if (!errors.isEmpty()) {
       return res.status(400).json({
         message: "Something is wrong with your input.",
         errors: errors.array(),
       });
     }
+
+    // "downloadUrl" will be the url to firebase image if image was attached & uploaded
+    let downloadUrl = "";
+    if (req.file) {
+      try {
+        downloadUrl = await convertImgAndUploadToFirebase(req.file, req.userId);
+      } catch (err) {
+        return res.status(500).json({
+          message: "An error has occurred when uploading post image.",
+        });
+      }
+    }
+
+    const postBody = {
+      author: req.userId,
+      content: req.body.content,
+      timestamp: Date.now(),
+      imgUrl: downloadUrl,
+    };
 
     // Can now create post
     try {
@@ -52,6 +70,10 @@ exports.createPost = [
         post: newPost,
       });
     } catch (err) {
+      console.log(err);
+      // Delete image uploaded to firebase if it exists (was uploaded)
+      if (downloadUrl) await deleteImageFromUrl(downloadUrl);
+
       return res.status(500).json({
         message: "Something went wrong when trying to create post.",
       });
@@ -84,7 +106,10 @@ exports.deletePost = async (req, res, next) => {
   }
 
   try {
-    await Post.findByIdAndDelete(req.params.postId);
+    const deletedPost = await Post.findByIdAndDelete(req.params.postId);
+    // Delete image if it exists
+    if (deletedPost.imgUrl) await deleteImageFromUrl(deletedPost.imgUrl);
+
     return res.status(200).json({ message: "Successfully deleted post." });
   } catch (err) {
     return res.status(500).json({
