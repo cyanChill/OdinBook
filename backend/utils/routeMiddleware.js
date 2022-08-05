@@ -1,5 +1,6 @@
-const User = require("../models/User");
+const Comment = require("../models/Comment");
 const Post = require("../models/Post");
+const User = require("../models/User");
 
 /* 
   ***********************************************************
@@ -79,6 +80,42 @@ exports.validPostId = async (req, res, next) => {
   } catch (err) {
     return res.status(500).json({
       message: "Something went wrong while verifying the postId.",
+    });
+  }
+};
+
+// Checks to see if current user has access to post
+exports.hasPostAccess = async (req, res, next) => {
+  const { currentPost, currentUser } = req;
+  // Check to see if we're not friends with the post owner or not the post owner
+  if (
+    !currentUser.friends.includes(currentPost.author) &&
+    !currentPost.author.equals(currentUser._id)
+  ) {
+    return res.status(403).json({
+      message: "You do not have access to that post.",
+    });
+  }
+  return next();
+};
+
+/* 
+  ***********************************************************
+                      For "/posts" Routes
+  ***********************************************************
+*/
+// Checks if :commentId param is for a valid comment & set req.currComment to the "Comment" object
+exports.validCommentId = async (req, res, next) => {
+  try {
+    const comment = await Comment.findById(req.params.commentId);
+    if (!comment) {
+      return res.status(404).json({ message: "Comment does not exist." });
+    }
+    req.currentComment = comment;
+    return next();
+  } catch (err) {
+    return res.status(500).json({
+      message: "Something went wrong while verifying the commentId.",
     });
   }
 };

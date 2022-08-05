@@ -6,11 +6,15 @@ const commentsRouter = require("./comments");
 const routeMiddleware = require("../utils/routeMiddleware");
 const postsController = require("../controllers/postsController");
 
+// ⭐ Current Route: "/api/posts" ⭐
+
 /* ❗ Middlewares ❗ */
 // To get current user object in req.currentUser
 router.use(routeMiddleware.getCurrentUser);
 // :postId parameter must link to a valid post
 router.use("/:postId", routeMiddleware.validPostId);
+// Checks to see if we have access to a post
+router.use("/:postId", routeMiddleware.hasPostAccess);
 
 /* ❗ Routes ❗ */
 // GET 10 posts at a time
