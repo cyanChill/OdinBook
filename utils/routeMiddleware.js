@@ -12,6 +12,7 @@ exports.validUserId = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
     if (!user) return res.status(404).json({ message: "User does not exist." });
+    req.currentUser = user;
     return next();
   } catch (err) {
     return res.status(500).json({
@@ -20,25 +21,14 @@ exports.validUserId = async (req, res, next) => {
   }
 };
 
-// Checks if current user is a "friend" of :userId user (assuming :userId user
-// exists) or is the user with :userId
-exports.isFriendOrOwner = async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      _id: req.params.userId,
-      friends: req.userId,
-    });
-    if (req.userId === req.params.userId) req.isOwner = true;
-    else req.isOwner = false;
+// Gets all relations with :userId
+exports.getRelations = async (req, res, next) => {
+  req.isOwner = req.userId === req.params.userId;
+  req.isFriend = req.currentUser.friends.includes(req.userId);
+  req.hasSentRequest = req.currentUser.friendRequests.includes(req.userId);
+  req.isFriendOrOwner = req.isFriend || req.isOwner;
 
-    if (user || req.userId === req.params.userId) req.isFriendOrOwner = true;
-    else req.isFriendOrOwner = false;
-    return next();
-  } catch (err) {
-    return res.status(500).json({
-      message: "Something went wrong while verifying the userId.",
-    });
-  }
+  return next();
 };
 
 // Checks if userId of accessor of route is equal to :userId of route
@@ -116,30 +106,6 @@ exports.validCommentId = async (req, res, next) => {
   } catch (err) {
     return res.status(500).json({
       message: "Something went wrong while verifying the commentId.",
-    });
-  }
-};
-
-/* 
-  ***********************************************************
-              For "/user/:userId/friends" Routes
-  ***********************************************************
-*/
-// Checks relation status between current user & user they're viewing
-//  - Sets req.hasSentRequest & req.isFriend
-exports.checkUserRelationStatus = async (req, res, next) => {
-  try {
-    // Get basic info on user they're currently viewing
-    const user = await User.findById(req.params.userId);
-    if (!user) {
-      return res.status(404).json({ message: "User does not exist." });
-    }
-    req.hasSentRequest = user.friendRequests.includes(req.userId);
-    req.isFriend = user.friends.includes(req.userId);
-    return next();
-  } catch (err) {
-    return res.status(500).json({
-      message: "Something went wrong while checking relation status.",
     });
   }
 };
