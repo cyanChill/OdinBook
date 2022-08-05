@@ -62,20 +62,7 @@ exports.createPost = [
 
 // This will be a "post" page with the post and its comments
 exports.getSinglePost = async (req, res, next) => {
-  const { postId } = req.params;
-  const { currentPost, currentUser } = req;
-
-  // Check to see if we're currently friend with the post owner
-  if (
-    !currentUser.friends.includes(currentPost.author) &&
-    !currentPost.author.equals(currentUser._id)
-  ) {
-    return res.status(403).json({
-      message: "You do not have access to that post.",
-    });
-  }
-
-  const populatedPost = await Post.findById(postId)
+  const populatedPost = await Post.findById(req.params.postId)
     .populate("author")
     // Populate comment & its values
     .populate({
@@ -90,7 +77,7 @@ exports.getSinglePost = async (req, res, next) => {
 };
 
 exports.deletePost = async (req, res, next) => {
-  // Check to see if we own the post
+  // Check to see if we don't own the post
   if (!req.currentPost.author.equals(req.currentUser._id)) {
     return res.status(403).json({
       message: "You do not have access to that post.",
@@ -109,21 +96,10 @@ exports.deletePost = async (req, res, next) => {
 
 exports.likePost = async (req, res, next) => {
   const { postId } = req.params;
-  const { currentPost, currentUser } = req;
-  const currUserId = currentUser._id;
-
-  // Check to see if we're currently friend with the post owner
-  if (
-    !currentUser.friends.includes(currentPost.author) &&
-    !currentPost.author.equals(currUserId)
-  ) {
-    return res.status(403).json({
-      message: "You do not have access to that post.",
-    });
-  }
+  const currUserId = req.currentUser._id;
 
   try {
-    if (currentPost.likes.includes(currUserId)) {
+    if (req.currentPost.likes.includes(currUserId)) {
       // Remove like from post
       await Post.findByIdAndUpdate(postId, { $pull: { likes: currUserId } });
       return res.status(200).json({ message: "Successfully unliked post." });
