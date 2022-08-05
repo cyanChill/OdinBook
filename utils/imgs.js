@@ -1,0 +1,75 @@
+const multer = require("multer");
+const sharp = require("sharp");
+const { v4: uuidv4 } = require("uuid");
+
+const { bucket } = require("./firebaseAdminConfig");
+
+exports.upload = multer({ storage: multer.memoryStorage() });
+
+/* Checks to see if uploaded file is an image */
+exports.isImg = (fileObj) => {
+  return /image\/(avif|jpeg|png|webp)/.test(fileObj.mimetype);
+};
+
+/* Checks whether the img size is <= the specified value */
+exports.fileSizeIsLEQ = (fileObj, sizeMB) => {
+  return fileObj.size <= sizeMB * 1000000;
+};
+
+/* Quick Validation Handler For Our Use */
+exports.validateImg = (fileObj, errArr) => {
+  if (!fileObj) {
+    errArr.push({ msg: "User must submit an image." });
+  } else {
+    if (!this.isImg(fileObj)) {
+      errArr.push({ msg: "Uploaded file is not an image." });
+    }
+    if (!this.fileSizeIsLEQ(fileObj, 0.5)) {
+      errArr.push({ msg: "Uploaded file is not <= 500KB in size." });
+    }
+  }
+};
+
+/* Converts file object buffer to .webp buffer */
+exports.convertToWebpBuff = async (fileObj) => {
+  const webpBuffer = await sharp(fileObj.buffer).webp().toBuffer();
+  return webpBuffer;
+};
+
+/* Upload .webp buffer to firebase and returns download url */
+exports.uploadImgToFirebase = async (webpBuffer, uploaderId) => {
+  const imgRefId = uuidv4();
+  const downloadToken = uuidv4();
+  const destination = `odinworks/${uploaderId}/${imgRefId}.webp`;
+
+  const newFile = bucket.file(destination);
+  await newFile.save(webpBuffer); // Upload Image
+  // Update metadata for obtainable downloadUrl
+  await newFile.setMetadata({
+    metadata: { firebaseStorageDownloadTokens: downloadToken },
+  });
+
+  // Return file download url
+  return `https://firebasestorage.googleapis.com/v0/b/${
+    process.env.FIREBASE_BUCKET_NAME
+  }.appspot.com/o/${encodeURIComponent(
+    destination
+  )}?alt=media&token=${downloadToken}`;
+};
+
+/* Deletes image from firebase image url */
+exports.deleteImageFromUrl = async (imgUrl) => {
+  const encodedFilePath = imgUrl
+    .replace(
+      `https://firebasestorage.googleapis.com/v0/b/${process.env.FIREBASE_BUCKET_NAME}.appspot.com/o/`,
+      ""
+    )
+    .replace(/\?alt\=media\&token\=.*/, "");
+  const filePath = decodeURIComponent(encodedFilePath);
+  try {
+    await bucket.file(filePath).delete();
+    console.log("Successfully deleted file.");
+  } catch (err) {
+    console.log(err);
+  }
+};
