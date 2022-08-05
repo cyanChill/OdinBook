@@ -6,15 +6,16 @@ const commentsController = require("../controllers/commentsController");
 
 // ⭐ Current Route: "/api/posts/:postId/comments" ⭐
 
+/* ❗ Routes ❗ */
+// POST route for adding comment to current post
+router.post("/", commentsController.postComment);
+
 /* ❗ Middlewares ❗ */
 // ⭐ We have the middleware from the "/posts" route as well
 // :commentId parameter must link to a valid comment
 router.use("/:commentId", routeMiddleware.validCommentId);
 
 /* ❗ Routes ❗ */
-// POST route for adding comment to current post
-router.post("/", commentsController.postComment);
-
 // DELETE route for deleting comment
 router.delete("/:commentId", commentsController.deleteComment);
 
