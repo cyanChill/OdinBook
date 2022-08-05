@@ -29,18 +29,17 @@ exports.createPost = [
 
   async (req, res, next) => {
     const errors = validationResult(req);
-    const { content } = req.body;
 
     const postBody = {
       author: req.userId,
-      content: content,
+      content: req.body.content,
       timestamp: Date.now(),
       imgUrl: "",
     };
 
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        message: "Something is wrong with your input",
+        message: "Something is wrong with your input.",
         errors: errors.array(),
       });
     }
@@ -104,7 +103,7 @@ exports.likePost = async (req, res, next) => {
       await Post.findByIdAndUpdate(postId, { $pull: { likes: currUserId } });
       return res.status(200).json({ message: "Successfully unliked post." });
     } else {
-      // Like from post
+      // Add like to post
       await Post.findByIdAndUpdate(postId, { $push: { likes: currUserId } });
       return res.status(200).json({ message: "Successfully liked post." });
     }

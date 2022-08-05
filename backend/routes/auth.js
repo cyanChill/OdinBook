@@ -4,6 +4,8 @@ const passport = require("passport");
 
 const authController = require("../controllers/authController");
 
+// ⭐ Current Route: "/api/auth" ⭐
+
 /* Handle user signups */
 router.post("/signup", authController.signupPost);
 

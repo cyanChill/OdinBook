@@ -72,11 +72,13 @@ exports.updateProfilePut = [
   async (req, res, next) => {
     const errors = validationResult(req);
     const { userId } = req.params;
+    const { first_name, last_name, email } = req.body;
+    const { new_password, confirm_password } = req.body;
 
     // Validate "new" email
     try {
       const emailExists = await User.findOne({
-        email: req.body.email,
+        email: email,
         _id: { $ne: userId },
       });
       if (emailExists) {
@@ -91,32 +93,32 @@ exports.updateProfilePut = [
     }
 
     let updatedUserBody = {
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      email: req.body.email,
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
     };
 
     if (!errors.isEmpty()) {
       return res.status(409).json({
         message: "Something is wrong with your input(s).",
         inputData: updatedUserBody,
-        errors: errors.errors,
+        errors: errors.array(),
       });
     }
 
     // See if we need to update password
-    if (req.body.new_password) {
-      if (req.body.new_password !== req.body.confirm_password) {
+    if (new_password) {
+      if (new_password !== confirm_password) {
         return res.status(409).json({
           message: "Passwords are not the same.",
           inputData: {
             ...updatedUserBody,
-            new_password: req.body.new_password,
-            confirm_password: req.body.confirm_password,
+            new_password: new_password,
+            confirm_password: confirm_password,
           },
         });
       } else {
-        const hashedPassword = await hashPassword(req.body.new_password);
+        const hashedPassword = await hashPassword(new_password);
         updatedUserBody.password = hashedPassword;
       }
     }
