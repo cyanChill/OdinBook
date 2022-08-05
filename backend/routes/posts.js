@@ -1,0 +1,34 @@
+const express = require("express");
+const router = express.Router();
+
+const commentsRouter = require("./comments");
+
+const routeMiddleware = require("../utils/routeMiddleware");
+const postsController = require("../controllers/postsController");
+
+/* ❗ Middlewares ❗ */
+// To get current user object in req.currentUser
+router.use(routeMiddleware.getCurrentUser);
+// :postId parameter must link to a valid post
+router.use("/:postId", routeMiddleware.validPostId);
+
+/* ❗ Routes ❗ */
+// GET 10 posts at a time
+router.get("/", postsController.getFeedPosts);
+
+// POST route for creating a new post
+router.post("/", postsController.createPost);
+
+// GET data for single post
+router.get("/:postId", postsController.getSinglePost);
+
+// DELETE post
+router.delete("/:postId", postsController.deletePost);
+
+// PUT route for liking/unliking a post
+router.put("/:postId/like", postsController.likePost);
+
+// Route for handling comments
+router.use("/:postId/comments", commentsRouter);
+
+module.exports = router;
