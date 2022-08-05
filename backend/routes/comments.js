@@ -12,8 +12,8 @@ const commentsController = require("../controllers/commentsController");
 router.use("/:commentId", routeMiddleware.validCommentId);
 
 /* ❗ Routes ❗ */
-// PUT route for adding comment to current post
-router.put("/", commentsController.postComment);
+// POST route for adding comment to current post
+router.post("/", commentsController.postComment);
 
 // DELETE route for deleting comment
 router.delete("/:commentId", commentsController.deleteComment);
