@@ -5,6 +5,7 @@ const passport = require("passport");
 const { readToken } = require("../utils/jwt");
 const authRoutes = require("./auth");
 const usersRoutes = require("./users");
+const postsRoutes = require("./posts");
 
 router.get("/", async (req, res, next) => {
   return res.status(200).json({ message: "Successfully pinged api." });
@@ -20,5 +21,6 @@ router.use(readToken);
 
 /* ❗ Routes ❗ */
 router.use("/users", usersRoutes);
+router.use("/posts", postsRoutes);
 
 module.exports = router;
