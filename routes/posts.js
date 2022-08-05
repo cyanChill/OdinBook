@@ -3,6 +3,7 @@ const router = express.Router();
 
 const commentsRouter = require("./comments");
 
+const { upload } = require("../utils/imgs");
 const routeMiddleware = require("../utils/routeMiddleware");
 const postsController = require("../controllers/postsController");
 
@@ -16,7 +17,7 @@ router.use(routeMiddleware.getCurrentUser);
 // GET 10 posts at a time
 router.get("/", postsController.getFeedPosts);
 // POST route for creating a new post
-router.post("/", postsController.createPost);
+router.post("/", upload.single("postImg"), postsController.createPost);
 
 /* ❗ Middlewares ❗ */
 // :postId parameter must link to a valid post
