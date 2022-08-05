@@ -74,7 +74,7 @@ exports.likeComment = async (req, res, next) => {
     } else {
       // Add like to comment
       await Comment.findByIdAndUpdate(commentId, {
-        $push: { likes: currUserId },
+        $addToSet: { likes: currUserId },
       });
       return res.status(200).json({ message: "Successfully liked comment." });
     }

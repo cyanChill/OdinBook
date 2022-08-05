@@ -104,7 +104,9 @@ exports.likePost = async (req, res, next) => {
       return res.status(200).json({ message: "Successfully unliked post." });
     } else {
       // Add like to post
-      await Post.findByIdAndUpdate(postId, { $push: { likes: currUserId } });
+      await Post.findByIdAndUpdate(postId, {
+        $addToSet: { likes: currUserId },
+      });
       return res.status(200).json({ message: "Successfully liked post." });
     }
   } catch (err) {
