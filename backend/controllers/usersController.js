@@ -22,16 +22,14 @@ exports.userGet = async (req, res, next) => {
     let user;
     if (!req.isFriendOrOwner) {
       // If current user isn't friend of :userId, return basic information
-      // & friendRequests list
       user = await User.findById(
         req.params.userId,
         "first_name last_name profilePicUrl friendRequests"
-      ).populate("friendRequests");
+      );
     } else {
       user = await User.findById(req.params.userId)
         .populate("posts")
-        .populate("friends")
-        .populate("friendRequests");
+        .populate("friends", "first_name last_name profilePicUrl");
     }
     return res.status(200).json({
       message: "Successfully found user.",

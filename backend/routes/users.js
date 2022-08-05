@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const friendsRouter = require("./friends");
+
 const routeMiddleware = require("../utils/routeMiddleware");
 const usersController = require("../controllers/usersController");
 
@@ -39,5 +41,8 @@ router.delete(
   routeMiddleware.isProfileOwner,
   usersController.userDelete
 );
+
+// Route for handling friends
+router.use("/:userId/friends", friendsRouter);
 
 module.exports = router;
