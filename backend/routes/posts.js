@@ -11,21 +11,22 @@ const postsController = require("../controllers/postsController");
 /* ❗ Middlewares ❗ */
 // To get current user object in req.currentUser
 router.use(routeMiddleware.getCurrentUser);
+
+/* ❗ Routes ❗ */
+// GET 10 posts at a time
+router.get("/", postsController.getFeedPosts);
+// POST route for creating a new post
+router.post("/", postsController.createPost);
+
+/* ❗ Middlewares ❗ */
 // :postId parameter must link to a valid post
 router.use("/:postId", routeMiddleware.validPostId);
 // Checks to see if we have access to a post
 router.use("/:postId", routeMiddleware.hasPostAccess);
 
 /* ❗ Routes ❗ */
-// GET 10 posts at a time
-router.get("/", postsController.getFeedPosts);
-
-// POST route for creating a new post
-router.post("/", postsController.createPost);
-
 // GET data for single post
 router.get("/:postId", postsController.getSinglePost);
-
 // DELETE post
 router.delete("/:postId", postsController.deletePost);
 

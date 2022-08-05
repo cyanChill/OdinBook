@@ -4,12 +4,10 @@ const router = express.Router({ mergeParams: true });
 const routeMiddleware = require("../utils/routeMiddleware");
 const friendsController = require("../controllers/friendsController");
 
-// ⭐ Current Route: "/api/user/:userId/friends" ⭐
+// ⭐ Current Route: "/api/users/:userId/friends" ⭐
 
 /* ❗ Middlewares ❗ */
 // ⭐ We have the middleware from the "/users" route as well
-// Sets user relation variables: req.hasSentRequest & req.isFriend values
-router.use("/", routeMiddleware.checkUserRelationStatus);
 
 /* ❗ Routes ❗ */
 // GET route for getting all friends

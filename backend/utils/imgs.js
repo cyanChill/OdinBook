@@ -16,20 +16,6 @@ exports.fileSizeIsLEQ = (fileObj, sizeMB) => {
   return fileObj.size <= sizeMB * 1000000;
 };
 
-/* Quick Validation Handler For Our Use */
-exports.validateImg = (fileObj, errArr) => {
-  if (!fileObj) {
-    errArr.push({ msg: "User must submit an image." });
-  } else {
-    if (!this.isImg(fileObj)) {
-      errArr.push({ msg: "Uploaded file is not an image." });
-    }
-    if (!this.fileSizeIsLEQ(fileObj, 0.5)) {
-      errArr.push({ msg: "Uploaded file is not <= 500KB in size." });
-    }
-  }
-};
-
 /* Converts file object buffer to .webp buffer */
 exports.convertToWebpBuff = async (fileObj) => {
   const webpBuffer = await sharp(fileObj.buffer).webp().toBuffer();
@@ -72,4 +58,33 @@ exports.deleteImageFromUrl = async (imgUrl) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+/* ⭐ "Fast Track" Functions ⭐ */
+// Quick image validation function
+exports.validateImg = (fileObj, errArr) => {
+  if (!fileObj) {
+    errArr.push({ msg: "User must submit an image." });
+  } else {
+    if (!this.isImg(fileObj)) {
+      errArr.push({ msg: "Uploaded file is not an image." });
+    }
+    if (!this.fileSizeIsLEQ(fileObj, 1)) {
+      errArr.push({ msg: "Uploaded file is not <= 1MB in size." });
+    }
+  }
+};
+
+// Quick image conversion + upload
+exports.convertImgAndUploadToFirebase = async (fileObj, uploaderId) => {
+  const webpBuffer = await this.convertToWebpBuff(fileObj);
+  const downloadUrl = await this.uploadImgToFirebase(webpBuffer, uploaderId);
+  return downloadUrl;
+};
+
+// Is Firebase Image Url
+exports.isFirebaseImg = (url) => {
+  return url.startsWith(
+    `https://firebasestorage.googleapis.com/v0/b/${process.env.FIREBASE_BUCKET_NAME}.appspot.com/o/`
+  );
 };
