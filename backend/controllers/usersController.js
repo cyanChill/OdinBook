@@ -1,9 +1,15 @@
 const { body, validationResult } = require("express-validator");
 
 const { hashPassword } = require("../utils/hash.js");
+const {
+  validateImg,
+  convertImgAndUploadToFirebase,
+  deleteImageFromUrl,
+  isFirebaseImg,
+} = require("../utils/imgs");
 const User = require("../models/User");
 
-exports.allUsersGet = async (req, res, next) => {
+exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({}, "first_name last_name profilePicUrl");
     return res.status(200).json({
@@ -17,7 +23,7 @@ exports.allUsersGet = async (req, res, next) => {
   }
 };
 
-exports.userGet = async (req, res, next) => {
+exports.getUser = async (req, res, next) => {
   try {
     let user;
     if (!req.isFriendOrOwner) {
@@ -42,7 +48,7 @@ exports.userGet = async (req, res, next) => {
   }
 };
 
-exports.updateProfilePut = [
+exports.updateProfile = [
   body("first_name")
     .trim()
     .isLength({ min: 1 })
@@ -69,7 +75,7 @@ exports.updateProfilePut = [
 
   async (req, res, next) => {
     const errors = validationResult(req);
-    const { userId } = req.params;
+    const userId = req.userId;
     const { first_name, last_name, email } = req.body;
     const { new_password, confirm_password } = req.body;
 
@@ -140,10 +146,43 @@ exports.updateProfilePut = [
   },
 ];
 
-exports.updateProfilePicPut = async (req, res, next) => {
-  return res.status(501).json({ message: "Route not implemented." });
+exports.updateProfilePic = async (req, res, next) => {
+  const errors = [];
+  validateImg(req.file, errors);
+  if (errors.length > 0) {
+    return res.status(409).json({
+      message: "Failed image validation.",
+      errors: errors,
+    });
+  }
+
+  let downloadUrl;
+  // Image can be converted & uploaded to firebase
+  try {
+    downloadUrl = await convertImgAndUploadToFirebase(req.file, req.userId);
+    const oldUserData = await User.findByIdAndUpdate(req.userId, {
+      profilePicUrl: downloadUrl,
+    });
+    // Previous profile image url
+    const prevImgUrl = oldUserData.profilePicUrl;
+    // Prevent attempting to delete facebook images
+    if (isFirebaseImg(prevImgUrl)) await deleteImageFromUrl(prevImgUrl);
+
+    return res.status(200).json({
+      message: "Successfully updated profile picture.",
+      profilePicUrl: downloadUrl,
+    });
+  } catch (err) {
+    console.log(err);
+    // Delete image uploaded to firebase if it exists (was uploaded)
+    if (downloadUrl) await deleteImageFromUrl(downloadUrl);
+
+    return res.status(500).json({
+      message: "An error has occurred when updating your profile picture.",
+    });
+  }
 };
 
-exports.userDelete = async (req, res, next) => {
+exports.deleteAccount = async (req, res, next) => {
   return res.status(501).json({ message: "Route not implemented." });
 };
