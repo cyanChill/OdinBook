@@ -101,7 +101,7 @@ exports.hasPostAccess = async (req, res, next) => {
 
 /* 
   ***********************************************************
-                      For "/posts" Routes
+              For "/posts/:postId/comments" Routes
   ***********************************************************
 */
 // Checks if :commentId param is for a valid comment & set req.currComment to the "Comment" object
@@ -116,6 +116,30 @@ exports.validCommentId = async (req, res, next) => {
   } catch (err) {
     return res.status(500).json({
       message: "Something went wrong while verifying the commentId.",
+    });
+  }
+};
+
+/* 
+  ***********************************************************
+              For "/user/:userId/friends" Routes
+  ***********************************************************
+*/
+// Checks relation status between current user & user they're viewing
+//  - Sets req.hasSentRequest & req.isFriend
+exports.checkUserRelationStatus = async (req, res, next) => {
+  try {
+    // Get basic info on user they're currently viewing
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User does not exist." });
+    }
+    req.hasSentRequest = user.friendRequests.includes(req.userId);
+    req.isFriend = user.friends.includes(req.userId);
+    return next();
+  } catch (err) {
+    return res.status(500).json({
+      message: "Something went wrong while checking relation status.",
     });
   }
 };
