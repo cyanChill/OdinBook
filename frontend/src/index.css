@@ -1,13 +1,145 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+:root {
+  --error-300: #e6635a;
+  --error-500: #ed4337;
+
+  --orange-400: #ffb429;
+  --orange-500: #eda920;
+  --orange-700: #e26723;
+
+  --green-300: #00b16a;
+  --green-600: #00653c;
+
+  --blue-300: #2c87c3;
+  --blue-600: #1e5c85;
+
+  --steel-blue: #505fa1;
+
+  --lilac-25: #68687a;
+  --lilac-500: #545578;
+  --lilac-600: #46465c;
+  --lilac-700: #37374d;
+  --lilac-800: #323548;
+  --lilac-900: #282838;
+
+  --navy-700: #26293b;
+  --navy-800: #191b2a;
+  --navy-850: #181827;
+  --navy-900: #11121d;
+  --navy-950: #0d0d14;
+  --navy-1000: #010102;
+
+  --grey-25: #f4f4f3;
+  --grey-100: #eaeaea;
+  --grey-150: #dddcdb;
+  --grey-300: #cccccc;
+  --grey-400: #bbb3b3;
+  --grey-500: #8a8a8a;
+  --grey-550: #707175;
+  --grey-600: #535559;
+
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+  --link-clr: var(--navy-1000);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
+
+  background-color: var(--grey-25);
+  font-family: var(--font-family);
+}
+
+/* Hover Effect to indicate link*/
+a {
+  color: var(--link-clr);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.ign_a_hov:hover {
+  text-decoration: none;
+}
+
+/* Custom Button (Works with links) */
+.btn {
+  --btn-text-clr: white;
+  --btn-clr: var(--blue-300);
+  --btn-hover-clr: var(--blue-600);
+
+  height: max-content;
+  padding: 0.75rem;
+
+  color: var(--btn-text-clr);
+  font-size: 1rem;
+  font-weight: 600;
+
+  background-color: var(--btn-clr);
+  border-radius: 0.5rem;
+  border: 0;
+  transition: background-color 200ms ease-in-out;
+}
+
+.btn.flex {
+  justify-content: center;
+  align-items: center;
+}
+
+.btn.compressed {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.btn:not(:disabled):hover {
+  cursor: pointer;
+  text-decoration: none;
+  background-color: var(--btn-hover-clr);
+}
+
+.btn object {
+  width: 1.5rem;
+  aspect-ratio: 1;
+}
+
+.btn.green {
+  --btn-clr: var(--green-300);
+  --btn-hover-clr: var(--green-600);
+}
+
+.btn.gold {
+  --btn-clr: var(--orange-400);
+  --btn-hover-clr: var(--orange-500);
+}
+
+.btn.red {
+  --btn-clr: var(--error-300);
+  --btn-hover-clr: var(--error-500);
+}
+
+.btn:disabled {
+  filter: grayscale(50%);
+}
+
+/* For "..." on long text */
+.ellipse {
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }

@@ -1,0 +1,43 @@
+.fancyInput {
+  --unfocused-clr: var(--grey-400);
+  --focused-clr: var(--grey-600);
+
+  width: 100%;
+  position: relative;
+  margin-top: 1rem;
+}
+
+.fancyInput > * {
+  padding-inline: 0.25rem;
+  padding-block: 0.5rem 0.25rem;
+  font-size: 1.05rem;
+}
+
+.fancyInput input {
+  width: 100%;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--unfocused-clr);
+  outline: none;
+}
+
+.fancyInput input:focus {
+  border-bottom-color: var(--focused-clr);
+}
+
+.fancyInput label {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  transition: font-size 250ms ease-in-out, color 250ms ease-in-out,
+    transform 250ms ease-in-out;
+  color: var(--unfocused-clr);
+}
+
+.focused {
+  font-size: 0.9rem;
+  color: var(--focused-clr) !important;
+  transform: translateY(-115%) !important;
+}

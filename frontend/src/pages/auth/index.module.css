@@ -1,0 +1,55 @@
+/* Card styling */
+.authCard {
+  width: 100%;
+  max-width: 35rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.authCard > p {
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.15rem;
+}
+
+/* Form styling */
+.authForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.cstmBtn {
+  margin-top: 1rem;
+}
+
+/* For other auth options */
+.otherActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+/* To redirect to other auth option (signup) */
+.link {
+  width: max-content;
+  align-self: center;
+
+  margin-top: 0.25rem;
+  color: var(--orange-700);
+  text-align: center;
+}
+
+@media (min-width: 568px) {
+  .otherActions {
+    display: grid;
+    grid-template-columns: repeat(2, calc((100% - 0.5rem) / 2));
+    gap: 0.5rem;
+  }
+
+  .otherActions > * {
+    height: 100%;
+  }
+}
