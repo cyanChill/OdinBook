@@ -34,7 +34,10 @@ router.get(
   "/validateToken",
   passport.authenticate("jwt", { session: false }),
   (req, res, next) => {
-    return res.status(200).json({ message: "Token is valid." });
+    return res.status(200).json({
+      message: "Token is valid.",
+      userId: req.user,
+    });
   }
 );
 

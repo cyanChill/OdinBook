@@ -64,7 +64,10 @@ exports.updateProfile = [
     .optional({ checkFalsy: true })
     .isLength({ min: 6 })
     .escape(),
-  body("confirm_password", "Password must be atleast 6 characters long.")
+  body(
+    "confirm_password",
+    "Confirm Password must be atleast 6 characters long."
+  )
     .trim()
     .optional({ checkFalsy: true })
     .isLength({ min: 6 })

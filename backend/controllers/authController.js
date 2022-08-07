@@ -23,6 +23,13 @@ exports.signup = [
     .trim()
     .isLength({ min: 6 })
     .escape(),
+  body(
+    "confirm_password",
+    "Confirm Password must be atleast 6 characters long."
+  )
+    .trim()
+    .isLength({ min: 6 })
+    .escape(),
 
   async (req, res, next) => {
     const errors = validationResult(req);
@@ -43,6 +50,10 @@ exports.signup = [
       });
     }
 
+    if (req.body.password !== req.body.confirm_password) {
+      errors.errors.push({ msg: "Passwords aren't the same." });
+    }
+
     if (!errors.isEmpty()) {
       return res.status(409).json({
         message: "Something is wrong with your input.",
@@ -60,7 +71,7 @@ exports.signup = [
       const token = issueToken(newUser);
       return res.status(201).json({
         message: "Successfully signed up user.",
-        user: newUser,
+        userId: newUser._id,
         token: token,
       });
     } catch (err) {
@@ -84,6 +95,7 @@ exports.normalLogin = async (req, res, next) => {
       const token = issueToken(user);
       return res.status(200).json({
         message: "Successfully logged in.",
+        userId: user._id,
         token: token,
       });
     } catch (err) {
@@ -100,6 +112,7 @@ exports.facebookLogin = async (req, res, next) => {
     const token = issueToken(req.user);
     return res.status(200).json({
       message: "Successfully logged in via Facebook.",
+      userId: req.user._id,
       token: token,
     });
   } catch (err) {
