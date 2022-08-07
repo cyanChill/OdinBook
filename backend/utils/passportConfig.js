@@ -17,14 +17,17 @@ const LocalStrategyOpts = {
 passport.use(
   new LocalStrategy(LocalStrategyOpts, async (email, password, done) => {
     try {
-      const user = await User.findOne({ email: email }, "+password");
+      const user = await User.findOne(
+        { email: email.toLowerCase() },
+        "+password"
+      );
       if (!user) return done(null, false, IncorCredsInfo);
       const isValid = await verifyPassword(password, user.password);
       if (!isValid) return done(null, false, IncorCredsInfo);
       // Found User in Database
       return done(null, user, { message: "Logged in successfully." });
     } catch (err) {
-      return done(err);
+      return done("Error: Failed to validate credentials.");
     }
   })
 );
@@ -48,14 +51,16 @@ passport.use(
           user = await User.create({
             first_name: profile._json.first_name,
             last_name: profile._json.last_name,
-            email: profile._json.email,
+            email: profile._json.email.toLowerCase(),
             profilePicUrl: profile.photos[0] ? profile.photos[0].value : "",
             facebookId: profile.id,
           });
         }
         return cb(null, user, { message: "Logged in successfully." });
       } catch (err) {
-        return cb(err);
+        return cb(
+          "Error: Failed to create account from Facebook credentials due to email being used for a different account."
+        );
       }
     }
   )
@@ -71,7 +76,7 @@ passport.use(
     try {
       return done(null, jwt_payload.id);
     } catch {
-      return done(err, false);
+      return done("Error: Failed to verify jwt token.");
     }
   })
 );

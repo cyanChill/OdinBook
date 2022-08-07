@@ -7,10 +7,10 @@ const authController = require("../controllers/authController");
 // ⭐ Current Route: "/api/auth" ⭐
 
 /* Handle user signups */
-router.post("/signup", authController.signupPost);
+router.post("/signup", authController.signup);
 
 /* Handle non-Facebook logins */
-router.post("/login", authController.normLoginPost);
+router.post("/login", authController.normalLogin);
 
 /* Handle Facebook logins */
 router.get(
@@ -26,7 +26,7 @@ router.get(
     failureRedirect: "/api/auth/login/facebook",
     failureMessage: true,
   }),
-  authController.facebookLoginGet
+  authController.facebookLogin
 );
 
 /* Verify if JWT token is still valid */

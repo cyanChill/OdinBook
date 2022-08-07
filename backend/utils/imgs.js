@@ -60,6 +60,16 @@ exports.deleteImageFromUrl = async (imgUrl) => {
   }
 };
 
+/* Deletes all images made by user */
+exports.deleteAllUserImgs = async (userId) => {
+  try {
+    await bucket.deleteFiles({ prefix: `odinworks/${userId}/` });
+    console.log("Successfully deleted all images from user.");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 /* ⭐ "Fast Track" Functions ⭐ */
 // Quick image validation function
 exports.validateImg = (fileObj, errArr) => {

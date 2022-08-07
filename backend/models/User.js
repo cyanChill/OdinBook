@@ -5,13 +5,14 @@ const Schema = mongoose.Schema;
 const UserSchema = Schema({
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
+  // Email value should be lowercased in the database
   email: { type: String, unique: true, required: true },
   password: { type: String, select: false },
   profilePicUrl: { type: String },
   posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
   friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
   friendRequests: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  facebookId: { type: String, unique: true },
+  facebookId: { type: String },
 });
 
 UserSchema.virtual("full_name").get(function () {

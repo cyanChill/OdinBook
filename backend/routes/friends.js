@@ -6,7 +6,7 @@ const friendsController = require("../controllers/friendsController");
 
 // ⭐ Current Route: "/api/users/:userId/friends" ⭐
 
-/* ❗ Middlewares ❗ */
+/* 🖱️ Middlewares 🖱️ */
 // ⭐ We have the middleware from the "/users" route as well
 
 /* ❗ Routes ❗ */
