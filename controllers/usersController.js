@@ -6,8 +6,11 @@ const {
   convertImgAndUploadToFirebase,
   deleteImageFromUrl,
   isFirebaseImg,
+  deleteAllUserImgs,
 } = require("../utils/imgs");
 const User = require("../models/User");
+const Post = require("../models/Post");
+const Comment = require("../models/Comment");
 
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -24,28 +27,22 @@ exports.getAllUsers = async (req, res, next) => {
 };
 
 exports.getUser = async (req, res, next) => {
-  try {
-    let user;
-    if (!req.isFriendOrOwner) {
-      // If current user isn't friend of :userId, return basic information
-      user = await User.findById(
-        req.params.userId,
-        "first_name last_name profilePicUrl friendRequests"
-      );
-    } else {
-      user = await User.findById(req.params.userId)
-        .populate("posts")
-        .populate("friends", "first_name last_name profilePicUrl");
-    }
-    return res.status(200).json({
-      message: "Successfully found user.",
-      user: user,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      message: "Something went wrong on the server.",
-    });
+  let user;
+  if (!req.isFriendOrOwner) {
+    // If current user isn't friend of :userId, return basic information
+    user = await User.findById(
+      req.params.userId,
+      "first_name last_name profilePicUrl friendRequests"
+    );
+  } else {
+    user = await User.findById(req.params.userId)
+      .populate("posts")
+      .populate("friends", "first_name last_name profilePicUrl");
   }
+  return res.status(200).json({
+    message: "Successfully found user.",
+    user: user,
+  });
 };
 
 exports.updateProfile = [
@@ -79,28 +76,24 @@ exports.updateProfile = [
     const { first_name, last_name, email } = req.body;
     const { new_password, confirm_password } = req.body;
 
-    // Validate "new" email
-    try {
-      const emailExists = await User.findOne({
-        email: email,
-        _id: { $ne: userId },
-      });
-      if (emailExists) {
-        return res.status(409).json({
-          message: "User with that email already exists.",
-        });
-      }
-    } catch (err) {
-      return res
-        .status(500)
-        .json({ message: "Something went wrong on the server." });
-    }
-
     let updatedUserBody = {
       first_name: first_name,
       last_name: last_name,
-      email: email,
+      email: email.toLowerCase(),
     };
+
+    // Validate "new" email
+    try {
+      const emailExists = await User.findOne({
+        email: updatedUserBody.email,
+        _id: { $ne: userId },
+      });
+      if (emailExists) errors.errors.push({ msg: "Email is already used." });
+    } catch (err) {
+      return res.status(500).json({
+        message: "Something went wrong on the server.",
+      });
+    }
 
     if (!errors.isEmpty()) {
       return res.status(409).json({
@@ -111,10 +104,11 @@ exports.updateProfile = [
     }
 
     // See if we need to update password
-    if (new_password) {
+    if (new_password || confirm_password) {
       if (new_password !== confirm_password) {
         return res.status(409).json({
-          message: "Passwords are not the same.",
+          message: "Passwords aren't the same.",
+          errors: [{ msg: "Passwords aren't the same." }],
           inputData: {
             ...updatedUserBody,
             new_password: new_password,
@@ -165,7 +159,7 @@ exports.updateProfilePic = async (req, res, next) => {
     });
     // Previous profile image url
     const prevImgUrl = oldUserData.profilePicUrl;
-    // Prevent attempting to delete facebook images
+    // Only delete firebase images
     if (isFirebaseImg(prevImgUrl)) await deleteImageFromUrl(prevImgUrl);
 
     return res.status(200).json({
@@ -173,7 +167,6 @@ exports.updateProfilePic = async (req, res, next) => {
       profilePicUrl: downloadUrl,
     });
   } catch (err) {
-    console.log(err);
     // Delete image uploaded to firebase if it exists (was uploaded)
     if (downloadUrl) await deleteImageFromUrl(downloadUrl);
 
@@ -184,5 +177,48 @@ exports.updateProfilePic = async (req, res, next) => {
 };
 
 exports.deleteAccount = async (req, res, next) => {
-  return res.status(501).json({ message: "Route not implemented." });
+  const userId = req.userId;
+  try {
+    const [commentsMade, postsMade] = await Promise.all([
+      // Get all comments & all posts user made
+      Comment.find({ user: userId }),
+      Post.find({ author: userId }),
+      // Delete all friends & friend requests
+      User.updateMany({ friends: userId }, { $pull: { friends: userId } }),
+      User.updateMany(
+        { friendRequests: userId },
+        { $pull: { friendRequests: userId } }
+      ),
+      // Remove all likes user made
+      Post.updateMany({ likes: userId }, { $pull: { likes: userId } }),
+      Comment.updateMany({ likes: userId }, { $pull: { likes: userId } }),
+    ]);
+    // Promises to remove all comments user made (comment reference in posts)
+    const cmtPromises = commentsMade.map((cmt) => {
+      return Post.findByIdAndUpdate(cmt.post, { $pull: { comments: cmt._id } });
+    });
+    // Promise to remove all comments for the posts user made
+    const postCmtPromises = postsMade.map((pst) => {
+      return Comment.deleteMany({ post: pst._id });
+    });
+    await Promise.all([...cmtPromises, ...postCmtPromises]);
+
+    await Promise.all([
+      // Delete all posts & comments as we removed any reference to them
+      Post.deleteMany({ author: userId }),
+      Comment.deleteMany({ author: userId }),
+      // Delete images by user in firebase
+      deleteAllUserImgs(userId),
+    ]);
+
+    // Delete user as we've deleted all content related to them
+    await User.findByIdAndDelete(userId);
+
+    return res.status(200).json({ message: "Successfully deleted account." });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: "Something went wrong with deleting your account.",
+    });
+  }
 };

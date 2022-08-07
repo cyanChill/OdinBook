@@ -10,9 +10,9 @@ const commentsController = require("../controllers/commentsController");
 // POST route for adding comment to current post
 router.post("/", commentsController.postComment);
 
-/* ❗ Middlewares ❗ */
+/* 🖱️ Middlewares 🖱️ */
 // ⭐ We have the middleware from the "/posts" route as well
-// :commentId parameter must link to a valid comment
+// :commentId parameter must link to a valid comment (sets req.currentComment)
 router.use("/:commentId", routeMiddleware.validCommentId);
 
 /* ❗ Routes ❗ */

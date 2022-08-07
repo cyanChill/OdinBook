@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
 
 const { readToken } = require("../utils/jwt");
 const authRoutes = require("./auth");
@@ -14,11 +13,9 @@ router.get("/", async (req, res, next) => {
 // Route avaliable to all users
 router.use("/auth", authRoutes);
 
-/* ❗ Middlewares ❗ */
-// User must be logged in to access the following route
-router.use(passport.authenticate("jwt", { session: false }));
-// Set req.userId to "id" value found in JWT token
-router.use(readToken);
+/* 🖱️ Middlewares 🖱️ */
+// User must be logged in to access the routes following the middleware
+router.use(readToken); // Set req.userId to "id" value found in JWT token
 
 /* ❗ Routes ❗ */
 router.use("/users", usersRoutes);

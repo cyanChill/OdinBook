@@ -1,44 +1,33 @@
 const User = require("../models/User");
 
+// We know that the "User" req.params.userId exists
+
 exports.getFriends = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.params.userId, "friends").populate(
-      "friends",
-      "first_name last_name profilePicUrl"
-    );
-    return res.status(200).json({
-      message: "Successfully obtained friends.",
-      friends: user.friends,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      message: "Something went wrong when trying to get friends.",
-    });
-  }
+  const user = await User.findById(req.params.userId, "friends").populate(
+    "friends",
+    "first_name last_name profilePicUrl"
+  );
+  return res.status(200).json({
+    message: "Successfully obtained friends.",
+    friends: user.friends,
+  });
 };
 
 exports.getFriendRequests = async (req, res, next) => {
-  try {
-    const user = await User.findById(
-      req.params.userId,
-      "friendRequests"
-    ).populate("friendRequests", "first_name last_name profilePicUrl");
-    return res.status(200).json({
-      message: "Successfully obtained friend requests.",
-      friendRequests: user.friendRequests,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      message: "Something went wrong when trying to get friend requests.",
-    });
-  }
+  const user = await User.findById(
+    req.params.userId,
+    "friendRequests"
+  ).populate("friendRequests", "first_name last_name profilePicUrl");
+  return res.status(200).json({
+    message: "Successfully obtained friend requests.",
+    friendRequests: user.friendRequests,
+  });
 };
 
 exports.toggleFriendRequest = async (req, res, next) => {
   if (req.isFriend) {
     return res.status(409).json({
-      message:
-        "Cannot send a friend request when you're already friends with the user.",
+      message: "You're already friends with the user.",
     });
   }
 
@@ -58,12 +47,14 @@ exports.toggleFriendRequest = async (req, res, next) => {
         message: "Succesfully withdrawn friend request.",
       });
     } else {
-      // Check to see if we have a friend request from that user, if we
-      // do, we add them as a friend
+      // Can send a friend request!
+
+      // Before sending request, check to see if we have a friend request
+      // from that user, if we do, we add them as a friend
       const currUser = await User.findById(req.userId, "friendRequests");
 
-      if (currUser.friendRequests.include(req.params.userId)) {
-        // Add user
+      if (currUser.friendRequests.includes(req.params.userId)) {
+        // Add user as friend
         await Promise.all([
           // Add current user to :userId's friend list
           User.findByIdAndUpdate(req.params.userId, {

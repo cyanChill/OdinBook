@@ -10,9 +10,9 @@ const usersController = require("../controllers/usersController");
 // ⭐ Current Route: "/api/users" ⭐
 
 /* ❗ Routes ❗ */
-// GET All users (returns basic information such as name & profile picture)
+// GET All users (returns basic information - name & profile picture)
 router.get("/", usersController.getAllUsers);
-// DELETE route for deleting own account
+// DELETE route for deleting OWN account
 router.delete("/", usersController.deleteAccount);
 
 /* Update based on req.userId (extracted from jwt token) */
@@ -25,8 +25,8 @@ router.put(
   usersController.updateProfilePic
 );
 
-/* ❗ Middlewares ❗ */
-// :userId parameter must link to a valid user & sets req.currentUser
+/* 🖱️ Middlewares 🖱️ */
+// :userId parameter must link to a valid user & sets req.currentUser to that user found
 router.use("/:userId", routeMiddleware.validUserId);
 // Get all relations viewing user has with :userId
 router.use("/:userId", routeMiddleware.getRelations);

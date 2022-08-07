@@ -5,7 +5,7 @@ const { hashPassword } = require("../utils/hash");
 const { issueToken } = require("../utils/jwt");
 const User = require("../models/User");
 
-exports.signupPost = [
+exports.signup = [
   body("first_name")
     .trim()
     .isLength({ min: 1 })
@@ -27,20 +27,21 @@ exports.signupPost = [
   async (req, res, next) => {
     const errors = validationResult(req);
 
-    const user = await User.findOne({ email: req.body.email });
-    if (user) {
-      return res.status(409).json({
-        message: "User with that email already exists.",
-      });
-    }
-
-    const hashedPassword = await hashPassword(req.body.password);
     let userBody = {
       first_name: req.body.first_name,
       last_name: req.body.last_name,
-      email: req.body.email,
+      email: req.body.email.toLowerCase(),
       profilePicUrl: "",
     };
+
+    try {
+      const user = await User.findOne({ email: userBody.email });
+      if (user) errors.errors.push({ msg: "Email is already used." });
+    } catch (err) {
+      return res.status(500).json({
+        message: "Something went wrong on the server.",
+      });
+    }
 
     if (!errors.isEmpty()) {
       return res.status(409).json({
@@ -50,6 +51,7 @@ exports.signupPost = [
       });
     }
     // To not send hashed password back to frontend
+    const hashedPassword = await hashPassword(req.body.password);
     userBody.password = hashedPassword;
 
     // User data is valid — sign user up
@@ -69,9 +71,13 @@ exports.signupPost = [
   },
 ];
 
-exports.normLoginPost = async (req, res, next) => {
+exports.normalLogin = async (req, res, next) => {
   passport.authenticate("local", { session: false }, (err, user, info) => {
-    if (err) return res.status(400).json({ message: "Something went wrong." });
+    if (err) {
+      return res.status(400).json({
+        message: "Something went wrong with authentication.",
+      });
+    }
     if (!user) return res.status(400).json(info);
     // We've logged in with valid credentials — return a token
     try {
@@ -88,10 +94,9 @@ exports.normLoginPost = async (req, res, next) => {
   })(req, res);
 };
 
-exports.facebookLoginGet = async (req, res, next) => {
+exports.facebookLogin = async (req, res, next) => {
   // Successfuly authentication, send back token
   try {
-    console.log(req.user);
     const token = issueToken(req.user);
     return res.status(200).json({
       message: "Successfully logged in via Facebook.",

@@ -44,14 +44,20 @@ exports.postComment = [
 
 exports.deleteComment = async (req, res, next) => {
   // Check to see if we don't own the comment
-  if (!req.currentComment.user.equals(req.currentUser._id)) {
+  if (!req.currentComment.user.equals(req.viewingUser._id)) {
     return res.status(403).json({
       message: "You do not have access to that comment.",
     });
   }
 
   try {
-    await Comment.findByIdAndDelete(req.params.commentId);
+    // Delete comment & reference to comment in Post it was in
+    await Promise.all([
+      await Comment.findByIdAndDelete(req.params.commentId),
+      await Post.findByIdAndUpdate(req.currentComment.post, {
+        $pull: { comments: req.params.commentId },
+      }),
+    ]);
     return res.status(200).json({ message: "Successfully deleted comment." });
   } catch (err) {
     return res.status(500).json({
@@ -62,19 +68,17 @@ exports.deleteComment = async (req, res, next) => {
 
 exports.likeComment = async (req, res, next) => {
   const { commentId } = req.params;
-  const currUserId = req.currentUser._id;
+  const userId = req.viewing._id;
 
   try {
-    if (req.currentComment.likes.includes(currUserId)) {
+    if (req.currentComment.likes.includes(userId)) {
       // Remove like from comment
-      await Comment.findByIdAndUpdate(commentId, {
-        $pull: { likes: currUserId },
-      });
+      await Comment.findByIdAndUpdate(commentId, { $pull: { likes: userId } });
       return res.status(200).json({ message: "Successfully unliked comment." });
     } else {
       // Add like to comment
       await Comment.findByIdAndUpdate(commentId, {
-        $addToSet: { likes: currUserId },
+        $addToSet: { likes: userId },
       });
       return res.status(200).json({ message: "Successfully liked comment." });
     }

@@ -9,9 +9,9 @@ const postsController = require("../controllers/postsController");
 
 // ⭐ Current Route: "/api/posts" ⭐
 
-/* ❗ Middlewares ❗ */
-// To get current user object in req.currentUser
-router.use(routeMiddleware.getCurrentUser);
+/* 🖱️ Middlewares 🖱️ */
+// To get viewing user object in req.viewingUser
+router.use(routeMiddleware.getViewingUser);
 
 /* ❗ Routes ❗ */
 // GET 10 posts at a time
@@ -19,7 +19,7 @@ router.get("/", postsController.getFeedPosts);
 // POST route for creating a new post
 router.post("/", upload.single("postImg"), postsController.createPost);
 
-/* ❗ Middlewares ❗ */
+/* 🖱️ Middlewares 🖱️ */
 // :postId parameter must link to a valid post
 router.use("/:postId", routeMiddleware.validPostId);
 // Checks to see if we have access to a post

@@ -7,7 +7,7 @@ const User = require("../models/User");
                       For "/users" Routes
   ***********************************************************
 */
-// Checks if :userId param is for a valid user
+// Checks if :userId param is for a valid user & sets req.currentUser
 exports.validUserId = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
@@ -31,6 +31,11 @@ exports.getRelations = async (req, res, next) => {
   return next();
 };
 
+/* 
+  ***********************************************************
+              For "/users/:userId/friends" Routes
+  ***********************************************************
+*/
 // Checks if userId of accessor of route is equal to :userId of route
 exports.isProfileOwner = async (req, res, next) => {
   if (req.isOwner) return next();
@@ -44,14 +49,12 @@ exports.isProfileOwner = async (req, res, next) => {
                       For "/posts" Routes
   ***********************************************************
 */
-// Return a "User" object from reading req.userId
-exports.getCurrentUser = async (req, res, next) => {
+//Sets req.viewingUser from reading req.userId
+exports.getViewingUser = async (req, res, next) => {
   try {
-    const currUser = await User.findById(req.userId);
-    if (!currUser) {
-      return res.status(404).json({ message: "User does not exist." });
-    }
-    req.currentUser = currUser;
+    const user = await User.findById(req.userId);
+    if (!user) return res.status(404).json({ message: "User does not exist." });
+    req.viewingUser = user;
     return next();
   } catch (err) {
     return res.status(500).json({
@@ -60,7 +63,7 @@ exports.getCurrentUser = async (req, res, next) => {
   }
 };
 
-// Checks if :postId param is for a valid post & set req.currPost to the "Post" object
+// Checks if :postId param is for a valid post & set req.currentPost to the "Post" object
 exports.validPostId = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.postId);
@@ -76,11 +79,11 @@ exports.validPostId = async (req, res, next) => {
 
 // Checks to see if current user has access to post
 exports.hasPostAccess = async (req, res, next) => {
-  const { currentPost, currentUser } = req;
-  // Check to see if we're not friends with the post owner or not the post owner
+  const { currentPost, viewingUser } = req;
+  // Check to see if we're not friends with the post author and not the author
   if (
-    !currentUser.friends.includes(currentPost.author) &&
-    !currentPost.author.equals(currentUser._id)
+    !viewingUser.friends.includes(currentPost.author) &&
+    !currentPost.author.equals(viewingUser._id)
   ) {
     return res.status(403).json({
       message: "You do not have access to that post.",
@@ -94,7 +97,7 @@ exports.hasPostAccess = async (req, res, next) => {
               For "/posts/:postId/comments" Routes
   ***********************************************************
 */
-// Checks if :commentId param is for a valid comment & set req.currComment to the "Comment" object
+// Checks if :commentId param is for a valid comment & set req.currentComment to the "Comment" object
 exports.validCommentId = async (req, res, next) => {
   try {
     const comment = await Comment.findById(req.params.commentId);

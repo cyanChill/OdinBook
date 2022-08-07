@@ -5,14 +5,16 @@ const {
   convertImgAndUploadToFirebase,
   deleteImageFromUrl,
 } = require("../utils/imgs");
+const Comment = require("../models/Comment");
 const Post = require("../models/Post");
+const User = require("../models/User");
 
 exports.getFeedPosts = async (req, res, next) => {
   const { since, skip } = req.query;
   try {
     // Get all of user's posts and friends posts
     const posts = await Post.find({
-      author: [req.userId, ...req.currentUser.friends],
+      author: [req.userId, ...req.viewingUser.friends],
       timestamp: { $lt: since },
     })
       .sort({ timestamp: -1 })
@@ -65,12 +67,16 @@ exports.createPost = [
     // Can now create post
     try {
       const newPost = await Post.create(postBody);
+      // Add postId to "User" model
+      await User.findByIdAndUpdate(req.userId, {
+        $push: { posts: newPost._id },
+      });
+
       return res.status(201).json({
         message: "Successfully created post.",
         post: newPost,
       });
     } catch (err) {
-      console.log(err);
       // Delete image uploaded to firebase if it exists (was uploaded)
       if (downloadUrl) await deleteImageFromUrl(downloadUrl);
 
@@ -98,15 +104,22 @@ exports.getSinglePost = async (req, res, next) => {
 };
 
 exports.deletePost = async (req, res, next) => {
-  // Check to see if we don't own the post
-  if (!req.currentPost.author.equals(req.currentUser._id)) {
+  // Check to see if we aren't the author of the post
+  if (!req.currentPost.author.equals(req.viewingUser._id)) {
     return res.status(403).json({
       message: "You do not have access to that post.",
     });
   }
 
   try {
-    const deletedPost = await Post.findByIdAndDelete(req.params.postId);
+    // Delete post, remove post from "User" "post" field, delete comments on post
+    const [deletedPost] = await Promise.all([
+      Post.findByIdAndDelete(req.params.postId),
+      User.findByIdAndUpdate(req.currentPost.author, {
+        $pull: { posts: req.params.postId },
+      }),
+      Comment.deleteMany({ post: req.params.postId }),
+    ]);
     // Delete image if it exists
     if (deletedPost.imgUrl) await deleteImageFromUrl(deletedPost.imgUrl);
 
@@ -120,17 +133,17 @@ exports.deletePost = async (req, res, next) => {
 
 exports.likePost = async (req, res, next) => {
   const { postId } = req.params;
-  const currUserId = req.currentUser._id;
+  const userId = req.viewingUser._id;
 
   try {
-    if (req.currentPost.likes.includes(currUserId)) {
+    if (req.currentPost.likes.includes(userId)) {
       // Remove like from post
-      await Post.findByIdAndUpdate(postId, { $pull: { likes: currUserId } });
+      await Post.findByIdAndUpdate(postId, { $pull: { likes: userId } });
       return res.status(200).json({ message: "Successfully unliked post." });
     } else {
       // Add like to post
       await Post.findByIdAndUpdate(postId, {
-        $addToSet: { likes: currUserId },
+        $addToSet: { likes: userId },
       });
       return res.status(200).json({ message: "Successfully liked post." });
     }
