@@ -1,4 +1,8 @@
-import { createContext, useReducer, useState, useEffect } from "react";
+import { createContext, useReducer, useState, useEffect, useRef } from "react";
+import toast from "react-hot-toast";
+import { intervalToDuration } from "date-fns";
+
+import { tokenExpireTime } from "../util/jwt";
 
 export const AuthContext = createContext();
 
@@ -17,6 +21,10 @@ const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, { user: null });
   const [initialLoad, setInitialLoad] = useState(true);
 
+  const autoLogoutRef = useRef();
+  const warnMsgTimerRef = useRef();
+  const warnTimerRefreshRef = useRef();
+
   // Helper function so we don't need to add the "Authorization" header
   // everytime we need to make an authorized request
   const authedFetch = (url, opts = {}) => {
@@ -31,14 +39,10 @@ const AuthContextProvider = ({ children }) => {
     return fetch(url, newOpts);
   };
 
-  const revalidatePrevSession = async () => {
-    setInitialLoad(true);
+  // Revalidate session w/ localStorage token
+  const revalidateSession = async () => {
     const prevToken = JSON.parse(localStorage.getItem("user-token"));
-    if (!prevToken) {
-      // No previous token
-      setInitialLoad(false);
-      return;
-    }
+    if (!prevToken) return; // No previous token
 
     // Validate token stored in localStorage
     const res = await fetch(
@@ -52,22 +56,83 @@ const AuthContextProvider = ({ children }) => {
     );
 
     if (res.ok) {
-      // Token is valid
-      const data = await res.json();
+      const data = await res.json(); // Token is valid
       dispatch({
         type: "LOGIN",
         payload: { userId: data.userId, token: prevToken },
       });
     } else {
-      // Token is invalid
-      localStorage.removeItem("user-token");
+      localStorage.removeItem("user-token"); // Token is invalid
     }
-    setInitialLoad(false);
+  };
+
+  // Auto-Logout Warning Toast w/ "live" countdown timer
+  const autoLogoutLiveToast = () => {
+    if (state.user && state.user.token) {
+      const expTime = tokenExpireTime(state.user.token);
+      const dur = intervalToDuration({ start: 0, end: expTime });
+      toast(
+        `Your session will expire in ${
+          dur.minutes === 0 ? "" : `${dur.minutes} mins`
+        } ${
+          dur.seconds === 0 ? "" : `${dur.seconds} secs`
+        }. Please re-login to refresh the timer.`,
+        { icon: "⚠️", duration: expTime, id: "countdown" }
+      );
+    }
+  };
+
+  const clearTimers = () => {
+    clearTimeout(autoLogoutRef.current);
+    clearTimeout(warnMsgTimerRef.current);
+    clearInterval(warnTimerRefreshRef.current);
+    autoLogoutRef.current = null;
+    warnMsgTimerRef.current = null;
+    warnTimerRefreshRef.current = null;
   };
 
   useEffect(() => {
-    revalidatePrevSession();
+    const initialRevalidation = async () => {
+      setInitialLoad(true);
+      await revalidateSession();
+      setInitialLoad(false);
+    };
+
+    initialRevalidation();
   }, []);
+
+  // Logic for auto-logout
+  useEffect(() => {
+    // Trigger to check token if storage is changed
+    window.addEventListener("storage", revalidateSession);
+
+    if (state.user && state.user.token) {
+      // Checks token & set autologout function
+      const expTime = tokenExpireTime(state.user.token);
+      autoLogoutRef.current = setTimeout(() => {
+        // Logout of user
+        localStorage.removeItem("user-token");
+        dispatch({ type: "LOGOUT" });
+        toast.error("Your session has expired.", { id: "session-exp" });
+      }, expTime);
+
+      // Send warning toast ~10min before session ends
+      if (expTime > 600000) {
+        warnMsgTimerRef.current = setTimeout(() => {
+          autoLogoutLiveToast();
+          warnTimerRefreshRef.current = setInterval(autoLogoutLiveToast, 1000);
+        }, expTime - 600000);
+      } else {
+        autoLogoutLiveToast();
+        warnTimerRefreshRef.current = setInterval(autoLogoutLiveToast, 1000);
+      }
+    }
+
+    return () => {
+      window.removeEventListener("storage", revalidateSession);
+      clearTimers();
+    };
+  }, [state.user]);
 
   console.log("AuthContext State:", state);
 

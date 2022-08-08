@@ -32,7 +32,11 @@ const LoginPage = () => {
       const ck = getCookie("auth");
       // Delete Cookie
       document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      if (ck) verifyFacebookSignIn(ck);
+      if (ck) {
+        verifyFacebookSignIn(ck).then((success) => {
+          if (success) toast.success("Successfully logged in with Facebook.");
+        });
+      }
     }
   }, []);
 

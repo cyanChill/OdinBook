@@ -53,8 +53,7 @@ const useSignIn = () => {
     );
 
     if (res.ok) {
-      // Token is valid
-      const data = await res.json();
+      const data = await res.json(); // Token is valid
       localStorage.setItem("user-token", JSON.stringify(token));
       dispatch({
         type: "LOGIN",
@@ -63,6 +62,7 @@ const useSignIn = () => {
     }
 
     setIsLoading(false);
+    return res.ok;
   };
 
   const clearErrors = () => setErrors(null);
