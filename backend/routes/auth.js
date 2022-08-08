@@ -19,11 +19,11 @@ router.get(
 );
 
 router.get(
-  "/redirect/facebook",
+  "/facebook/redirect",
   passport.authenticate("facebook", {
     scope: ["email"],
     session: false,
-    failureRedirect: "/api/auth/login/facebook",
+    failureRedirect: `${process.env.FRONTEND_URL}`,
     failureMessage: true,
   }),
   authController.facebookLogin

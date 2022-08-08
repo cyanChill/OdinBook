@@ -38,9 +38,35 @@ const useSignIn = () => {
     }
   };
 
+  const verifyFacebookSignIn = async (token) => {
+    setIsLoading(true);
+
+    const res = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/api/auth/validateToken`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+
+    if (res.ok) {
+      // Token is valid
+      const data = await res.json();
+      localStorage.setItem("user-token", JSON.stringify(token));
+      dispatch({
+        type: "LOGIN",
+        payload: { userId: data.userId, token: token },
+      });
+    }
+
+    setIsLoading(false);
+  };
+
   const clearErrors = () => setErrors(null);
 
-  return { signin, isLoading, errors, clearErrors };
+  return { signin, verifyFacebookSignIn, isLoading, errors, clearErrors };
 };
 
 export default useSignIn;

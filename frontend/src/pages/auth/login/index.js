@@ -8,9 +8,11 @@ import styles from "../index.module.css";
 import AuthPageBase from "../../../components/auth/authBase";
 import Card from "../../../components/ui/card";
 import FancyInput from "../../../components/formElements/fancyInput";
+import { getCookie } from "../../../util/cookie";
 
 const LoginPage = () => {
-  const { signin, isLoading, errors, clearErrors } = useSignIn();
+  const { signin, verifyFacebookSignIn, isLoading, errors, clearErrors } =
+    useSignIn();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +20,19 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signin(email, password);
+    toast.dismiss(); // Clear all previous toasts
+    toast.success("Successfully logged in.");
   };
+
+  useEffect(() => {
+    // See if we have a "auth" cookie if we tried to login with facebook
+    if (document.cookie) {
+      const ck = getCookie("auth");
+      // Delete Cookie
+      document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      if (ck) verifyFacebookSignIn(ck);
+    }
+  }, []);
 
   useEffect(() => {
     if (errors) {
@@ -59,9 +73,13 @@ const LoginPage = () => {
           </button>
         </form>
         <div className={styles.otherActions}>
-          <button className={`btn compressed `} disabled={isLoading}>
+          <a
+            className={`btn link compressed `}
+            disabled={isLoading}
+            href={`${process.env.REACT_APP_BACKEND_URL}/api/auth/login/facebook`}
+          >
             Sign in with Facebook
-          </button>
+          </a>
           <button className={`btn compressed green`} disabled={isLoading}>
             User Demo Account
           </button>

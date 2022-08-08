@@ -21,6 +21,8 @@ const SignUpPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signup(firstName, lastName, email, password, confirmPassword);
+    toast.dismiss(); // Clear all previous toasts
+    toast.success("Successfully signed up.");
   };
 
   useEffect(() => {
