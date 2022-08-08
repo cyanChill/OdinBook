@@ -19,7 +19,8 @@ exports.getFeedPosts = async (req, res, next) => {
     })
       .sort({ timestamp: -1 })
       .skip(skip)
-      .limit(10);
+      .limit(10)
+      .populate("author");
     return res.status(200).json({
       message: "Successfully found posts.",
       posts: posts,
@@ -139,13 +140,19 @@ exports.likePost = async (req, res, next) => {
     if (req.currentPost.likes.includes(userId)) {
       // Remove like from post
       await Post.findByIdAndUpdate(postId, { $pull: { likes: userId } });
-      return res.status(200).json({ message: "Successfully unliked post." });
+      return res.status(200).json({
+        message: "Successfully unliked post.",
+        liked: false,
+      });
     } else {
       // Add like to post
       await Post.findByIdAndUpdate(postId, {
         $addToSet: { likes: userId },
       });
-      return res.status(200).json({ message: "Successfully liked post." });
+      return res.status(200).json({
+        message: "Successfully liked post.",
+        liked: true,
+      });
     }
   } catch (err) {
     return res.status(500).json({
