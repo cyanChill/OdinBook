@@ -74,13 +74,19 @@ exports.likeComment = async (req, res, next) => {
     if (req.currentComment.likes.includes(userId)) {
       // Remove like from comment
       await Comment.findByIdAndUpdate(commentId, { $pull: { likes: userId } });
-      return res.status(200).json({ message: "Successfully unliked comment." });
+      return res.status(200).json({
+        message: "Successfully unliked comment.",
+        liked: false,
+      });
     } else {
       // Add like to comment
       await Comment.findByIdAndUpdate(commentId, {
         $addToSet: { likes: userId },
       });
-      return res.status(200).json({ message: "Successfully liked comment." });
+      return res.status(200).json({
+        message: "Successfully liked comment.",
+        liked: true,
+      });
     }
   } catch (err) {
     return res.status(500).json({
