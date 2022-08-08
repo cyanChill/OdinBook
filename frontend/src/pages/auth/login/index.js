@@ -19,9 +19,11 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signin(email, password);
-    toast.dismiss(); // Clear all previous toasts
-    toast.success("Successfully logged in.");
+    const ok = await signin(email, password);
+    if (ok) {
+      toast.dismiss(); // Clear all previous toasts
+      toast.success("Successfully logged in.");
+    }
   };
 
   useEffect(() => {

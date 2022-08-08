@@ -16,13 +16,15 @@ const SignUpPage = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signup(firstName, lastName, email, password, confirmPassword);
-    toast.dismiss(); // Clear all previous toasts
-    toast.success("Successfully signed up.");
+    const ok = await signup(firstName, lastName, email, password, confirmPass);
+    if (ok) {
+      toast.dismiss(); // Clear all previous toasts
+      toast.success("Successfully signed up.");
+    }
   };
 
   useEffect(() => {
@@ -74,8 +76,8 @@ const SignUpPage = () => {
             labelText="Confirm Password"
             type="password"
             minLength="6"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={confirmPass}
+            onChange={(e) => setConfirmPass(e.target.value)}
             required
           />
 

@@ -38,7 +38,6 @@ const useSignUp = () => {
       // Some errors has occurred
       if (data.errors) setErrors(data.errors);
       else setErrors([{ msg: data.message }]);
-      setIsLoading(false);
     } else {
       // Succesfully signed up
       localStorage.setItem("user-token", JSON.stringify(data.token));
@@ -46,8 +45,10 @@ const useSignUp = () => {
         type: "LOGIN",
         payload: { userId: data.userId, token: data.token },
       });
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
+    return res.ok;
   };
 
   const clearErrors = () => setErrors(null);

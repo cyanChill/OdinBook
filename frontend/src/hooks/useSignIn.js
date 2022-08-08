@@ -26,7 +26,6 @@ const useSignIn = () => {
       // Some errors has occurred
       if (data.errors) setErrors(data.errors);
       else setErrors([{ msg: data.message }]);
-      setIsLoading(false);
     } else {
       // Succesfully signed in
       localStorage.setItem("user-token", JSON.stringify(data.token));
@@ -34,8 +33,10 @@ const useSignIn = () => {
         type: "LOGIN",
         payload: { userId: data.userId, token: data.token },
       });
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
+    return res.ok;
   };
 
   const verifyFacebookSignIn = async (token) => {
