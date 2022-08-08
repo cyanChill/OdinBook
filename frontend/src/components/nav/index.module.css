@@ -1,0 +1,125 @@
+.nav {
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+
+  background-color: var(--orange-500);
+}
+
+/* Logo */
+.logo {
+  height: 2.5rem;
+}
+
+/* Navigation Controls */
+.navControl {
+  z-index: 99999;
+  margin-left: auto;
+  height: 0;
+  width: 0;
+  border: 0;
+  outline: 0;
+}
+
+.navControl::after {
+  content: "";
+  height: 2rem;
+  aspect-ratio: 1;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+
+  cursor: pointer;
+  transition: background-image 250ms ease-in-out;
+  background-image: url("/public/assets/icon-hamburger.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+}
+
+.navControl:checked::after {
+  background-image: url("/public/assets/icon-close.svg");
+}
+
+/* Sidebar w/ navigation links */
+.sidebar {
+  z-index: 10000;
+  height: 100vh;
+  width: 100%;
+  max-width: 20rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  padding: 4rem clamp(1.5rem, 3vw, 3rem);
+  background-color: var(--orange-400);
+  transform: translateX(100%);
+  transition: transform 250ms ease-in-out;
+}
+
+.navControl:checked ~ .sidebar {
+  transform: translateX(0%);
+}
+
+.sidebar > * {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.45rem;
+  /* color: #ffffff; */
+}
+
+.sidebar > * > :first-child {
+  width: 2rem;
+  flex-shrink: 0;
+}
+
+.sidebar > a:hover {
+  text-decoration: none;
+}
+
+/* Profile img */
+.profile {
+  margin-bottom: 1rem;
+}
+
+.profile > img {
+  width: 2rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+/* Logout btn */
+.sidebar > button {
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  font-family: var(--font-family);
+}
+
+.sidebar > button:hover {
+  cursor: pointer;
+}
+
+/* Conditional styling for search bar depending on screen size */
+@media (max-width: 568px) {
+  .searchBar {
+    display: none !important;
+  }
+}
+
+@media (min-width: 568px) {
+  .nav {
+  }
+
+  /* .navControl {
+    display: none;
+  } */
+}

@@ -1,0 +1,26 @@
+/* Searchbar */
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-right: auto;
+}
+
+.searchBar input {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  border-radius: 1rem;
+  border: 0;
+  outline: 0;
+}
+
+.searchBtn {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 250ms ease-in-out;
+}
+
+.searchBtn.show {
+  visibility: visible;
+  opacity: 1;
+}

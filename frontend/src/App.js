@@ -9,6 +9,7 @@ import Navbar from "./components/nav";
 import LoginPage from "./pages/auth/login";
 import SignUpPage from "./pages/auth/signup";
 import HomePage from "./pages/home";
+import SearchPage from "./pages/search";
 import ErrorPage from "./pages/error";
 
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
         {user && (
           <>
             <Route path="/" element={<HomePage />} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/login" element={<Navigate to="/" />} />
             <Route path="/signup" element={<Navigate to="/" />} />
             <Route path="*" element={<ErrorPage />} />
