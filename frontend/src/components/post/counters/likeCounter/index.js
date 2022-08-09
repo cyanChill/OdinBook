@@ -17,11 +17,15 @@ const LikeCounter = ({ postId, type, commentId, likes }) => {
         ? `${process.env.REACT_APP_BACKEND_URL}/api/posts/${postId}/like`
         : `${process.env.REACT_APP_BACKEND_URL}/api/posts/${postId}/comments/${commentId}/like`;
 
-    const res = await authedFetch(fetchUrl, { method: "PUT" });
-    const data = await res.json();
-    if (res.ok) {
-      setHasLiked(data.liked);
-      setLikeCount((prev) => prev + (data.liked ? 1 : -1));
+    try {
+      const res = await authedFetch(fetchUrl, { method: "PUT" });
+      const data = await res.json();
+      if (res.ok) {
+        setHasLiked(data.liked);
+        setLikeCount((prev) => prev + (data.liked ? 1 : -1));
+      }
+    } catch (err) {
+      console.log("Something unexpected occurred.");
     }
   };
 

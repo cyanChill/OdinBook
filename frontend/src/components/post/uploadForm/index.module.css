@@ -1,0 +1,106 @@
+.postForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Profile pic w/ text input */
+.formRow1 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.formRow1 > img {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Input + Submit button */
+.formContent {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.formContent > input {
+  width: 100%;
+}
+
+.formContent > button {
+  width: max-content;
+  font-size: 1.25rem;
+  color: var(--grey-500);
+  transition: color 250ms ease-in-out;
+}
+
+.formContent > button:hover {
+  color: var(--grey-600);
+}
+
+/* Custom image input field */
+.fileUploadCont {
+  width: 100%;
+}
+
+.imgInput {
+  display: none;
+}
+
+/* Select image button */
+.imgInputLabel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #fdfdfd;
+  border: 1px solid var(--grey-150);
+  border-radius: 1rem;
+  outline: 0;
+  transition: background-color 250ms ease-in-out;
+}
+
+.imgInputLabel:hover {
+  border-color: var(--grey-400);
+  background-color: var(--grey-25);
+  cursor: pointer;
+}
+
+.imgInputLabel > svg {
+  flex-shrink: 0;
+  font-size: 1.15rem;
+}
+
+.imgInputLabel:hover {
+  cursor: pointer;
+}
+
+.imgInputLabel.hidden {
+  height: 0;
+  visibility: hidden;
+}
+
+/* Resulting image info */
+.selectedFile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.25rem;
+  padding-inline: 0.25rem;
+}
+
+.selectedFile > svg:hover {
+  cursor: pointer;
+  color: var(--error-500);
+}
+
+@media (min-width: 568px) {
+  .formRow1 > img {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}

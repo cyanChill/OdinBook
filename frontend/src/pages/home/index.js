@@ -6,6 +6,8 @@ import useAuthContext from "../../hooks/useAuthContext";
 import styles from "./index.module.css";
 import Loading from "../../components/ui/loading";
 import PostPreview from "../../components/post/postpreview";
+import UploadForm from "../../components/post/uploadForm";
+import FriendsList from "../../components/friends/list";
 
 const HomePage = () => {
   const { authedFetch } = useAuthContext();
@@ -23,38 +25,53 @@ const HomePage = () => {
   const getFeed = async () => {
     setIsFetching(true);
 
-    const res = await authedFetch(
-      `${process.env.REACT_APP_BACKEND_URL}/api/posts?since=${feedStartDateRef.current}&skip=${skip}`
-    );
-    const data = await res.json();
-    if (res.ok) {
-      setFeedData((prev) => [...prev, ...data.posts]);
-      setSkip((prev) => prev + data.posts.length);
-    }
-    if (data.posts.length === 0) setDone(true);
+    try {
+      const res = await authedFetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/posts?since=${feedStartDateRef.current}&skip=${skip}`
+      );
+      const data = await res.json();
+      if (res.ok) {
+        setFeedData((prev) => [...prev, ...data.posts]);
+        setSkip((prev) => prev + data.posts.length);
+      }
+      if (data.posts.length === 0) setDone(true);
 
-    console.log(data.posts);
+      console.log(data.posts);
+    } catch (err) {
+      setDone(true);
+      console.log("Something unexpected occurred.");
+    }
 
     setIsFetching(false);
   };
+
+  const addToFeed = (newPost) => setFeedData((prev) => [newPost, ...prev]);
 
   useEffect(() => {
     if (isVisible && !isFetching && !done) getFeed();
   }, [isFetching, isVisible, done]);
 
   return (
-    <div>
-      {/* TODO: Create Post Form */}
+    <div className={styles.homeContainer}>
+      {/* Home Feed */}
+      <section className={styles.mainContainer}>
+        <UploadForm addToFeed={addToFeed} />
 
-      <div className={styles.postContainer}>
-        {feedData.map((post) => (
-          <PostPreview key={post._id} post={post} />
-        ))}
-      </div>
+        <div className={styles.postContainer}>
+          {feedData.map((post) => (
+            <PostPreview key={post._id} post={post} />
+          ))}
+        </div>
 
-      {/* When "visible" on screens, send request for more data */}
-      {isFetching && <Loading fullWidth />}
-      <span ref={containerRef} />
+        {/* When "visible" on screens, send request for more data */}
+        {isFetching && <Loading fullWidth />}
+        <span ref={containerRef} />
+      </section>
+
+      {/* Friends + Friend Requests */}
+      <section className={styles.friendsContainer}>
+        <FriendsList />
+      </section>
     </div>
   );
 };

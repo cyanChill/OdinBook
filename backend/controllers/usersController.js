@@ -37,6 +37,7 @@ exports.getUser = async (req, res, next) => {
   } else {
     user = await User.findById(req.params.userId)
       .populate("posts")
+      .populate("friendRequests", "first_name last_name profilePicUrl")
       .populate("friends", "first_name last_name profilePicUrl");
   }
   return res.status(200).json({
