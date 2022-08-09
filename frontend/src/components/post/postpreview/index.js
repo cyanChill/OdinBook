@@ -22,6 +22,7 @@ const PostPreview = ({ post }) => {
         <ProfilePic
           src={author.profilePicUrl}
           alt={`${author.first_name}'s profile pic`}
+          rounded
         />
         <div className={`${styles.postHeaderInfo} ellipse`}>
           <Link to={`/profiles/${author._id}`}>

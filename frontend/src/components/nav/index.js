@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AiFillHome, AiFillSetting, AiOutlineSearch } from "react-icons/ai";
 import { BsFillPeopleFill } from "react-icons/bs";
@@ -11,37 +11,13 @@ import styles from "./index.module.css";
 import ProfilePic from "../ui/profilePic";
 import SearchBar from "./searchbar";
 
-const USER_OBJ = { profilePic: "", fullName: "", id: "" };
-
 const Navbar = () => {
   const location = useLocation();
 
-  const { user, authedFetch } = useAuthContext();
+  const { user } = useAuthContext();
   const { signout } = useSignOut();
 
-  const [userInfo, setUserInfo] = useState(USER_OBJ);
   const menuRef = useRef();
-
-  // Save to component basic user info
-  useEffect(() => {
-    const fetchUserAssets = async () => {
-      const res = await authedFetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/users/${user.userId}`
-      );
-      const data = await res.json();
-      if (res.ok) {
-        setUserInfo({
-          profilePic: data.user.profilePicUrl,
-          fullName: `${data.user.first_name} ${data.user.last_name}`,
-          id: user.userId,
-        });
-      }
-    };
-
-    if (user.userId) {
-      fetchUserAssets();
-    }
-  }, [user]);
 
   // Close menu when we click outside of menu
   const closeMenuClick = (e) => {
@@ -71,9 +47,9 @@ const Navbar = () => {
       <input type="checkbox" className={styles.navControl} ref={menuRef} />
 
       <div className={styles.sidebar}>
-        <Link to={`/profiles/${user.userId}`} className={styles.profile}>
-          <ProfilePic src={userInfo.profilePic} alt="user profile pic" />
-          <span> {userInfo.fullName}</span>
+        <Link to={`/profiles/${user.id}`} className={styles.profile}>
+          <ProfilePic src={user.profilePicUrl} alt="user profile pic" rounded />
+          <span> {user.fullName}</span>
         </Link>
         <Link to="/">
           <AiFillHome />

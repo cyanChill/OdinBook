@@ -1,9 +1,7 @@
 .post {
-  max-width: 35rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-inline: 0.5rem;
 }
 
 .post:hover {
@@ -17,10 +15,8 @@
 }
 
 .postHeader > img {
-  flex-shrink: 0;
   width: 2rem;
   height: 2rem;
-  border-radius: 50%;
 }
 
 .postHeaderInfo {
@@ -56,10 +52,6 @@
 }
 
 @media (min-width: 568px) {
-  .post {
-    margin-inline: 1rem;
-  }
-
   .postHeader > img {
     width: 2.25rem;
     height: 2.25rem;

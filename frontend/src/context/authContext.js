@@ -59,7 +59,7 @@ const AuthContextProvider = ({ children }) => {
       const data = await res.json(); // Token is valid
       dispatch({
         type: "LOGIN",
-        payload: { userId: data.userId, token: prevToken },
+        payload: { ...data.user, token: prevToken },
       });
     } else {
       localStorage.removeItem("user-token"); // Token is invalid

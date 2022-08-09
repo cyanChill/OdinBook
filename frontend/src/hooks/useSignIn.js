@@ -31,7 +31,7 @@ const useSignIn = () => {
       localStorage.setItem("user-token", JSON.stringify(data.token));
       dispatch({
         type: "LOGIN",
-        payload: { userId: data.userId, token: data.token },
+        payload: { ...data.user, token: data.token },
       });
     }
 
@@ -57,7 +57,7 @@ const useSignIn = () => {
       localStorage.setItem("user-token", JSON.stringify(token));
       dispatch({
         type: "LOGIN",
-        payload: { userId: data.userId, token: token },
+        payload: { ...data.user, token: token },
       });
     }
 

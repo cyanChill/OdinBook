@@ -91,12 +91,8 @@
 }
 
 .profile > img {
-  flex-shrink: 0;
   width: 2.25rem;
   height: 2.25rem;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 50%;
 }
 
 /* Logout btn */

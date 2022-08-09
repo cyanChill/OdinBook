@@ -26,8 +26,8 @@ const LikeCounter = ({ postId, type, commentId, likes }) => {
   };
 
   useEffect(() => {
-    if (likes.includes(user.userId)) setHasLiked(true);
-  }, [likes, user.userId]);
+    if (likes.includes(user.id)) setHasLiked(true);
+  }, [likes, user.id]);
 
   return (
     <div className={styles.counter} onClick={handleLikes}>
