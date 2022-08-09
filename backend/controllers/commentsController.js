@@ -26,13 +26,17 @@ exports.postComment = [
     // Can now create comment
     try {
       const newComment = await Comment.create(commentBody);
-      // Add comment to post
-      await Post.findByIdAndUpdate(req.params.postId, {
-        $push: { comments: newComment._id },
-      });
+      const [popNewComment] = await Promise.all([
+        Comment.findById(newComment._id).populate("user"),
+        // Add comment to post
+        Post.findByIdAndUpdate(req.params.postId, {
+          $push: { comments: newComment._id },
+        }),
+      ]);
+
       res.status(201).json({
         message: "Successfully created comment.",
-        comment: newComment,
+        comment: popNewComment,
       });
     } catch (err) {
       return res.status(500).json({
