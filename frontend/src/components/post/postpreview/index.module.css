@@ -1,0 +1,67 @@
+.post {
+  max-width: 35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-inline: 0.5rem;
+}
+
+.post:hover {
+  cursor: pointer;
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.postHeader > img {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+}
+
+.postHeaderInfo {
+  font-size: 0.9rem;
+}
+
+.postHeaderInfo > a {
+  font-weight: 500;
+}
+
+.postedAgo {
+  max-width: max-content;
+  font-size: 0.8rem;
+}
+
+.postContent {
+}
+
+.postImg {
+  justify-self: center;
+}
+
+.postInfo {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-block-start: 0.5rem;
+  border-top: 1px solid var(--grey-300);
+}
+
+.postInfo > :last-child:hover {
+  cursor: default;
+}
+
+@media (min-width: 568px) {
+  .post {
+    margin-inline: 1rem;
+  }
+
+  .postHeader > img {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
