@@ -36,7 +36,13 @@ router.get(
   (req, res, next) => {
     return res.status(200).json({
       message: "Token is valid.",
-      userId: req.user,
+      user: {
+        id: req.user._id,
+        profilePicUrl: req.user.profilePicUrl,
+        firstName: req.user.first_name,
+        lastName: req.user.last_name,
+        fullName: req.user.full_name,
+      },
     });
   }
 );
