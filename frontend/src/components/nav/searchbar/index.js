@@ -9,12 +9,11 @@ const SearchBar = ({ className, ...rest }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [searchTerm, setSearchTerm] = useState(
-    location.pathname === "/search" ? searchParams.get("query") : ""
+    location.pathname === "/search" ? searchParams.get("query") || "" : ""
   );
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log(location);
     if (location.pathname !== "/search") {
       navigate(`/search?query=${encodeURIComponent(searchTerm)}`);
     } else {

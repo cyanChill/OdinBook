@@ -1,0 +1,6 @@
+/* Conditional styling for search bar depending on screen size */
+@media (min-width: 568px) {
+  .searchBar {
+    display: none !important;
+  }
+}

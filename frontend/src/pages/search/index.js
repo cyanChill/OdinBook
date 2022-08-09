@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import styles from "./index.module.css";
+import SearchBar from "../../components/nav/searchbar";
 
 const SearchPage = () => {
   let [searchParams, setSearchParams] = useSearchParams();
@@ -13,6 +14,7 @@ const SearchPage = () => {
   return (
     <div>
       <h1>Search Page</h1>
+      <SearchBar className={styles.searchBar} />
     </div>
   );
 };

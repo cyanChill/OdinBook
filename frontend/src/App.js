@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { AuthContext } from "./context/authContext";
 
 import styles from "./App.module.css";
+import Loading from "./components/ui/loading";
 import Navbar from "./components/nav";
 import LoginPage from "./pages/auth/login";
 import SignUpPage from "./pages/auth/signup";
@@ -16,7 +17,7 @@ const App = () => {
   const { user, initialLoad } = useContext(AuthContext);
 
   if (initialLoad) {
-    return <div>Loading....</div>;
+    return <Loading fullWidth />;
   }
 
   return (

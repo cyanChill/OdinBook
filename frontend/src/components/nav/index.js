@@ -8,6 +8,7 @@ import useAuthContext from "../../hooks/useAuthContext";
 import useSignOut from "../../hooks/useSignOut";
 
 import styles from "./index.module.css";
+import ProfilePic from "../ui/profilePic";
 import SearchBar from "./searchbar";
 
 const USER_OBJ = { profilePic: "", fullName: "", id: "" };
@@ -70,8 +71,8 @@ const Navbar = () => {
       <input type="checkbox" className={styles.navControl} ref={menuRef} />
 
       <div className={styles.sidebar}>
-        <Link to="/" className={styles.profile}>
-          <img src={userInfo.profilePic} alt="user profile pic" />
+        <Link to={`/profiles/${user.userId}`} className={styles.profile}>
+          <ProfilePic src={userInfo.profilePic} alt="user profile pic" />
           <span> {userInfo.fullName}</span>
         </Link>
         <Link to="/">
