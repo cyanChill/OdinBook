@@ -33,7 +33,7 @@ exports.getFeedPosts = async (req, res, next) => {
 };
 
 exports.createPost = [
-  body("content", "Content is required.").trim().isLength({ min: 1 }).escape(),
+  body("content", "Content is required.").trim().isLength({ min: 1 }),
 
   async (req, res, next) => {
     const errors = validationResult(req);

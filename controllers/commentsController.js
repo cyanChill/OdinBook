@@ -4,7 +4,7 @@ const Comment = require("../models/Comment");
 const Post = require("../models/Post");
 
 exports.postComment = [
-  body("comment", "Comment is required.").trim().isLength({ min: 1 }).escape(),
+  body("comment", "Comment is required.").trim().isLength({ min: 1 }),
 
   async (req, res, next) => {
     const errors = validationResult(req);
