@@ -71,7 +71,13 @@ exports.signup = [
       const token = issueToken(newUser);
       return res.status(201).json({
         message: "Successfully signed up user.",
-        userId: newUser._id,
+        user: {
+          id: newUser._id,
+          profilePicUrl: newUser.profilePicUrl,
+          firstName: newUser.first_name,
+          lastName: newUser.last_name,
+          fullName: newUser.full_name,
+        },
         token: token,
       });
     } catch (err) {
@@ -95,7 +101,13 @@ exports.normalLogin = async (req, res, next) => {
       const token = issueToken(user);
       return res.status(200).json({
         message: "Successfully logged in.",
-        userId: user._id,
+        user: {
+          id: user._id,
+          profilePicUrl: user.profilePicUrl,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          fullName: user.full_name,
+        },
         token: token,
       });
     } catch (err) {

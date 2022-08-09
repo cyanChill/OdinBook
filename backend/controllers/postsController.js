@@ -68,14 +68,17 @@ exports.createPost = [
     // Can now create post
     try {
       const newPost = await Post.create(postBody);
-      // Add postId to "User" model
-      await User.findByIdAndUpdate(req.userId, {
-        $push: { posts: newPost._id },
-      });
+      const [popNewPost] = await Promise.all([
+        Post.findById(newPost._id).populate("author"),
+        // Add postId to "User" model
+        User.findByIdAndUpdate(req.userId, {
+          $push: { posts: newPost._id },
+        }),
+      ]);
 
       return res.status(201).json({
         message: "Successfully created post.",
-        post: newPost,
+        post: popNewPost,
       });
     } catch (err) {
       // Delete image uploaded to firebase if it exists (was uploaded)

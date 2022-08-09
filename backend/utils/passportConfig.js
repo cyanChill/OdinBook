@@ -74,7 +74,9 @@ const JWTStrategyOpts = {
 passport.use(
   new JWTStrategy(JWTStrategyOpts, async (jwt_payload, done) => {
     try {
-      return done(null, jwt_payload.id);
+      const user = await User.findById(jwt_payload.id);
+      if (!user) done(null, false, { message: "Failed to find user." });
+      return done(null, user);
     } catch {
       return done("Error: Failed to verify jwt token.");
     }
