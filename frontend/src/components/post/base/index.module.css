@@ -4,7 +4,7 @@
   gap: 0.5rem;
 }
 
-.post:hover {
+.post.isPreview:hover {
   cursor: pointer;
 }
 
@@ -27,12 +27,13 @@
   font-weight: 500;
 }
 
+.postContent {
+  word-break: break-all;
+}
+
 .postedAgo {
   max-width: max-content;
   font-size: 0.8rem;
-}
-
-.postContent {
 }
 
 .postImg {

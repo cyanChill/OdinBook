@@ -1,0 +1,61 @@
+.container {
+  width: 100%;
+  max-width: 35rem;
+  margin-block: 1rem;
+  margin-inline: auto;
+}
+
+.post {
+  margin-inline: 0.5rem;
+}
+
+.commentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.comment {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.comment > img {
+  width: 2rem;
+  height: 2rem;
+}
+
+.commentContent {
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 0.45rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--grey-25);
+  background-color: #fdfdfd;
+}
+
+.commentContent > :first-child {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.commentContent > :first-child > span {
+  font-size: 0.85rem;
+  font-weight: normal;
+  color: var(--grey-500);
+}
+
+.commentContent > :last-child {
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+@media (min-width: 568px) {
+  .comment > img {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}

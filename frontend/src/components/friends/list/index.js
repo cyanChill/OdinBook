@@ -100,7 +100,7 @@ const BasicList = ({ listName, loading, items, type, handleRequest }) => {
                   alt={`${user.first_name}'s profile pic`}
                   rounded
                 />
-                <span>
+                <span className="ellipse">
                   {user.first_name} {user.last_name}
                 </span>
               </div>

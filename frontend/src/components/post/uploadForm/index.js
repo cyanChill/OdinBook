@@ -53,23 +53,12 @@ const UploadForm = ({ addToFeed }) => {
         onSubmit={handleNewPost}
         className={styles.postForm}
       >
-        <div className={styles.formRow1}>
-          <ProfilePic src={user.profilePicUrl} alt="profile pic" rounded />
-
-          <div className={styles.formContent}>
-            <Input
-              type="text"
-              name="content"
-              placeholder={`What's on your mind, ${user.firstName}?`}
-              value={postContent}
-              onChange={(e) => setPostContent(e.target.value)}
-              required
-            />
-            <Button type="submit">
-              <BiSend />
-            </Button>
-          </div>
-        </div>
+        <ProfileInputComp
+          user={user}
+          placeholder={`What's on your mind, ${user.firstName}?`}
+          value={postContent}
+          onChange={(e) => setPostContent(e.target.value)}
+        />
 
         <div className={styles.fileUploadCont}>
           <label
@@ -106,3 +95,25 @@ const UploadForm = ({ addToFeed }) => {
 };
 
 export default UploadForm;
+
+export const ProfileInputComp = ({ user, placeholder, value, onChange }) => {
+  return (
+    <div className={styles.formRow1}>
+      <ProfilePic src={user.profilePicUrl} alt="profile pic" rounded />
+
+      <div className={styles.formContent}>
+        <Input
+          type="text"
+          name="content"
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          required
+        />
+        <Button type="submit">
+          <BiSend />
+        </Button>
+      </div>
+    </div>
+  );
+};

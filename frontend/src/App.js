@@ -10,6 +10,7 @@ import Navbar from "./components/nav";
 import LoginPage from "./pages/auth/login";
 import SignUpPage from "./pages/auth/signup";
 import HomePage from "./pages/home";
+import PostPage from "./pages/post";
 import SearchPage from "./pages/search";
 import ErrorPage from "./pages/error";
 
@@ -42,9 +43,18 @@ const App = () => {
         {user && (
           <>
             <Route path="/" element={<HomePage />} />
+            <Route path="/posts/:postId" element={<PostPage />} />
+            <Route path="/profiles/:userId" element={<h1>Profile Page</h1>} />
             <Route path="/search" element={<SearchPage />} />
+
             <Route path="/login" element={<Navigate to="/" />} />
             <Route path="/signup" element={<Navigate to="/" />} />
+            <Route
+              path="/restricted"
+              element={
+                <h1>You do not have permission to view this resource.</h1>
+              }
+            />
             <Route path="*" element={<ErrorPage />} />
           </>
         )}
