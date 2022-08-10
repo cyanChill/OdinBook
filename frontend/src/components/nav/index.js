@@ -59,7 +59,7 @@ const Navbar = () => {
           <AiOutlineSearch />
           <span>Search</span>
         </Link>
-        <Link to="/friends">
+        <Link to={`/profiles/${user.id}/friends`}>
           <BsFillPeopleFill />
           <span>Friends</span>
         </Link>

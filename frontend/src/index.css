@@ -42,6 +42,10 @@
     sans-serif;
 
   --link-clr: var(--navy-1000);
+
+  --max-app-width: 57rem;
+  --max-aside-width: 20rem;
+  --max-main-content-width: 35rem;
 }
 
 *,

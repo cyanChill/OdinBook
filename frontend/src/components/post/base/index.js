@@ -13,7 +13,8 @@ const PostBase = ({ post, children, isPreview, className }) => {
   const author = post.author;
 
   const handleClick = (e) => {
-    if (!e.target.closest(".postInfo")) navigate(`/posts/${post._id}`);
+    if (!e.target.closest(".postInfo") && !e.target.closest(".postHeader"))
+      navigate(`/posts/${post._id}`);
   };
 
   return (
@@ -21,7 +22,7 @@ const PostBase = ({ post, children, isPreview, className }) => {
       className={`${styles.post} ${isPreview && styles.isPreview} ${className}`}
       onClick={isPreview ? handleClick : null}
     >
-      <div className={styles.postHeader}>
+      <div className={`postHeader ${styles.postHeader}`}>
         <ProfilePic
           src={author.profilePicUrl}
           alt={`${author.first_name}'s profile pic`}

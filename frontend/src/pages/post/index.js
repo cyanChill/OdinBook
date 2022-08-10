@@ -11,6 +11,7 @@ import Loading from "../../components/ui/loading";
 import PostBase from "../../components/post/base";
 import { ProfileInputComp } from "../../components/post/uploadForm";
 import ProfilePic from "../../components/ui/profilePic";
+import BackButton from "../../components/nav/backbtn";
 
 const PostPage = () => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const PostPage = () => {
       setLoading(true);
 
       try {
-        const res = await await authedFetch(
+        const res = await authedFetch(
           `${process.env.REACT_APP_BACKEND_URL}/api/posts/${postId}`
         );
 
@@ -85,6 +86,8 @@ const PostPage = () => {
 
   return (
     <div className={styles.container}>
+      <BackButton />
+
       <PostBase post={post} className={styles.post}>
         <form onSubmit={handleNewComment}>
           <ProfileInputComp
