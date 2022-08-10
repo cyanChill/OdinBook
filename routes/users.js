@@ -18,12 +18,16 @@ router.delete("/", usersController.deleteAccount);
 /* Update based on req.userId (extracted from jwt token) */
 // PUT route for updating own profile
 router.put("/profile", usersController.updateProfile);
+// PUT route for updating password
+router.put("/password", usersController.updatePassword);
 // PUT route for updating own profile picture
 router.put(
   "/profilepic",
   upload.single("profileImg"),
   usersController.updateProfilePic
 );
+// DELETE route for removing profile picture
+router.delete("/profilepic", usersController.removeProfilePic);
 
 /* 🖱️ Middlewares 🖱️ */
 // :userId parameter must link to a valid user & sets req.currentUser to that user found

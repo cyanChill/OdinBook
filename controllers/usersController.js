@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
 
-const { hashPassword } = require("../utils/hash.js");
+const { hashPassword, verifyPassword } = require("../utils/hash.js");
 const {
   validateImg,
   convertImgAndUploadToFirebase,
@@ -70,25 +70,11 @@ exports.updateProfile = [
     .isAlpha("en-US")
     .withMessage("Last name must contain only alphabet characters."),
   body("email", "An email is required.").trim().isEmail().escape(),
-  body("new_password", "Password must be atleast 6 characters long.")
-    .trim()
-    .optional({ checkFalsy: true })
-    .isLength({ min: 6 })
-    .escape(),
-  body(
-    "confirm_password",
-    "Confirm Password must be atleast 6 characters long."
-  )
-    .trim()
-    .optional({ checkFalsy: true })
-    .isLength({ min: 6 })
-    .escape(),
 
   async (req, res, next) => {
     const errors = validationResult(req);
     const userId = req.userId;
     const { first_name, last_name, email } = req.body;
-    const { new_password, confirm_password } = req.body;
 
     let updatedUserBody = {
       first_name: first_name,
@@ -117,24 +103,6 @@ exports.updateProfile = [
       });
     }
 
-    // See if we need to update password
-    if (new_password || confirm_password) {
-      if (new_password !== confirm_password) {
-        return res.status(409).json({
-          message: "Passwords aren't the same.",
-          errors: [{ msg: "Passwords aren't the same." }],
-          inputData: {
-            ...updatedUserBody,
-            new_password: new_password,
-            confirm_password: confirm_password,
-          },
-        });
-      } else {
-        const hashedPassword = await hashPassword(new_password);
-        updatedUserBody.password = hashedPassword;
-      }
-    }
-
     // All checks pass, update user profile
     try {
       const updatedUser = await User.findByIdAndUpdate(
@@ -149,6 +117,53 @@ exports.updateProfile = [
     } catch (err) {
       return res.status(500).json({
         message: "Something went wrong when updating your user profile.",
+      });
+    }
+  },
+];
+
+exports.updatePassword = [
+  body("old_password").trim(),
+  body("new_password", "Password must be atleast 6 characters long.")
+    .trim()
+    .isLength({ min: 6 }),
+  body(
+    "confirm_password",
+    "Confirm Password must be atleast 6 characters long."
+  )
+    .trim()
+    .isLength({ min: 6 }),
+
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    const userId = req.userId;
+    const { old_password, new_password, confirm_password } = req.body;
+
+    const currUser = await User.findById(userId, "+password");
+    const isValid = await verifyPassword(old_password, currUser.password);
+    if (!isValid) errors.errors.push({ msg: "Invalid old password." });
+    if (new_password !== confirm_password) {
+      errors.errors.push({ msg: "Passwords don't match." });
+    }
+
+    if (!errors.isEmpty()) {
+      return res.status(409).json({
+        message: "Something is wrong with your input(s).",
+        errors: errors.array(),
+      });
+    }
+
+    const hashedPassword = await hashPassword(new_password);
+
+    // All checks pass, update password
+    try {
+      await User.findByIdAndUpdate(userId, { password: hashedPassword });
+      return res.status(200).json({
+        message: "Successfully updated user password.",
+      });
+    } catch (err) {
+      return res.status(500).json({
+        message: "Something went wrong when updating your password.",
       });
     }
   },
@@ -186,6 +201,26 @@ exports.updateProfilePic = async (req, res, next) => {
 
     return res.status(500).json({
       message: "An error has occurred when updating your profile picture.",
+    });
+  }
+};
+
+exports.removeProfilePic = async (req, res, next) => {
+  try {
+    const oldUserData = await User.findByIdAndUpdate(req.userId, {
+      profilePicUrl: "",
+    });
+    // Previous profile image url
+    const prevImgUrl = oldUserData.profilePicUrl;
+    // Only delete firebase images
+    if (isFirebaseImg(prevImgUrl)) await deleteImageFromUrl(prevImgUrl);
+
+    return res.status(200).json({
+      message: "Successfully removed profile picture.",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "An error has occurred with removing your profile picture.",
     });
   }
 };

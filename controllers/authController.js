@@ -21,15 +21,13 @@ exports.signup = [
   body("email", "An email is required.").trim().isEmail().escape(),
   body("password", "Password must be atleast 6 characters long.")
     .trim()
-    .isLength({ min: 6 })
-    .escape(),
+    .isLength({ min: 6 }),
   body(
     "confirm_password",
     "Confirm Password must be atleast 6 characters long."
   )
     .trim()
-    .isLength({ min: 6 })
-    .escape(),
+    .isLength({ min: 6 }),
 
   async (req, res, next) => {
     const errors = validationResult(req);

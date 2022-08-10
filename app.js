@@ -12,7 +12,7 @@ require("./utils/passportConfig");
 const indexRouter = require("./routes/index");
 
 // Set Up Cors
-const ALLOW_ORIGINS_LIST = [];
+const ALLOW_ORIGINS_LIST = ["https://odin-works.netlify.app"];
 const corsOptions = {
   // Ignore Cors in development but restrict to URL in production
   origin: isDevelopment ? true : ALLOW_ORIGINS_LIST,

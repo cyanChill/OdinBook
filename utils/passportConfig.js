@@ -17,8 +17,10 @@ const LocalStrategyOpts = {
 passport.use(
   new LocalStrategy(LocalStrategyOpts, async (email, password, done) => {
     try {
+      // Prevent attempts to log into accounts without a password (ie: facebook
+      // accounts)
       const user = await User.findOne(
-        { email: email.toLowerCase() },
+        { email: email.toLowerCase(), password: { $exists: true, $nin: [""] } },
         "+password"
       );
       if (!user) return done(null, false, IncorCredsInfo);
