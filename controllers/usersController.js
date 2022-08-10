@@ -32,7 +32,7 @@ exports.getUser = async (req, res, next) => {
     // If current user isn't friend of :userId, return basic information
     user = await User.findById(
       req.params.userId,
-      "first_name last_name profilePicUrl friendRequests"
+      "first_name last_name profilePicUrl friendRequests friends"
     );
   } else if (req.isFriend) {
     user = await User.findById(req.params.userId).populate({
