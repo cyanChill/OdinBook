@@ -12,6 +12,20 @@ export const authReducer = (state, action) => {
       return { user: action.payload };
     case "LOGOUT":
       return { user: null };
+    case "PIC_UPDATE":
+      return {
+        user: { ...state.user, profilePicUrl: action.payload.profilePicUrl },
+      };
+    case "GENERAL_UPDATE":
+      return {
+        user: {
+          ...state.user,
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+          fullName: action.payload.fullName,
+          email: action.payload.email,
+        },
+      };
     default:
       return state;
   }

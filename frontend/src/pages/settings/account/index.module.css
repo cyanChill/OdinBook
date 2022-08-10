@@ -1,0 +1,162 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0.5rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.75rem;
+}
+
+.back:hover {
+  cursor: pointer;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.section > h2 {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+/* Profile picture settings section */
+.profilePic {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profilePic > img {
+  height: clamp(3rem, 12.5vw, 10rem);
+  width: clamp(3rem, 12.5vw, 10rem);
+}
+
+.picAction {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.picAction > label,
+.picAction > button {
+  width: 100%;
+  padding: 0.45rem 0.65rem;
+  font-weight: 500;
+  font-size: clamp(0.85rem, 3vw, 0.95rem);
+  border-radius: 0.5rem;
+}
+
+.picAction > button {
+  color: var(--error-500);
+}
+
+/* Custom image upload button */
+.imgInputLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: #fdfdfd;
+  border: 1px solid var(--grey-150);
+  border-radius: 1rem;
+  outline: 0;
+  transition: background-color 250ms ease-in-out;
+}
+
+.imgInputLabel:hover {
+  border-color: var(--grey-400);
+  background-color: var(--grey-25);
+  cursor: pointer;
+}
+
+.imgInputLabel > svg {
+  flex-shrink: 0;
+  font-size: 1.15rem;
+}
+
+.imgInputLabel:hover {
+  cursor: pointer;
+}
+
+.imgInputLabel.hidden {
+  height: 0;
+  visibility: hidden;
+}
+
+.imgInput {
+  display: none;
+}
+
+/* General profile settings form */
+.form {
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 0.5rem;
+}
+
+.formInputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formInputGroup > label {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.formInputGroup > input,
+.form > :last-child {
+  font-size: 0.95rem;
+  border-radius: 0.5rem;
+}
+
+@media (min-width: 568px) {
+  .container {
+    gap: 1.5rem;
+    padding-inline: 1rem;
+  }
+
+  .back {
+    font-size: 2rem;
+  }
+
+  .section {
+    gap: 1rem;
+  }
+
+  .section > h2 {
+    font-size: 1.5rem;
+  }
+
+  .picAction {
+    flex-direction: row;
+  }
+
+  .form {
+    gap: 1rem;
+    grid-template-columns: repeat(2, calc((100% - 1rem) / 2));
+  }
+
+  /* Email input + submit button */
+  .form > :nth-child(3),
+  .form > :last-child {
+    grid-column: span 2;
+  }
+}

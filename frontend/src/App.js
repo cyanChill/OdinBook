@@ -13,6 +13,9 @@ import HomePage from "./pages/home";
 import PostPage from "./pages/post";
 import ProfilePage from "./pages/profile";
 import FriendsPage from "./pages/friends";
+import SettingsPage from "./pages/settings";
+import AccountSettingsPage from "./pages/settings/account";
+import SecuritySettingsPage from "./pages/settings/security";
 import SearchPage from "./pages/search";
 import ErrorPage from "./pages/error";
 
@@ -50,7 +53,11 @@ const App = () => {
             <Route path="/profiles/:userId" element={<ProfilePage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profiles/:userId/friends" element={<FriendsPage />} />
-            <Route path="/settings" element={<h1>Settings Page</h1>} />
+            <Route path="/settings">
+              <Route index element={<SettingsPage />} />
+              <Route path="account" element={<AccountSettingsPage />} />
+              <Route path="security" element={<SecuritySettingsPage />} />
+            </Route>
 
             <Route path="/login" element={<Navigate to="/" />} />
             <Route path="/signup" element={<Navigate to="/" />} />

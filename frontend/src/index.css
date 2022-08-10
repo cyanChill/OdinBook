@@ -1,15 +1,18 @@
 :root {
+  --error-100: #fac1bd;
   --error-300: #e6635a;
   --error-500: #ed4337;
 
   --orange-400: #ffb429;
   --orange-500: #eda920;
+  --orange-600: #f7ab14;
   --orange-700: #e26723;
 
   --green-300: #00b16a;
   --green-600: #00653c;
 
   --blue-300: #2c87c3;
+  --blue-500: #0051ff;
   --blue-600: #1e5c85;
 
   --steel-blue: #505fa1;

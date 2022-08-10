@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 250ms ease-in-out;
+}
+
+.card:hover {
+  cursor: pointer;
+  transform: scale(1.015);
+}
+
+/* Svg */
+.card > :first-child {
+  flex-shrink: 0;
+  font-size: 1.5rem;
+}
+
+.info {
+  width: calc(100% - 3rem);
+}
+
+/* Setting category name */
+.info > :first-child {
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+/* Setting category description */
+.info > :last-child {
+  color: var(--grey-500);
+  font-size: 0.95rem;
+}
+
+@media (min-width: 568px) {
+  .container {
+    padding-inline: 1rem;
+  }
+
+  .card > :first-child {
+    font-size: 2rem;
+  }
+}
