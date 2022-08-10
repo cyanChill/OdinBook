@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
-import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import toast from "react-hot-toast";
 
 import useAuthContext from "../../../hooks/useAuthContext";
@@ -8,7 +6,7 @@ import useAuthContext from "../../../hooks/useAuthContext";
 import styles from "./index.module.css";
 import Loading from "../../ui/loading";
 import Card from "../../ui/card";
-import ProfilePic from "../../ui/profilePic";
+import FriendCard from "../card";
 
 const FriendsList = () => {
   const { user, authedFetch } = useAuthContext();
@@ -80,8 +78,6 @@ const FriendsList = () => {
 export default FriendsList;
 
 const BasicList = ({ listName, loading, items, type, handleRequest }) => {
-  const navigate = useNavigate();
-
   return (
     <section className={styles.list}>
       <p className={styles.listName}>{listName}</p>
@@ -90,34 +86,12 @@ const BasicList = ({ listName, loading, items, type, handleRequest }) => {
       {!loading && (
         <div className={styles.entryContainer}>
           {items.map((user) => (
-            <div key={user._id} className={styles.entry}>
-              <div
-                className={styles.userInfo}
-                onClick={() => navigate(`/profiles/${user._id}`)}
-              >
-                <ProfilePic
-                  src={user.profilePicUrl}
-                  alt={`${user.first_name}'s profile pic`}
-                  rounded
-                />
-                <span className="ellipse">
-                  {user.first_name} {user.last_name}
-                </span>
-              </div>
-
-              {type === "REQUESTS" && (
-                <div className={styles.actions}>
-                  <AiOutlineCheck
-                    className={styles.accept}
-                    onClick={() => handleRequest(user, "accept")}
-                  />
-                  <AiOutlineClose
-                    className={styles.reject}
-                    onClick={() => handleRequest(user, "reject")}
-                  />
-                </div>
-              )}
-            </div>
+            <FriendCard
+              key={user._id}
+              user={user}
+              type={type}
+              handleRequest={handleRequest}
+            />
           ))}
         </div>
       )}

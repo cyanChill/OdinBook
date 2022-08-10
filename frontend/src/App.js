@@ -12,6 +12,7 @@ import SignUpPage from "./pages/auth/signup";
 import HomePage from "./pages/home";
 import PostPage from "./pages/post";
 import ProfilePage from "./pages/profile";
+import FriendsPage from "./pages/friends";
 import SearchPage from "./pages/search";
 import ErrorPage from "./pages/error";
 
@@ -48,10 +49,7 @@ const App = () => {
             <Route path="/posts/:postId" element={<PostPage />} />
             <Route path="/profiles/:userId" element={<ProfilePage />} />
             <Route path="/search" element={<SearchPage />} />
-            <Route
-              path="/profiles/:userId/friends"
-              element={<h1>Friends Page</h1>}
-            />
+            <Route path="/profiles/:userId/friends" element={<FriendsPage />} />
             <Route path="/settings" element={<h1>Settings Page</h1>} />
 
             <Route path="/login" element={<Navigate to="/" />} />

@@ -155,14 +155,12 @@ const ProfilePage = () => {
           <p className={`${styles.username} ellipse`}>
             {userInfo.first_name} {userInfo.last_name}
           </p>
-          {(isFriend || isOwner) && (
-            <Link
-              to={`/profiles/${userId}/friends`}
-              className={`${styles.friends} ellipse`}
-            >
-              {userInfo.friends.length} Friends <BsPeopleFill />
-            </Link>
-          )}
+          <Link
+            to={`/profiles/${userId}/friends`}
+            className={`${styles.friends} ellipse`}
+          >
+            {userInfo.friends.length} Friends <BsPeopleFill />
+          </Link>
 
           {/* Depending on viewing user's relation with current user, display different things */}
           {/* If Friend: */}

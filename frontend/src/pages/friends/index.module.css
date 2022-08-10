@@ -1,0 +1,28 @@
+.container {
+  padding-inline: 0.5rem;
+}
+
+.container > h2 {
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.cardsContainer {
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+@media (min-width: 568px) {
+  .cardsContainer {
+    grid-template-columns: repeat(2, calc((100% - 0.5rem) / 2));
+  }
+}
+
+@media (min-width: 768px) {
+  .cardsContainer {
+    grid-template-columns: repeat(3, calc((100% - 1rem) / 3));
+  }
+}
