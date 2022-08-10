@@ -72,7 +72,7 @@ exports.createPost = [
         Post.findById(newPost._id).populate("author"),
         // Add postId to "User" model
         User.findByIdAndUpdate(req.userId, {
-          $push: { posts: newPost._id },
+          $push: { posts: { $each: [newPost._id], $position: 0 } },
         }),
       ]);
 
