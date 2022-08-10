@@ -142,7 +142,13 @@ exports.handleFriendRequest = async (req, res, next) => {
 };
 
 exports.removeFriend = async (req, res, next) => {
-  const { friendId } = req.params;
+  if (!req.isFriendOrOwner) {
+    return res.status(403).json({
+      message: "You cannot modify a relationship you're not in.",
+    });
+  }
+
+  const { userId, friendId } = req.params;
   // Validate :friendId
   try {
     const user = await User.findById(friendId);
@@ -158,9 +164,9 @@ exports.removeFriend = async (req, res, next) => {
   try {
     await Promise.all([
       // Remove current user from :friendId's friend list
-      User.findByIdAndUpdate(friendId, { $pull: { friends: req.userId } }),
+      User.findByIdAndUpdate(friendId, { $pull: { friends: userId } }),
       // Remove :friendId from current user's friend list
-      User.findByIdAndUpdate(req.userId, { $pull: { friends: friendId } }),
+      User.findByIdAndUpdate(userId, { $pull: { friends: friendId } }),
     ]);
     return res.status(200).json({ message: "Succesfully removed friend." });
   } catch (err) {

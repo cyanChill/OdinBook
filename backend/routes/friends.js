@@ -26,10 +26,6 @@ router.put(
 );
 
 // DELETE route for deleting friends
-router.delete(
-  "/:friendId/remove",
-  routeMiddleware.isProfileOwner,
-  friendsController.removeFriend
-);
+router.delete("/:friendId/remove", friendsController.removeFriend);
 
 module.exports = router;

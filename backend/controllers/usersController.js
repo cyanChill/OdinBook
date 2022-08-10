@@ -34,9 +34,19 @@ exports.getUser = async (req, res, next) => {
       req.params.userId,
       "first_name last_name profilePicUrl friendRequests"
     );
+  } else if (req.isFriend) {
+    user = await User.findById(req.params.userId).populate({
+      path: "posts",
+      model: "Post",
+      populate: { path: "author", model: "User" },
+    });
   } else {
     user = await User.findById(req.params.userId)
-      .populate("posts")
+      .populate({
+        path: "posts",
+        model: "Post",
+        populate: { path: "author", model: "User" },
+      })
       .populate("friendRequests", "first_name last_name profilePicUrl")
       .populate("friends", "first_name last_name profilePicUrl");
   }
