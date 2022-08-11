@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 
-import useAuthContext from "../../hooks/useAuthContext";
+import useAuthContext from "../../../hooks/useAuthContext";
 
 import styles from "./index.module.css";
-import Loading from "../../components/ui/loading";
-import FriendCard from "../../components/friends/card";
-import Card from "../../components/ui/card";
+import Loading from "../../../components/ui/loading";
+import FriendCard from "../../../components/friends/card";
+import Card from "../../../components/ui/card";
 
 const FriendsPage = () => {
   const navigate = useNavigate();

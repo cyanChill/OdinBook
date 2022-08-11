@@ -12,7 +12,7 @@ import SignUpPage from "./pages/auth/signup";
 import HomePage from "./pages/home";
 import PostPage from "./pages/post";
 import ProfilePage from "./pages/profile";
-import FriendsPage from "./pages/friends";
+import FriendsPage from "./pages/profile/friends";
 import SettingsPage from "./pages/settings";
 import AccountSettingsPage from "./pages/settings/account";
 import SecuritySettingsPage from "./pages/settings/security";
