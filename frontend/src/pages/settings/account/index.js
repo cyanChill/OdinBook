@@ -37,8 +37,12 @@ const AccountSettingsPage = () => {
       );
       const data = await res.json();
 
-      if (res.ok) updateProfilePic(data.profilePicUrl);
-      else toast.error(data.message);
+      if (res.ok) {
+        updateProfilePic(data.profilePicUrl);
+      } else {
+        if (data.errors) data.errors.map((err) => toast.error(err.msg));
+        else toast.error(data.message);
+      }
     } catch (err) {
       console.log("Something unexpected occurred.");
     }
@@ -83,7 +87,8 @@ const AccountSettingsPage = () => {
           userInfo.email
         );
       } else {
-        toast.error(data.message);
+        if (data.errors) data.errors.map((err) => toast.error(err.msg));
+        else toast.error(data.message);
       }
     } catch (err) {
       console.log("Something unexpected occurred.");
@@ -113,7 +118,7 @@ const AccountSettingsPage = () => {
     };
 
     populateUserData();
-  }, [user]);
+  }, [user]); // eslint-disable-line
 
   if (loading) {
     return <Loading fullWidth />;

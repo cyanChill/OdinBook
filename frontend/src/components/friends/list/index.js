@@ -54,7 +54,7 @@ const FriendsList = () => {
     };
 
     if (user) getFriendRequests();
-  }, []);
+  }, [user]); // eslint-disable-line
 
   return (
     <Card className={styles.listsContainer}>

@@ -33,6 +33,8 @@ const HomePage = () => {
       if (res.ok) {
         setFeedData((prev) => [...prev, ...data.posts]);
         setSkip((prev) => prev + data.posts.length);
+      } else {
+        setDone(true);
       }
       if (data.posts.length === 0) setDone(true);
 
@@ -53,7 +55,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (isVisible && !isFetching && !done) getFeed();
-  }, [isFetching, isVisible, done]);
+  }, [isFetching, isVisible, done]); // eslint-disable-line
 
   return (
     <div className={styles.homeContainer}>

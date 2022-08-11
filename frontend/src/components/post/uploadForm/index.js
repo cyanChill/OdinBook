@@ -34,7 +34,8 @@ const UploadForm = ({ addToFeed }) => {
         addToFeed(data.post);
         removeImg();
       } else {
-        toast.error(data.message);
+        if (data.errors) data.errors.map((err) => toast.error(err.msg));
+        else toast.error(data.message);
       }
     } catch (err) {
       console.log("Something unexpected occurred.");

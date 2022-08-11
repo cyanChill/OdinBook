@@ -148,7 +148,7 @@ const ProfilePage = () => {
     };
 
     getUserInfo();
-  }, [userId]);
+  }, [userId]); // eslint-disable-line
 
   if (loading) {
     return <Loading fullWidth />;

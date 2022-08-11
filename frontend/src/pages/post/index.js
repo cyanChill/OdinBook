@@ -99,7 +99,7 @@ const PostPage = () => {
     };
 
     getPostInfo();
-  }, []);
+  }, [postId]); // eslint-disable-line
 
   if (loading) {
     return <Loading fullWidth />;

@@ -146,7 +146,7 @@ const AuthContextProvider = ({ children }) => {
       window.removeEventListener("storage", revalidateSession);
       clearTimers();
     };
-  }, [state.user]);
+  }, [state.user]); // eslint-disable-line
 
   console.log("AuthContext State:", state);
 

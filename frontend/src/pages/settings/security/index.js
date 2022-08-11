@@ -36,14 +36,14 @@ const SecuritySettingsPage = () => {
         }
       );
       const data = await res.json();
-      console.log(data);
       if (res.ok) {
         toast.success("Successfully updated password.");
         e.target.old_pass.value = "";
         e.target.new_pass.value = "";
         e.target.confirm_pass.value = "";
       } else {
-        data.errors.forEach((err) => toast.error(err.msg));
+        if (data.errors) data.errors.forEach((err) => toast.error(err.msg));
+        else toast.error(data.message);
       }
     } catch (err) {
       console.log("Something unexpected occurred.");

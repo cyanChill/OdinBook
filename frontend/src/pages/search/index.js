@@ -42,7 +42,7 @@ const SearchPage = () => {
     };
 
     findQuery();
-  }, [searchParams]);
+  }, [searchParams, query]); // eslint-disable-line
 
   return (
     <div className={styles.container}>

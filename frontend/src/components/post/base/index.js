@@ -31,11 +31,8 @@ const PostBase = ({ post, children, isPreview, onDelete, className }) => {
       );
       const data = await res.json();
 
-      if (res.ok) {
-        onDelete(post._id);
-      } else {
-        toast.error(data.message);
-      }
+      if (res.ok) onDelete(post._id);
+      else toast.error(data.message);
     } catch (err) {
       console.log("Something unexpected occurred.");
     }
