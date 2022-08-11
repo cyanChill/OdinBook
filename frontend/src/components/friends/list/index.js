@@ -6,7 +6,7 @@ import useAuthContext from "../../../hooks/useAuthContext";
 import styles from "./index.module.css";
 import Loading from "../../ui/loading";
 import Card from "../../ui/card";
-import FriendCard from "../card";
+import FriendWidget from "../widget";
 
 const FriendsList = () => {
   const { user, authedFetch } = useAuthContext();
@@ -86,7 +86,7 @@ const BasicList = ({ listName, loading, items, type, handleRequest }) => {
       {!loading && (
         <div className={styles.entryContainer}>
           {items.map((user) => (
-            <FriendCard
+            <FriendWidget
               key={user._id}
               user={user}
               type={type}

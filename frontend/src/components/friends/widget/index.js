@@ -4,7 +4,7 @@ import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import styles from "./index.module.css";
 import ProfilePic from "../../ui/profilePic";
 
-const FriendCard = ({ type, user, handleRequest, className }) => {
+const FriendWidget = ({ type, user, handleRequest, className }) => {
   const navigate = useNavigate();
 
   return (
@@ -39,4 +39,4 @@ const FriendCard = ({ type, user, handleRequest, className }) => {
   );
 };
 
-export default FriendCard;
+export default FriendWidget;

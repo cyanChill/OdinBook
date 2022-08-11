@@ -6,7 +6,7 @@ import useAuthContext from "../../../hooks/useAuthContext";
 
 import styles from "./index.module.css";
 import Loading from "../../../components/ui/loading";
-import FriendCard from "../../../components/friends/card";
+import FriendWidget from "../../../components/friends/widget";
 import Card from "../../../components/ui/card";
 
 const FriendsPage = () => {
@@ -107,7 +107,7 @@ const FriendsPage = () => {
           <div className={styles.cardsContainer}>
             {friendLists.requests.map((user) => (
               <Card key={user._id}>
-                <FriendCard
+                <FriendWidget
                   type="REQUESTS"
                   user={user}
                   handleRequest={handleRequest}
@@ -122,7 +122,7 @@ const FriendsPage = () => {
       <div className={styles.cardsContainer}>
         {friendLists.friends.map((user) => (
           <Card key={user._id}>
-            <FriendCard type="FRIENDS" user={user} />
+            <FriendWidget type="FRIENDS" user={user} />
           </Card>
         ))}
       </div>

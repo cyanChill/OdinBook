@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
+import { AiOutlineSearch } from "react-icons/ai";
 
 import styles from "./index.module.css";
+import Button from "../../formElements/button";
 
-const SearchBar = ({ className, ...rest }) => {
+const SearchBar = ({ className, showBtn, ...rest }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -34,17 +36,20 @@ const SearchBar = ({ className, ...rest }) => {
     >
       <input
         type="text"
+        name="search-term"
         placeholder="Search OdinWorks"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       {/* Hide button until we enter something in the input */}
-      <button
+      <Button
         type="submit"
-        className={`${styles.searchBtn} ${searchTerm && styles.show}`}
+        className={`${styles.searchBtn} ${
+          (searchTerm || showBtn) && styles.show
+        }`}
       >
-        🔎
-      </button>
+        <AiOutlineSearch />
+      </Button>
     </form>
   );
 };

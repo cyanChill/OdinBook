@@ -1,6 +1,38 @@
-/* Conditional styling for search bar depending on screen size */
+.container {
+  width: 100%;
+  padding-inline: 0.5rem;
+}
+
+.searchBar {
+  margin-inline: auto;
+}
+
+.messages {
+  margin-block: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.resultsContainer {
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 0.5rem;
+  padding-block: 1rem;
+}
+
 @media (min-width: 568px) {
+  /* Conditional styling for search bar depending on screen size */
   .searchBar {
     display: none !important;
+  }
+
+  .resultsContainer {
+    grid-template-columns: repeat(2, calc((100% - 0.5rem) / 2));
+  }
+}
+
+@media (min-width: 768px) {
+  .resultsContainer {
+    grid-template-columns: repeat(3, calc((100% - 1rem) / 3));
   }
 }

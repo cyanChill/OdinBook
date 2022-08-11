@@ -56,6 +56,35 @@ exports.getUser = async (req, res, next) => {
   });
 };
 
+exports.findQuery = async (req, res, next) => {
+  const { searchQuery } = req.query;
+  const queryArr = searchQuery.split(" ");
+  if (queryArr.length > 2 || queryArr.length === 0) {
+    return res.status(200).json({ message: "Invalid query", users: [] });
+  }
+
+  const first = queryArr[0];
+  const second = queryArr[1] ? queryArr[1] : "";
+
+  try {
+    const users = await User.find(
+      {
+        first_name: { $regex: new RegExp(first, "i") },
+        last_name: { $regex: new RegExp(second, "i") },
+      },
+      "first_name last_name profilePicUrl"
+    );
+    return res.status(200).json({
+      message: "Successfully found users.",
+      users: users ? users : [],
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Something went wrong on the server.",
+    });
+  }
+};
+
 exports.updateProfile = [
   body("first_name")
     .trim()

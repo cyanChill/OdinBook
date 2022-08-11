@@ -1,5 +1,7 @@
 /* Searchbar */
 .searchBar {
+  width: 100%;
+  max-width: max-content;
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -7,6 +9,7 @@
 }
 
 .searchBar input {
+  width: 100%;
   padding: 0.5rem 0.75rem;
   font-size: 0.9rem;
   border-radius: 1rem;
@@ -17,10 +20,10 @@
 .searchBtn {
   visibility: hidden;
   opacity: 0;
-  transition: opacity 250ms ease-in-out;
 }
 
 .searchBtn.show {
   visibility: visible;
   opacity: 1;
+  transition: opacity 250ms ease-in-out;
 }
