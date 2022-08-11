@@ -57,8 +57,8 @@ exports.deleteComment = async (req, res, next) => {
   try {
     // Delete comment & reference to comment in Post it was in
     await Promise.all([
-      await Comment.findByIdAndDelete(req.params.commentId),
-      await Post.findByIdAndUpdate(req.currentComment.post, {
+      Comment.findByIdAndDelete(req.params.commentId),
+      Post.findByIdAndUpdate(req.currentComment.post, {
         $pull: { comments: req.params.commentId },
       }),
     ]);
