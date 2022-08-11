@@ -13,8 +13,7 @@ const PostBase = ({ post, children, isPreview, className }) => {
   const author = post.author;
 
   const handleClick = (e) => {
-    if (!e.target.closest(".postInfo") && !e.target.closest(".postHeader"))
-      navigate(`/posts/${post._id}`);
+    if (!e.target.closest(".ignoreClick")) navigate(`/posts/${post._id}`);
   };
 
   return (
@@ -22,13 +21,14 @@ const PostBase = ({ post, children, isPreview, className }) => {
       className={`${styles.post} ${isPreview && styles.isPreview} ${className}`}
       onClick={isPreview ? handleClick : null}
     >
-      <div className={`postHeader ${styles.postHeader}`}>
+      <div className={styles.postHeader}>
         <ProfilePic
           src={author.profilePicUrl}
           alt={`${author.first_name}'s profile pic`}
+          className={"ignoreClick"}
           rounded
         />
-        <div className={`${styles.postHeaderInfo} ellipse`}>
+        <div className={`ignoreClick ${styles.postHeaderInfo} ellipse`}>
           <Link to={`/profiles/${author._id}`}>
             {author.first_name} {author.last_name}
           </Link>
@@ -45,7 +45,7 @@ const PostBase = ({ post, children, isPreview, className }) => {
         <img src={post.imgUrl} alt="" className={styles.postImg} />
       )}
 
-      <div className={`postInfo ${styles.postInfo}`}>
+      <div className={`ignoreClick ${styles.postInfo}`}>
         <LikeCounter postId={post._id} type="post" likes={post.likes} />
         <CommentCounter comments={post.comments} />
       </div>

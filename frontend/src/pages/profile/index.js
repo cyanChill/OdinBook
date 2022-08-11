@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 
 import useAuthContext from "../../hooks/useAuthContext";
 
+import { simplifyNum } from "../../util/simplify";
 import styles from "./index.module.css";
 import ProfilePic from "../../components/ui/profilePic";
 import UploadForm from "../../components/post/uploadForm";
@@ -83,6 +84,10 @@ const ProfilePage = () => {
         { method: "DELETE" }
       );
       if (res.ok) {
+        setUserInfo((prev) => ({
+          ...prev,
+          friends: prev.friends.filter((usrId) => usrId !== user.id),
+        }));
         setHasRequested(false);
         setIsFriend(false);
       } else {
@@ -159,7 +164,7 @@ const ProfilePage = () => {
             to={`/profiles/${userId}/friends`}
             className={`${styles.friends} ellipse`}
           >
-            {userInfo.friends.length} Friends <BsPeopleFill />
+            {simplifyNum(userInfo.friends.length)} Friends <BsPeopleFill />
           </Link>
 
           {/* Depending on viewing user's relation with current user, display different things */}

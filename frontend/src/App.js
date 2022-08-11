@@ -49,10 +49,16 @@ const App = () => {
         <div className={styles.container}>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/posts/:postId" element={<PostPage />} />
-            <Route path="/profiles/:userId" element={<ProfilePage />} />
             <Route path="/search" element={<SearchPage />} />
-            <Route path="/profiles/:userId/friends" element={<FriendsPage />} />
+            <Route path="/posts/:postId" element={<PostPage />} />
+            <Route path="/profiles">
+              {/* "/profiles" will redirect user to their own profile */}
+              <Route index element={<Navigate to={user.id} />} />
+              <Route path=":userId">
+                <Route index element={<ProfilePage />} />
+                <Route path="friends" element={<FriendsPage />} />
+              </Route>
+            </Route>
             <Route path="/settings">
               <Route index element={<SettingsPage />} />
               <Route path="account" element={<AccountSettingsPage />} />

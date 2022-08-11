@@ -3,9 +3,10 @@ import { AiOutlineLike, AiTwotoneLike } from "react-icons/ai";
 
 import useAuthContext from "../../../../hooks/useAuthContext";
 
+import { simplifyNum } from "../../../../util/simplify";
 import styles from "../index.module.css";
 
-const LikeCounter = ({ postId, type, commentId, likes }) => {
+const LikeCounter = ({ type, postId, commentId, likes }) => {
   const { user, authedFetch } = useAuthContext();
 
   const [hasLiked, setHasLiked] = useState(false);
@@ -36,7 +37,7 @@ const LikeCounter = ({ postId, type, commentId, likes }) => {
   return (
     <div className={styles.counter} onClick={handleLikes}>
       {hasLiked ? <AiTwotoneLike /> : <AiOutlineLike />}{" "}
-      <span>{likeCount}</span>
+      <span>{simplifyNum(likeCount)}</span>
     </div>
   );
 };
