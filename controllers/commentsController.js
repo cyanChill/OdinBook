@@ -72,7 +72,7 @@ exports.deleteComment = async (req, res, next) => {
 
 exports.likeComment = async (req, res, next) => {
   const { commentId } = req.params;
-  const userId = req.viewing._id;
+  const userId = req.viewingUser._id;
 
   try {
     if (req.currentComment.likes.includes(userId)) {
