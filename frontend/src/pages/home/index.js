@@ -47,6 +47,10 @@ const HomePage = () => {
 
   const addToFeed = (newPost) => setFeedData((prev) => [newPost, ...prev]);
 
+  const removeFromFeed = (postId) => {
+    setFeedData((prev) => prev.filter((pst) => pst._id !== postId));
+  };
+
   useEffect(() => {
     if (isVisible && !isFetching && !done) getFeed();
   }, [isFetching, isVisible, done]);
@@ -59,7 +63,11 @@ const HomePage = () => {
 
         <div className={styles.postContainer}>
           {feedData.map((post) => (
-            <PostPreview key={post._id} post={post} />
+            <PostPreview
+              key={post._id}
+              post={post}
+              onPostDelete={removeFromFeed}
+            />
           ))}
         </div>
 

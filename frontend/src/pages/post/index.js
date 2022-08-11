@@ -1,17 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import useAuthContext from "../../hooks/useAuthContext";
 
-import { correctPostDate } from "../../util/date";
 import styles from "./index.module.css";
 import Loading from "../../components/ui/loading";
 import PostBase from "../../components/post/base";
 import { ProfileInputComp } from "../../components/post/uploadForm";
-import ProfilePic from "../../components/ui/profilePic";
 import BackButton from "../../components/nav/backbtn";
+import Comment from "../../components/post/comment";
 
 const PostPage = () => {
   const navigate = useNavigate();
@@ -51,6 +49,29 @@ const PostPage = () => {
     }
   };
 
+  const deleteComment = async (id) => {
+    try {
+      const res = await await authedFetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/posts/${postId}/comments/${id}`,
+        { method: "DELETE" }
+      );
+      const data = await res.json();
+
+      if (res.ok) {
+        setPost((prev) => ({
+          ...prev,
+          comments: prev.comments.filter((cmt) => cmt._id !== id),
+        }));
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      console.log("Something unexpected occurred.");
+    }
+  };
+
+  const onPostDelete = () => navigate("/", { replace: true });
+
   useEffect(() => {
     const getPostInfo = async () => {
       setLoading(true);
@@ -88,7 +109,7 @@ const PostPage = () => {
     <div className={styles.container}>
       <BackButton />
 
-      <PostBase post={post} className={styles.post}>
+      <PostBase post={post} className={styles.post} onDelete={onPostDelete}>
         <form onSubmit={handleNewComment}>
           <ProfileInputComp
             user={user}
@@ -100,26 +121,14 @@ const PostPage = () => {
 
         {post.comments.length > 0 && (
           <div className={styles.commentContainer}>
-            {post.comments.map((cmt) => {
-              console.log(cmt);
-
-              return (
-                <div key={cmt._id} className={styles.comment}>
-                  <ProfilePic
-                    src={cmt.user.profilePicUrl}
-                    alt={`${cmt.user.first_name}'s profile pic`}
-                    rounded
-                  />
-                  <div className={styles.commentContent}>
-                    <Link to={`/profiles/${cmt.user._id}`} className="ellipse">
-                      {cmt.user.first_name} {cmt.user.last_name}{" "}
-                      <span>({correctPostDate(cmt.timestamp)})</span>
-                    </Link>
-                    <p>{cmt.comment}</p>
-                  </div>
-                </div>
-              );
-            })}
+            {post.comments.map((cmt) => (
+              <Comment
+                key={cmt._id}
+                postId={postId}
+                comment={cmt}
+                handleDelete={deleteComment}
+              />
+            ))}
           </div>
         )}
       </PostBase>

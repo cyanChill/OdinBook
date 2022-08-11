@@ -35,6 +35,13 @@ const ProfilePage = () => {
     }));
   };
 
+  const removeFromFeed = (postId) => {
+    setUserInfo((prev) => ({
+      ...prev,
+      posts: prev.posts.filter((pst) => pst._id !== postId),
+    }));
+  };
+
   const toggleRequest = async () => {
     if (isOwner || isFriend) return;
 
@@ -223,7 +230,11 @@ const ProfilePage = () => {
 
         {(isFriend || isOwner) &&
           userInfo.posts.map((post) => (
-            <PostPreview key={post._id} post={post} />
+            <PostPreview
+              key={post._id}
+              post={post}
+              onPostDelete={removeFromFeed}
+            />
           ))}
       </div>
     </div>

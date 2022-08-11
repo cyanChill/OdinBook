@@ -20,11 +20,26 @@
 }
 
 .postHeaderInfo {
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25rem;
   font-size: 0.9rem;
 }
 
-.postHeaderInfo > a {
+.username > a {
   font-weight: 500;
+}
+
+.delete {
+  flex-shrink: 0;
+  color: var(--error-300);
+}
+
+.delete:hover {
+  cursor: pointer;
+  color: var(--error-500);
 }
 
 .postContent {
