@@ -15,6 +15,9 @@ router.get("/", usersController.getAllUsers);
 // DELETE route for deleting OWN account
 router.delete("/", usersController.deleteAccount);
 
+// GET users based on query
+router.get("/search", usersController.findQuery);
+
 /* Update based on req.userId (extracted from jwt token) */
 // PUT route for updating own profile
 router.put("/profile", usersController.updateProfile);
