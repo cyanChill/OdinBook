@@ -18,6 +18,7 @@ import AccountSettingsPage from "./pages/settings/account";
 import SecuritySettingsPage from "./pages/settings/security";
 import SearchPage from "./pages/search";
 import ErrorPage from "./pages/error";
+import RestrictedPage from "./pages/error/restricted";
 
 const App = () => {
   const { user, initialLoad } = useContext(AuthContext);
@@ -67,12 +68,7 @@ const App = () => {
 
             <Route path="/login" element={<Navigate to="/" />} />
             <Route path="/signup" element={<Navigate to="/" />} />
-            <Route
-              path="/restricted"
-              element={
-                <h1>You do not have permission to view this resource.</h1>
-              }
-            />
+            <Route path="/restricted" element={<RestrictedPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>

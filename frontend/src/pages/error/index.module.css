@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  text-align: center;
+  color: #ffffff;
+  background-color: var(--blue-100);
+  box-shadow: 0 0 0 100vmax var(--blue-100);
+}
+
+.container > h1 {
+  font-size: 1.75rem;
+}
+
+.container > p {
+  color: var(--grey-600);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.container a {
+  color: #ffffff;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.container > img {
+  padding-top: 5rem;
+}
+
+@media (min-width: 568px) {
+  .container > h1 {
+    font-size: 2.25rem;
+  }
+
+  .container > p {
+    font-size: 1.15rem;
+  }
+}
