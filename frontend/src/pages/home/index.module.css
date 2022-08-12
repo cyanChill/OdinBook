@@ -17,6 +17,11 @@
   padding-block: 1rem;
 }
 
+.emptyFeedMsg {
+  text-align: center;
+  font-weight: 500;
+}
+
 .friendsContainer {
   width: 100%;
   max-width: var(--max-aside-width);

@@ -55,11 +55,12 @@ const SecuritySettingsPage = () => {
         `${process.env.REACT_APP_BACKEND_URL}/api/users/`,
         { method: "DELETE" }
       );
+      const data = await res.json();
       if (res.ok) {
         signout();
         toast.success("Successfully deleted account.", 10000);
       } else {
-        toast.error("Failed to delete account.");
+        toast.error(data.message);
       }
     } catch (err) {
       console.log("Something unexpected occurred.");

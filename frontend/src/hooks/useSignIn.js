@@ -65,9 +65,42 @@ const useSignIn = () => {
     return res.ok;
   };
 
+  const demoSignIn = async () => {
+    setIsLoading(true);
+    setErrors(null);
+
+    const res = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/api/auth/login/demo`
+    );
+    const data = await res.json();
+
+    if (!res.ok) {
+      // Some errors has occurred
+      if (data.errors) setErrors(data.errors);
+      else setErrors([{ msg: data.message }]);
+    } else {
+      // Succesfully signed in
+      localStorage.setItem("user-token", JSON.stringify(data.token));
+      dispatch({
+        type: "LOGIN",
+        payload: { ...data.user, token: data.token },
+      });
+    }
+
+    setIsLoading(false);
+    return res.ok;
+  };
+
   const clearErrors = () => setErrors(null);
 
-  return { signin, verifyFacebookSignIn, isLoading, errors, clearErrors };
+  return {
+    signin,
+    verifyFacebookSignIn,
+    demoSignIn,
+    isLoading,
+    errors,
+    clearErrors,
+  };
 };
 
 export default useSignIn;

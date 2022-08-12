@@ -71,6 +71,12 @@ const HomePage = () => {
           ))}
         </div>
 
+        {!isFetching && feedData.length === 0 && (
+          <p className={styles.emptyFeedMsg}>
+            Your feed is empty. Add friends or post something to fill it up!
+          </p>
+        )}
+
         {/* When "visible" on screens, send request for more data */}
         {isFetching && <Loading fullWidth />}
         <span ref={containerRef} />

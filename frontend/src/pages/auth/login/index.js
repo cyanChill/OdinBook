@@ -11,8 +11,14 @@ import FancyInput from "../../../components/formElements/fancyInput";
 import { getCookie } from "../../../util/cookie";
 
 const LoginPage = () => {
-  const { signin, verifyFacebookSignIn, isLoading, errors, clearErrors } =
-    useSignIn();
+  const {
+    signin,
+    demoSignIn,
+    verifyFacebookSignIn,
+    isLoading,
+    errors,
+    clearErrors,
+  } = useSignIn();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +26,14 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const ok = await signin(email, password);
+    if (ok) {
+      toast.dismiss(); // Clear all previous toasts
+      toast.success("Successfully logged in.");
+    }
+  };
+
+  const useDemoAccount = async () => {
+    const ok = await demoSignIn();
     if (ok) {
       toast.dismiss(); // Clear all previous toasts
       toast.success("Successfully logged in.");
@@ -86,8 +100,12 @@ const LoginPage = () => {
           >
             Sign in with Facebook
           </a>
-          <button className={`btn compressed green`} disabled={isLoading}>
-            User Demo Account
+          <button
+            className={`btn compressed green`}
+            disabled={isLoading}
+            onClick={useDemoAccount}
+          >
+            Use Demo Account
           </button>
         </div>
 
