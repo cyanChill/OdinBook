@@ -22,7 +22,6 @@
   background-color: var(--form-input-bkg-clr);
   border: 1px solid var(--form-input-bdr-clr);
   border-radius: 1rem;
-  outline: 0;
 }
 
 .input::placeholder {

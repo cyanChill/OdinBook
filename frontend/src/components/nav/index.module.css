@@ -1,11 +1,11 @@
 :root {
   --nav-bkg-clr: var(--orange-500);
-  --nav-slide-out-bkg-clr: var(--orange-400);
+  --nav-slide-out-bkg: 40 100% 0%;
 }
 
 [data-theme="dark"] {
   --nav-bkg-clr: var(--brown-400);
-  --nav-slide-out-bkg-clr: var(--brown-375);
+  --nav-slide-out-bkg: 0 0% 100%;
 }
 
 .nav {
@@ -32,7 +32,6 @@
   height: 0;
   width: 0;
   border: 0;
-  outline: 0;
 }
 
 .navControl::after {
@@ -71,9 +70,16 @@
   right: 0;
 
   padding: 4rem clamp(1.5rem, 3vw, 3rem);
-  background-color: var(--nav-slide-out-bkg-clr);
+  background: hsl(var(--nav-slide-out-bkg) / 0.15);
   transform: translateX(100%);
   transition: transform 250ms ease-in-out;
+}
+
+@supports (backdrop-filter: blur(1rem)) {
+  .sidebar {
+    background: hsl(var(--nav-slide-out-bkg) / 0.1);
+    backdrop-filter: blur(1rem);
+  }
 }
 
 .navControl:checked ~ .sidebar {
@@ -109,7 +115,7 @@
 /* Logout btn */
 .sidebar > button {
   border: 0;
-  outline: 0;
+  color: var(--link-clr);
   background-color: transparent;
   font-family: var(--font-family);
 }

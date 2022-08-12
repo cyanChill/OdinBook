@@ -1,8 +1,12 @@
 :root {
   --account-btn-txt-clr: #000000;
+  --account-rmv-btn-clr: var(--error-500);
+  --account-rmv-hvr-btn-clr: var(--error-500);
 }
 
 [data-theme="dark"] {
+  --account-btn-txt-clr: var(--grey-25);
+  --account-rmv-btn-clr: var(--error-300);
 }
 
 .container {
@@ -71,7 +75,11 @@
 }
 
 .picAction > button {
-  color: var(--error-500);
+  color: var(--account-rmv-btn-clr);
+}
+
+.picAction > button:hover {
+  color: var(--account-rmv-hvr-btn-clr);
 }
 
 /* Custom image upload button */
@@ -84,7 +92,6 @@
   color: var(--account-btn-txt-clr);
   border: 1px solid var(--form-btn-bdr-clr);
   border-radius: 1rem;
-  outline: 0;
   transition: background-color 250ms ease-in-out;
 }
 

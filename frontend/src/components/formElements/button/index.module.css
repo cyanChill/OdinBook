@@ -27,7 +27,6 @@
   background-color: var(--form-btn-bkg-clr);
   border: 1px solid var(--form-btn-bdr-clr);
   border-radius: 1rem;
-  outline: 0;
   transition: background-color 250ms ease-in-out;
 }
 

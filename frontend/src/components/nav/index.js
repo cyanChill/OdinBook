@@ -49,27 +49,27 @@ const Navbar = () => {
       <div className={styles.sidebar}>
         <Link to={`/profiles/${user.id}`} className={styles.profile}>
           <ProfilePic src={user.profilePicUrl} alt="user profile pic" rounded />
-          <span> {user.fullName}</span>
+          <span className="ellipse">{user.fullName}</span>
         </Link>
         <Link to="/">
           <AiFillHome />
-          <span>Home</span>
+          <span className="ellipse">Home</span>
         </Link>
         <Link to="/search">
           <AiOutlineSearch />
-          <span>Search</span>
+          <span className="ellipse">Search</span>
         </Link>
         <Link to={`/profiles/${user.id}/friends`}>
           <BsFillPeopleFill />
-          <span>Friends</span>
+          <span className="ellipse">Friends</span>
         </Link>
         <Link to="/settings">
           <AiFillSetting />
-          <span>Settings</span>
+          <span className="ellipse">Settings</span>
         </Link>
         <button onClick={signout}>
           <MdExitToApp />
-          <span>Logout</span>
+          <span className="ellipse">Logout</span>
         </button>
       </div>
     </nav>

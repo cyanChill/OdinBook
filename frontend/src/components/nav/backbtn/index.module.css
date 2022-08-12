@@ -1,5 +1,16 @@
 .backBtn {
+  width: max-content;
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  font-size: 1rem;
+
+  color: var(--body-txt-clr);
+  background-color: transparent;
+  border: 0;
+}
+
+.backBtn:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }

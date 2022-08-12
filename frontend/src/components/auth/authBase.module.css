@@ -4,7 +4,7 @@
 }
 
 [data-theme="dark"] {
-  --auth-base-accent-bkg-clr: var(--orange-700);
+  --auth-base-accent-bkg-clr: var(--brown-400);
   --auth-base-accent-txt-clr: var(--grey-25);
 }
 
