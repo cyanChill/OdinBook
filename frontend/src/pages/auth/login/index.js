@@ -38,7 +38,7 @@ const LoginPage = () => {
         });
       }
     }
-  }, []);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     if (errors) {

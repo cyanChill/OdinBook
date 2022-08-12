@@ -84,7 +84,6 @@ const FriendsPage = () => {
           navigate("/error", { replace: true });
         }
       } catch (err) {
-        console.log(err);
         console.log("Something unexpected occurred.");
         navigate("/error", { replace: true });
       }
@@ -93,7 +92,7 @@ const FriendsPage = () => {
     };
 
     getUserInfo();
-  }, [userId]); // eslint-disable-line
+  }, [user, userId]); // eslint-disable-line
 
   if (loading) {
     return <Loading fullWidth />;

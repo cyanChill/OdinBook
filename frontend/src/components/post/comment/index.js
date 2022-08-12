@@ -19,8 +19,6 @@ const Comment = ({ postId, comment, handleDelete }) => {
     else setIsOwner(false);
   }, [comment, user]);
 
-  console.log(comment);
-
   return (
     <div className={styles.comment}>
       <ProfilePic

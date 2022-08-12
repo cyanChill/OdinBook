@@ -38,8 +38,6 @@ const ThemeContextProvider = ({ children }) => {
     else document.body.setAttribute("data-theme", "light");
   }, [state.dark]);
 
-  console.log("ThemeContext State:", state);
-
   return (
     <ThemeContext.Provider value={{ ...state, dispatch }}>
       {children}

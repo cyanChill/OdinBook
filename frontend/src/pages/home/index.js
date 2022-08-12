@@ -37,8 +37,6 @@ const HomePage = () => {
         setDone(true);
       }
       if (data.posts.length === 0) setDone(true);
-
-      console.log(data.posts);
     } catch (err) {
       setDone(true);
       console.log("Something unexpected occurred.");

@@ -148,8 +148,6 @@ const AuthContextProvider = ({ children }) => {
     };
   }, [state.user]); // eslint-disable-line
 
-  console.log("AuthContext State:", state);
-
   return (
     <AuthContext.Provider
       value={{ ...state, dispatch, initialLoad, authedFetch }}
