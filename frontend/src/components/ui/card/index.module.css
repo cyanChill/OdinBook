@@ -1,6 +1,16 @@
+:root {
+  --card-bkg-clr: #ffffff;
+  --card-shdw-clr: var(--grey-150);
+}
+
+[data-theme="dark"] {
+  --card-bkg-clr: var(--navy-900);
+  --card-shdw-clr: var(--navy-700);
+}
+
 .card {
-  background-color: #ffffff;
   padding: var(--card-padding, 1rem);
+  background-color: var(--card-bkg-clr);
+  box-shadow: 0 0 15px 5px var(--card-shdw-clr);
   border-radius: 0.5rem;
-  box-shadow: 0 0 15px 5px var(--grey-150);
 }

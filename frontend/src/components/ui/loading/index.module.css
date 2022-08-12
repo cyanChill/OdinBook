@@ -1,3 +1,11 @@
+:root {
+  --lding-light-clr: var(--grey-150);
+  --lding-dark-clr: var(--grey-400);
+}
+
+[data-theme="dark"] {
+}
+
 .loadingContainer {
   display: flex;
   justify-content: center;
@@ -12,8 +20,8 @@
   height: var(--size);
 
   border-radius: 50%;
-  border: var(--thickness) solid var(--grey-150);
-  border-top: var(--thickness) solid var(--grey-400);
+  border: var(--thickness) solid var(--lding-light-clr);
+  border-top: var(--thickness) solid var(--lding-dark-clr);
 
   animation: loadAnim 1.5s linear infinite;
 }

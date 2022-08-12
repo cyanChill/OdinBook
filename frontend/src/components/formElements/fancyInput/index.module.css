@@ -1,7 +1,14 @@
-.fancyInput {
-  --unfocused-clr: var(--grey-400);
-  --focused-clr: var(--grey-600);
+:root {
+  --fcy-input-unfcs-clr: var(--grey-400);
+  --fcy-input-fcs-clr: var(--grey-600);
+  --fcy-input-txt-clr: #000000;
+}
 
+[data-theme="dark"] {
+  --fcy-input-txt-clr: var(--grey-25);
+}
+
+.fancyInput {
   width: 100%;
   position: relative;
   margin-top: 1rem;
@@ -17,7 +24,8 @@
   width: 100%;
   background-color: transparent;
   border: 0;
-  border-bottom: 1px solid var(--unfocused-clr);
+  color: var(--fcy-input-txt-clr);
+  border-bottom: 1px solid var(--fcy-input-unfcs-clr);
   outline: none;
 }
 
@@ -33,7 +41,7 @@
   transform: translateY(-50%);
   transition: font-size 250ms ease-in-out, color 250ms ease-in-out,
     transform 250ms ease-in-out;
-  color: var(--unfocused-clr);
+  color: var(--fcy-input-unfcs-clr);
 }
 
 .focused {

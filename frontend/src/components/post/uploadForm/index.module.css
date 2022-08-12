@@ -1,3 +1,11 @@
+:root {
+  --upld-form-dlt-hover: var(--error-500);
+}
+
+[data-theme="dark"] {
+  --upld-form-dlt-hover: var(--error-300);
+}
+
 .postForm {
   display: flex;
   flex-direction: column;
@@ -32,12 +40,7 @@
 .formContent > button {
   width: max-content;
   font-size: 1.25rem;
-  color: var(--grey-500);
   transition: color 250ms ease-in-out;
-}
-
-.formContent > button:hover {
-  color: var(--grey-600);
 }
 
 /* Custom image input field */
@@ -57,16 +60,18 @@
   align-items: center;
   gap: 0.25rem;
   padding: 0.25rem 0.5rem;
-  background-color: #fdfdfd;
-  border: 1px solid var(--grey-150);
+  color: var(--form-btn-txt-clr);
+  background-color: var(--form-btn-bkg-clr);
+  border: 1px solid var(--form-btn-bdr-clr);
   border-radius: 1rem;
   outline: 0;
   transition: background-color 250ms ease-in-out;
 }
 
 .imgInputLabel:hover {
-  border-color: var(--grey-400);
-  background-color: var(--grey-25);
+  color: var(--form-btn-hvr-txt-clr);
+  border-color: var(--form-btn-hvr-bdr-clr);
+  background-color: var(--form-btn-hvr-bkg-clr);
   cursor: pointer;
 }
 
@@ -95,7 +100,7 @@
 
 .selectedFile > svg:hover {
   cursor: pointer;
-  color: var(--error-500);
+  color: var(--upld-form-dlt-hover);
 }
 
 @media (min-width: 568px) {

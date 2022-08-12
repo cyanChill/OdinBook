@@ -1,3 +1,11 @@
+:root {
+  --auth-pg-rdt-link-clr: var(--orange-800);
+}
+
+[data-theme="dark"] {
+  --auth-pg-rdt-link-clr: var(--grey-300);
+}
+
 /* Card styling */
 .authCard {
   width: 100%;
@@ -38,7 +46,7 @@
   align-self: center;
 
   margin-top: 0.25rem;
-  color: var(--orange-700);
+  color: var(--auth-pg-rdt-link-clr);
   text-align: center;
 }
 

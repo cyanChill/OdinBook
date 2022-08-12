@@ -1,3 +1,19 @@
+:root {
+  --cmt-txt-muted-clr: var(--grey-500);
+  --cmt-bkg-clr: #fdfdfd;
+  --cmt-bdr-clr: var(--grey-25);
+  --cmt-dlt-clr: var(--error-300);
+  --cmt-hvr-dlt-clr: var(--error-500);
+  --cmt-sep-clr: var(--grey-100);
+}
+
+[data-theme="dark"] {
+  --cmt-txt-muted-clr: var(--grey-400);
+  --cmt-bkg-clr: var(--navy-700);
+  --cmt-bdr-clr: var(--navy-800);
+  --cmt-sep-clr: var(--lilac-700);
+}
+
 .comment {
   display: flex;
   gap: 0.5rem;
@@ -15,8 +31,8 @@
   flex-direction: column;
   padding: 0.25rem 0.45rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--grey-25);
-  background-color: #fdfdfd;
+  border: 1px solid var(--cmt-bdr-clr);
+  background-color: var(--cmt-bkg-clr);
 }
 
 .commentHeader {
@@ -36,17 +52,17 @@
 .username > span {
   font-size: 0.85rem;
   font-weight: normal;
-  color: var(--grey-500);
+  color: var(--cmt-txt-muted-clr);
 }
 
 .delete {
   flex-shrink: 0;
-  color: var(--error-300);
+  color: var(--cmt-dlt-clr);
 }
 
 .delete:hover {
   cursor: pointer;
-  color: var(--error-500);
+  color: var(--cmt-hvr-dlt-clr);
 }
 
 .commentContent {
@@ -60,7 +76,7 @@
   padding-top: 0.25rem;
   margin-top: 0.5rem;
   font-size: clamp(0.8rem, 3vw, 0.95rem);
-  border-top: 1px solid var(--grey-100);
+  border-top: 1px solid var(--cmt-sep-clr);
 }
 
 @media (min-width: 568px) {

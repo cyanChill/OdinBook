@@ -1,0 +1,58 @@
+.container {
+  padding: 0.5rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.75rem;
+}
+
+.back:hover {
+  cursor: pointer;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.section > h2 {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+.sectionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+@media (min-width: 568px) {
+  .container {
+    gap: 1.5rem;
+    padding-inline: 1rem;
+  }
+
+  .back {
+    font-size: 2rem;
+  }
+
+  .section {
+    gap: 1rem;
+  }
+
+  .section > h2 {
+    font-size: 1.5rem;
+  }
+}

@@ -15,6 +15,7 @@ import ProfilePage from "./pages/profile";
 import FriendsPage from "./pages/profile/friends";
 import SettingsPage from "./pages/settings";
 import AccountSettingsPage from "./pages/settings/account";
+import AppearanceSettingsPage from "./pages/settings/appearance";
 import SecuritySettingsPage from "./pages/settings/security";
 import SearchPage from "./pages/search";
 import ErrorPage from "./pages/error";
@@ -63,6 +64,7 @@ const App = () => {
             <Route path="/settings">
               <Route index element={<SettingsPage />} />
               <Route path="account" element={<AccountSettingsPage />} />
+              <Route path="appearance" element={<AppearanceSettingsPage />} />
               <Route path="security" element={<SecuritySettingsPage />} />
             </Route>
 

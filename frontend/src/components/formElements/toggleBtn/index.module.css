@@ -1,0 +1,53 @@
+:root {
+  --toggle-btn-bkg: var(--grey-100);
+  --toggle-btn-bdr-clr: var(--grey-300);
+  --toggle-btn-clr: var(--grey-300);
+}
+
+[data-theme="dark"] {
+  --toggle-btn-bdr-clr: var(--grey-500);
+  --toggle-btn-clr: var(--grey-500);
+}
+
+.togglePill {
+  --toggle-btn-width: 2.5rem;
+
+  height: 0;
+  width: var(--toggle-btn-width);
+  position: relative;
+}
+
+.togglePill::before,
+.togglePill::after {
+  content: "";
+  height: calc(var(--toggle-btn-width) / 2);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.togglePill::before {
+  width: var(--toggle-btn-width);
+
+  background-color: var(--toggle-btn-bkg);
+  border: 1px solid var(--toggle-btn-bdr-clr);
+  border-radius: 25% / 50%;
+}
+
+.togglePill::after {
+  width: calc(var(--toggle-btn-width) / 2);
+
+  background-color: var(--toggle-btn-clr);
+  border-radius: 50%;
+  transform: translate(-100%, -50%);
+  transition: transform 250ms ease-in-out;
+}
+
+.togglePill:checked::after {
+  transform: translate(0%, -50%);
+}
+
+.togglePill:hover {
+  cursor: pointer;
+}

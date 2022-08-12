@@ -1,3 +1,21 @@
+:root {
+  --form-btn-txt-clr: var(--grey-500);
+  --form-btn-bkg-clr: #fdfdfd;
+  --form-btn-bdr-clr: var(--grey-150);
+  --form-btn-hvr-txt-clr: var(--grey-600);
+  --form-btn-hvr-bkg-clr: var(--grey-25);
+  --form-btn-hvr-bdr-clr: var(--grey-400);
+}
+
+[data-theme="dark"] {
+  --form-btn-txt-clr: var(--grey-500);
+  --form-btn-bkg-clr: var(--lilac-900);
+  --form-btn-bdr-clr: var(--navy-700);
+  --form-btn-hvr-txt-clr: var(--grey-300);
+  --form-btn-hvr-bkg-clr: var(--navy-700);
+  --form-btn-hvr-bdr-clr: var(--lilac-500);
+}
+
 .button {
   display: flex;
   justify-content: center;
@@ -5,15 +23,17 @@
   padding: 0.45rem 0.65rem;
   font-size: 1rem;
   font-family: var(--font-family);
-  background-color: #fdfdfd;
-  border: 1px solid var(--grey-150);
+  color: var(--form-btn-txt-clr);
+  background-color: var(--form-btn-bkg-clr);
+  border: 1px solid var(--form-btn-bdr-clr);
   border-radius: 1rem;
   outline: 0;
   transition: background-color 250ms ease-in-out;
 }
 
 .button:hover {
-  border-color: var(--grey-400);
-  background-color: var(--grey-25);
+  color: var(--form-btn-hvr-txt-clr);
+  background-color: var(--form-btn-hvr-bkg-clr);
+  border-color: var(--form-btn-hvr-bdr-clr);
   cursor: pointer;
 }

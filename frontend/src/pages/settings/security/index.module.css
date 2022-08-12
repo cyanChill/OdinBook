@@ -1,3 +1,13 @@
+:root {
+  --sec-tip-shdw-clr: var(--grey-100);
+  --sec-dgr-tip-bkg-clr: var(--error-100);
+  --sec-dgr-tip-txt-clr: #000000;
+}
+
+[data-theme="dark"] {
+  --sec-tip-shdw-clr: var(--navy-700);
+}
+
 .container {
   padding: 0.5rem;
 }
@@ -78,11 +88,12 @@
 .danger {
   --card-padding: 0.75rem;
   font-size: clamp(0.85rem, 3vw, 0.95rem);
-  box-shadow: 0 0 15px 5px var(--grey-100);
+  box-shadow: 0 0 15px 5px var(--sec-tip-shdw-clr);
 }
 
 .danger {
-  background-color: var(--error-100);
+  background-color: var(--sec-dgr-tip-bkg-clr);
+  color: var(--sec-dgr-tip-txt-clr);
 }
 
 @media (min-width: 568px) {

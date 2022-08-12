@@ -1,3 +1,11 @@
+:root {
+  --frd-wdgt-acpt-clr: var(--grey-600);
+  --frd-wdgt-rjct-clr: var(--error-500);
+}
+
+[data-theme="dark"] {
+}
+
 /* Each User Entry */
 .entry {
   display: flex;
@@ -33,10 +41,10 @@
 
 .accept:hover {
   cursor: pointer;
-  color: var(--green-600);
+  color: var(--frd-wdgt-acpt-clr);
 }
 
 .reject:hover {
   cursor: pointer;
-  color: var(--error-500);
+  color: var(--frd-wdgt-rjt-clr);
 }

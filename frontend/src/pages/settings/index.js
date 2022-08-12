@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { BiCog } from "react-icons/bi";
-import { IoKeyOutline } from "react-icons/io5";
+import { IoKeyOutline, IoColorPaletteOutline } from "react-icons/io5";
 
 import styles from "./index.module.css";
 import Card from "../../components/ui/card";
@@ -17,6 +17,14 @@ const SettingsPage = () => {
           <p>
             This is where you can update your profile picture, name, and email.
           </p>
+        </div>
+      </Card>
+
+      <Card onClick={() => navigate("./appearance")} className={styles.card}>
+        <IoColorPaletteOutline />
+        <div className={styles.info}>
+          <p>Appearance</p>
+          <p>This is where you can update the look of the app.</p>
         </div>
       </Card>
 

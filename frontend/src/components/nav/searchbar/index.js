@@ -4,6 +4,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 
 import styles from "./index.module.css";
 import Button from "../../formElements/button";
+import Input from "../../formElements/input";
 
 const SearchBar = ({ className, showBtn, ...rest }) => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const SearchBar = ({ className, showBtn, ...rest }) => {
       autoComplete="off"
       {...rest}
     >
-      <input
+      <Input
         type="text"
         name="search-term"
         placeholder="Search OdinWorks"
