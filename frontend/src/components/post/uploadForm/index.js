@@ -75,6 +75,7 @@ const UploadForm = ({ addToFeed }) => {
             type="file"
             name="postImg"
             accept="image/*"
+            onClick={(e) => (e.target.value = null)}
             onChange={(e) => {
               if (e.target.files.length === 0) return;
               setUploadedFile(e.target.files[0]);
