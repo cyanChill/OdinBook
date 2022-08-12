@@ -256,6 +256,13 @@ exports.removeProfilePic = async (req, res, next) => {
 
 exports.deleteAccount = async (req, res, next) => {
   const userId = req.userId;
+
+  if (userId === process.env.DEMO_USER_ID) {
+    return res.status(403).json({
+      message: "You cannot delete the demo user account.",
+    });
+  }
+
   try {
     const [commentsMade, postsMade] = await Promise.all([
       // Get all comments & all posts user made
@@ -294,7 +301,6 @@ exports.deleteAccount = async (req, res, next) => {
 
     return res.status(200).json({ message: "Successfully deleted account." });
   } catch (err) {
-    console.log(err);
     return res.status(500).json({
       message: "Something went wrong with deleting your account.",
     });

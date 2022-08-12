@@ -29,6 +29,9 @@ router.get(
   authController.facebookLogin
 );
 
+/* Login as Demo Account */
+router.get("/login/demo", authController.demoLogin);
+
 /* Verify if JWT token is still valid */
 router.get(
   "/validateToken",

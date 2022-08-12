@@ -128,3 +128,28 @@ exports.facebookLogin = async (req, res, next) => {
     });
   }
 };
+
+exports.demoLogin = async (req, res, next) => {
+  try {
+    const demoUser = await User.findById(process.env.DEMO_USER_ID);
+    if (!demoUser) {
+      return res.status(404).json({ message: "Demo user was not found." });
+    }
+    const token = issueToken(demoUser);
+    return res.status(200).json({
+      message: "Successfully logged in.",
+      user: {
+        id: demoUser._id,
+        profilePicUrl: demoUser.profilePicUrl,
+        firstName: demoUser.first_name,
+        lastName: demoUser.last_name,
+        fullName: demoUser.full_name,
+      },
+      token: token,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Something went wrong on the server.",
+    });
+  }
+};
