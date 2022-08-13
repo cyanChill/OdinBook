@@ -30,7 +30,7 @@ const usePageLocation = (options) => {
     if (containerRef.current) observer.observe(containerRef.current);
 
     return () => {
-      if (containerRef.current) observer.unobserve(containerRef.current);
+      if (containerRef.current) observer.unobserve(containerRef.current); // eslint-disable-line
     };
   }, [containerRef, options]);
 
