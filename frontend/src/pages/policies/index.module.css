@@ -1,3 +1,10 @@
+.appContainer {
+  width: 100%;
+  max-width: var(--max-app-width);
+  padding-block: 1rem;
+  margin-inline: auto;
+}
+
 .policyContainer {
   display: flex;
   flex-direction: column;

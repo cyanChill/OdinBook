@@ -8,16 +8,18 @@ const PolicyPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className={styles.policyContainer}>
-      <Card onClick={() => navigate("./privacy")} className={styles.widget}>
-        <BsFillShieldLockFill />
-        <p>Privacy Policy</p>
-      </Card>
+    <div className={styles.appContainer}>
+      <div className={styles.policyContainer}>
+        <Card onClick={() => navigate("./privacy")} className={styles.widget}>
+          <BsFillShieldLockFill />
+          <p>Privacy Policy</p>
+        </Card>
 
-      <Card onClick={() => navigate("./tos")} className={styles.widget}>
-        <BsFillShieldFill />
-        <p>Terms of Service</p>
-      </Card>
+        <Card onClick={() => navigate("./tos")} className={styles.widget}>
+          <BsFillShieldFill />
+          <p>Terms of Service</p>
+        </Card>
+      </div>
     </div>
   );
 };
