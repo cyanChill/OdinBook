@@ -15,6 +15,11 @@
   padding-bottom: 1rem;
 }
 
+.noneFound {
+  text-align: center;
+  grid-column: 1 / -1; /* Span all columns */
+}
+
 @media (min-width: 568px) {
   .cardsContainer {
     grid-template-columns: repeat(2, calc((100% - 0.5rem) / 2));

@@ -113,6 +113,10 @@ const FriendsPage = () => {
                 />
               </Card>
             ))}
+
+            {friendLists.requests.length === 0 && (
+              <p className={styles.noneFound}>No friend requests found.</p>
+            )}
           </div>
         </>
       )}
@@ -124,6 +128,12 @@ const FriendsPage = () => {
             <FriendWidget type="FRIENDS" user={user} />
           </Card>
         ))}
+
+        {friendLists.friends.length === 0 && (
+          <p className={styles.noneFound}>
+            No friends found. Find some people using the search feature!
+          </p>
+        )}
       </div>
     </div>
   );

@@ -236,6 +236,12 @@ const ProfilePage = () => {
               onPostDelete={removeFromFeed}
             />
           ))}
+
+        {(isFriend || isOwner) && userInfo.posts.length === 0 && (
+          <p style={{ textAlign: "center", fontWeight: 500 }}>
+            No posts found for {userInfo.first_name} {userInfo.last_name}.
+          </p>
+        )}
       </div>
     </div>
   );

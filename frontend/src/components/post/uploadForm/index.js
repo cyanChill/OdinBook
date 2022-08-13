@@ -67,7 +67,7 @@ const UploadForm = ({ addToFeed }) => {
             className={`${styles.imgInputLabel} ${
               uploadedFile && styles.hidden
             }`}
-            tabindex="0"
+            tabIndex="0"
           >
             <IoMdPhotos /> Upload Image
           </label>
