@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import { BiCog } from "react-icons/bi";
 import { IoKeyOutline, IoColorPaletteOutline } from "react-icons/io5";
+import { RiShieldFill } from "react-icons/ri";
 
 import styles from "./index.module.css";
 import Card from "../../components/ui/card";
@@ -34,6 +35,17 @@ const SettingsPage = () => {
           <p>Security</p>
           <p>
             This is where you can update your password and delete your account.
+          </p>
+        </div>
+      </Card>
+
+      <Card onClick={() => navigate("/policies")} className={styles.card}>
+        <RiShieldFill />
+        <div className={styles.info}>
+          <p>Policies</p>
+          <p>
+            This is where you can find information on our Privacy Policy & Terms
+            of Service.
           </p>
         </div>
       </Card>

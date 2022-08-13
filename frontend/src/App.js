@@ -20,6 +20,9 @@ import SecuritySettingsPage from "./pages/settings/security";
 import SearchPage from "./pages/search";
 import ErrorPage from "./pages/error";
 import RestrictedPage from "./pages/error/restricted";
+import PolicyPage from "./pages/policies";
+import PrivacyPolicyPage from "./pages/policies/privacy";
+import TOSPage from "./pages/policies/tos";
 
 const App = () => {
   const { user, initialLoad } = useContext(AuthContext);
@@ -42,6 +45,10 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/policies">
+            <Route path="privacy" element={<PrivacyPolicyPage />} />
+            <Route path="tos" element={<TOSPage />} />
+          </Route>
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       )}
@@ -66,6 +73,12 @@ const App = () => {
               <Route path="account" element={<AccountSettingsPage />} />
               <Route path="appearance" element={<AppearanceSettingsPage />} />
               <Route path="security" element={<SecuritySettingsPage />} />
+            </Route>
+
+            <Route path="/policies">
+              <Route index element={<PolicyPage />} />
+              <Route path="privacy" element={<PrivacyPolicyPage />} />
+              <Route path="tos" element={<TOSPage />} />
             </Route>
 
             <Route path="/login" element={<Navigate to="/" />} />
