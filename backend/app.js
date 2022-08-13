@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const compression = require("compression");
 const cors = require("cors");
 
 require("./utils/firebaseAdminConfig");
@@ -21,6 +22,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Middleware
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
