@@ -30,4 +30,6 @@
 
 .input:focus {
   border-color: var(--form-input-fcs-bdr-clr);
+  outline-color: var(--form-input-fcs-bdr-clr);
+  outline-style: solid;
 }

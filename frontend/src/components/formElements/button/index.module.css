@@ -36,3 +36,8 @@
   border-color: var(--form-btn-hvr-bdr-clr);
   cursor: pointer;
 }
+
+.button:focus {
+  outline-color: var(--form-btn-hvr-bdr-clr);
+  outline-style: solid;
+}
