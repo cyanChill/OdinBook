@@ -7,7 +7,7 @@ const ExtractJWT = require("passport-jwt").ExtractJwt;
 const User = require("../models/User");
 const { verifyPassword } = require("./hash.js");
 
-const IncorCredsInfo = { message: "Incorrect username or password." };
+const IncorCredsInfo = { message: "Incorrect email or password." };
 
 /* Validate Local Credentials */
 const LocalStrategyOpts = {
