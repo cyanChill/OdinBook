@@ -8,7 +8,6 @@ import styles from "../index.module.css";
 import AuthPageBase from "../../../components/auth/authBase";
 import Card from "../../../components/ui/card";
 import FancyInput from "../../../components/formElements/fancyInput";
-import { getCookie } from "../../../util/cookie";
 
 const LoginPage = () => {
   const [searchParams] = useSearchParams();
