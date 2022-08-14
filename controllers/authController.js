@@ -120,8 +120,7 @@ exports.facebookLogin = async (req, res, next) => {
   // Successfuly authentication, send back token
   try {
     const token = issueToken(req.user);
-    res.cookie("auth", token);
-    return res.redirect(`${process.env.FRONTEND_URL}/login`);
+    return res.redirect(`${process.env.FRONTEND_URL}/login?token=${token}`);
   } catch (err) {
     return res.status(500).json({
       message: "Something went wrong when creating your user token.",
