@@ -152,7 +152,9 @@ const AccountSettingsPage = () => {
                 onChange={handlePhotoChange}
                 className={styles.imgInput}
               />
-              <Button onClick={removePhoto}>Remove</Button>
+              <Button onClick={removePhoto} data-disabled={!user.profilePicUrl}>
+                Remove
+              </Button>
             </div>
           </div>
         </section>

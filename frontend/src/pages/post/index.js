@@ -20,9 +20,12 @@ const PostPage = () => {
 
   const [post, setPost] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleNewComment = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
 
     try {
       const res = await await authedFetch(
@@ -47,6 +50,7 @@ const PostPage = () => {
     } catch (err) {
       console.log("Something unexpected occurred.");
     }
+    setIsSubmitting(false);
   };
 
   const deleteComment = async (id) => {
@@ -116,6 +120,7 @@ const PostPage = () => {
             placeholder="Write a comment..."
             value={commentVal}
             onChange={(e) => setCommentVal(e.target.value)}
+            disable={isSubmitting}
           />
         </form>
 

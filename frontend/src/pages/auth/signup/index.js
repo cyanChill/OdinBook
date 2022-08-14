@@ -20,6 +20,7 @@ const SignUpPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isLoading) return;
     const ok = await signup(firstName, lastName, email, password, confirmPass);
     if (ok) {
       toast.dismiss(); // Clear all previous toasts

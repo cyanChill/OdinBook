@@ -17,9 +17,13 @@ const UploadForm = ({ addToFeed }) => {
 
   const [postContent, setPostContent] = useState("");
   const [uploadedFile, setUploadedFile] = useState(undefined);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleNewPost = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     const formData = new FormData();
     formData.append("content", postContent);
     formData.append("postImg", uploadedFile);
@@ -40,6 +44,7 @@ const UploadForm = ({ addToFeed }) => {
     } catch (err) {
       console.log("Something unexpected occurred.");
     }
+    setIsSubmitting(false);
   };
 
   const removeImg = () => {
@@ -59,6 +64,7 @@ const UploadForm = ({ addToFeed }) => {
           placeholder={`What's on your mind, ${user.firstName}?`}
           value={postContent}
           onChange={(e) => setPostContent(e.target.value)}
+          disable={isSubmitting}
         />
 
         <div className={styles.fileUploadCont}>
@@ -68,6 +74,7 @@ const UploadForm = ({ addToFeed }) => {
               uploadedFile && styles.hidden
             }`}
             tabIndex="0"
+            data-disabled={isSubmitting}
           >
             <IoMdPhotos /> Upload Image
           </label>
@@ -82,13 +89,17 @@ const UploadForm = ({ addToFeed }) => {
               setUploadedFile(e.target.files[0]);
             }}
             className={styles.imgInput}
+            data-disabled={isSubmitting}
           />
 
           {uploadedFile && (
             <div className={styles.selectedFile}>
               <span className="ellipse">{uploadedFile.name}</span>
 
-              <AiOutlineClose onClick={removeImg} />
+              <AiOutlineClose
+                onClick={removeImg}
+                data-disabled={isSubmitting}
+              />
             </div>
           )}
         </div>
@@ -99,7 +110,13 @@ const UploadForm = ({ addToFeed }) => {
 
 export default UploadForm;
 
-export const ProfileInputComp = ({ user, placeholder, value, onChange }) => {
+export const ProfileInputComp = ({
+  user,
+  placeholder,
+  value,
+  onChange,
+  disable = false,
+}) => {
   return (
     <div className={styles.formRow1}>
       <ProfilePic src={user.profilePicUrl} alt="profile pic" rounded />
@@ -111,9 +128,10 @@ export const ProfileInputComp = ({ user, placeholder, value, onChange }) => {
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          data-disabled={disable}
           required
         />
-        <Button type="submit">
+        <Button type="submit" data-disabled={disable}>
           <BiSend />
         </Button>
       </div>
