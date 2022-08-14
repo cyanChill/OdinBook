@@ -20,6 +20,18 @@ const useSignIn = () => {
         body: JSON.stringify({ email: email, password: password }),
       }
     );
+
+    // Catch "Too Many Requests" error
+    if (!res.ok && res.status === 429) {
+      setErrors([
+        {
+          msg: "You attempted to log in to many times. Please try again in 15 minutes.",
+        },
+      ]);
+      setIsLoading(false);
+      return res.ok;
+    }
+
     const data = await res.json();
 
     if (!res.ok) {
@@ -59,6 +71,7 @@ const useSignIn = () => {
         type: "LOGIN",
         payload: { ...data.user, token: token },
       });
+    } else {
     }
 
     setIsLoading(false);
@@ -72,6 +85,18 @@ const useSignIn = () => {
     const res = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/api/auth/login/demo`
     );
+
+    // Catch "Too Many Requests" error
+    if (!res.ok && res.status === 429) {
+      setErrors([
+        {
+          msg: "You attempted to log in to many times. Please try again in 15 minutes.",
+        },
+      ]);
+      setIsLoading(false);
+      return;
+    }
+
     const data = await res.json();
 
     if (!res.ok) {

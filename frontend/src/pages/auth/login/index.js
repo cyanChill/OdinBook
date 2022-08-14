@@ -48,7 +48,9 @@ const LoginPage = () => {
       verifyFacebookSignIn(token).then((success) => {
         if (success) {
           navigate("/", { replace: true });
-          toast.success("Successfully logged in with Facebook.");
+          toast.success("Successfully logged in with Facebook.", {
+            id: "facebook",
+          });
         }
       });
     }
