@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const debug = require("debug")("usersController");
 
 const { hashPassword, verifyPassword } = require("../utils/hash.js");
 const {
@@ -20,6 +21,7 @@ exports.getAllUsers = async (req, res, next) => {
       users: users ? users : [],
     });
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong on the server.",
     });
@@ -79,6 +81,7 @@ exports.findQuery = async (req, res, next) => {
       users: users ? users : [],
     });
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong on the server.",
     });
@@ -119,6 +122,7 @@ exports.updateProfile = [
       });
       if (emailExists) errors.errors.push({ msg: "Email is already used." });
     } catch (err) {
+      debug(err);
       return res.status(500).json({
         message: "Something went wrong on the server.",
       });
@@ -144,6 +148,7 @@ exports.updateProfile = [
         user: updatedUser,
       });
     } catch (err) {
+      debug(err);
       return res.status(500).json({
         message: "Something went wrong when updating your user profile.",
       });
@@ -191,6 +196,7 @@ exports.updatePassword = [
         message: "Successfully updated user password.",
       });
     } catch (err) {
+      debug(err);
       return res.status(500).json({
         message: "Something went wrong when updating your password.",
       });
@@ -225,6 +231,7 @@ exports.updateProfilePic = async (req, res, next) => {
       profilePicUrl: downloadUrl,
     });
   } catch (err) {
+    debug(err);
     // Delete image uploaded to firebase if it exists (was uploaded)
     if (downloadUrl) await deleteImageFromUrl(downloadUrl);
 
@@ -248,6 +255,7 @@ exports.removeProfilePic = async (req, res, next) => {
       message: "Successfully removed profile picture.",
     });
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "An error has occurred with removing your profile picture.",
     });
@@ -301,6 +309,7 @@ exports.deleteAccount = async (req, res, next) => {
 
     return res.status(200).json({ message: "Successfully deleted account." });
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong with deleting your account.",
     });

@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const passport = require("passport");
+const debug = require("debug")("authController");
 
 const { hashPassword } = require("../utils/hash");
 const { issueToken } = require("../utils/jwt");
@@ -43,6 +44,7 @@ exports.signup = [
       const user = await User.findOne({ email: userBody.email });
       if (user) errors.errors.push({ msg: "Email is already used." });
     } catch (err) {
+      debug(err);
       return res.status(500).json({
         message: "Something went wrong on the server.",
       });
@@ -79,6 +81,7 @@ exports.signup = [
         token: token,
       });
     } catch (err) {
+      debug(err);
       return res.status(500).json({
         message: "Something went wrong when creating your user.",
       });
@@ -89,6 +92,7 @@ exports.signup = [
 exports.normalLogin = async (req, res, next) => {
   passport.authenticate("local", { session: false }, (err, user, info) => {
     if (err) {
+      debug(err);
       return res.status(400).json({
         message: "Something went wrong with authentication.",
       });
@@ -109,6 +113,7 @@ exports.normalLogin = async (req, res, next) => {
         token: token,
       });
     } catch (err) {
+      debug(err);
       return res.status(500).json({
         message: "Something went wrong when creating your user token.",
       });
@@ -122,6 +127,7 @@ exports.facebookLogin = async (req, res, next) => {
     const token = issueToken(req.user);
     return res.redirect(`${process.env.FRONTEND_URL}/login?token=${token}`);
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong when creating your user token.",
     });
@@ -147,6 +153,7 @@ exports.demoLogin = async (req, res, next) => {
       token: token,
     });
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong on the server.",
     });

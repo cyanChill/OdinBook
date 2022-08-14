@@ -3,6 +3,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const JWTStrategy = require("passport-jwt").Strategy;
 const ExtractJWT = require("passport-jwt").ExtractJwt;
+const debug = require("debug")("passport");
 
 const User = require("../models/User");
 const { verifyPassword } = require("./hash.js");
@@ -29,6 +30,7 @@ passport.use(
       // Found User in Database
       return done(null, user, { message: "Logged in successfully." });
     } catch (err) {
+      debug(err);
       return done("Error: Failed to validate credentials.");
     }
   })
@@ -60,6 +62,7 @@ passport.use(
         }
         return cb(null, user, { message: "Logged in successfully." });
       } catch (err) {
+        debug(err);
         return cb(
           "Error: Failed to create account from Facebook credentials due to email being used for a different account."
         );
@@ -79,7 +82,8 @@ passport.use(
       const user = await User.findById(jwt_payload.id);
       if (!user) done(null, false, { message: "Failed to find user." });
       return done(null, user);
-    } catch {
+    } catch (err) {
+      debug(err);
       return done("Error: Failed to verify jwt token.");
     }
   })
