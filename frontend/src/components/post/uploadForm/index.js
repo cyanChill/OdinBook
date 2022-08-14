@@ -36,6 +36,7 @@ const UploadForm = ({ addToFeed }) => {
       const data = await res.json();
       if (res.ok) {
         addToFeed(data.post);
+        setPostContent("");
         removeImg();
       } else {
         if (data.errors) data.errors.map((err) => toast.error(err.msg));
@@ -47,10 +48,7 @@ const UploadForm = ({ addToFeed }) => {
     setIsSubmitting(false);
   };
 
-  const removeImg = () => {
-    setPostContent("");
-    setUploadedFile(null);
-  };
+  const removeImg = () => setUploadedFile(null);
 
   return (
     <Card>
