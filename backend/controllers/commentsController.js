@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const debug = require("debug")("commentsController");
 
 const Comment = require("../models/Comment");
 const Post = require("../models/Post");
@@ -39,6 +40,7 @@ exports.postComment = [
         comment: popNewComment,
       });
     } catch (err) {
+      debug(err);
       return res.status(500).json({
         message: "Something went wrong when trying to create comment.",
       });
@@ -64,6 +66,7 @@ exports.deleteComment = async (req, res, next) => {
     ]);
     return res.status(200).json({ message: "Successfully deleted comment." });
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong when trying to delete comment.",
     });
@@ -93,6 +96,7 @@ exports.likeComment = async (req, res, next) => {
       });
     }
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong when trying to like/unlike comment.",
     });

@@ -1,3 +1,5 @@
+const debug = require("debug")("middleware");
+
 const Comment = require("../models/Comment");
 const Post = require("../models/Post");
 const User = require("../models/User");
@@ -15,6 +17,7 @@ exports.validUserId = async (req, res, next) => {
     req.currentUser = user;
     return next();
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong while verifying the userId.",
     });
@@ -57,6 +60,7 @@ exports.getViewingUser = async (req, res, next) => {
     req.viewingUser = user;
     return next();
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong on the server.",
     });
@@ -71,6 +75,7 @@ exports.validPostId = async (req, res, next) => {
     req.currentPost = post;
     return next();
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong while verifying the postId.",
     });
@@ -85,6 +90,7 @@ exports.hasPostAccess = async (req, res, next) => {
     !viewingUser.friends.includes(currentPost.author) &&
     !currentPost.author.equals(viewingUser._id)
   ) {
+    debug(err);
     return res.status(403).json({
       message: "You do not have access to that post.",
     });
@@ -107,6 +113,7 @@ exports.validCommentId = async (req, res, next) => {
     req.currentComment = comment;
     return next();
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong while verifying the commentId.",
     });

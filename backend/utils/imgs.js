@@ -1,6 +1,7 @@
 const multer = require("multer");
 const sharp = require("sharp");
 const { v4: uuidv4 } = require("uuid");
+const debug = require("debug")("images");
 
 const { bucket } = require("./firebaseAdminConfig");
 
@@ -54,9 +55,9 @@ exports.deleteImageFromUrl = async (imgUrl) => {
   const filePath = decodeURIComponent(encodedFilePath);
   try {
     await bucket.file(filePath).delete();
-    console.log("Successfully deleted file.");
+    debug("Successfully deleted file.");
   } catch (err) {
-    console.log(err);
+    debug(err);
   }
 };
 
@@ -64,9 +65,9 @@ exports.deleteImageFromUrl = async (imgUrl) => {
 exports.deleteAllUserImgs = async (userId) => {
   try {
     await bucket.deleteFiles({ prefix: `odinworks/${userId}/` });
-    console.log("Successfully deleted all images from user.");
+    debug("Successfully deleted all images from user.");
   } catch (err) {
-    console.log(err);
+    debug(err);
   }
 };
 

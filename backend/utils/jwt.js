@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+const debug = require("debug")("jwt");
 
 const User = require("../models/User");
 
@@ -30,6 +31,7 @@ exports.readToken = [
       req.userId = authData.id;
       return next();
     } catch (err) {
+      debug(err);
       return res.status(403).json({ message: "Invalid token." });
     }
   },

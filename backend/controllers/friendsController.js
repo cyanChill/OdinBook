@@ -1,3 +1,5 @@
+const debug = require("debug")("friendsController");
+
 const User = require("../models/User");
 
 // We know that the "User" req.params.userId exists
@@ -81,6 +83,7 @@ exports.toggleFriendRequest = async (req, res, next) => {
       }
     }
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message:
         "Something went wrong when trying to sent/withdraw friend request.",
@@ -102,6 +105,7 @@ exports.handleFriendRequest = async (req, res, next) => {
     if (!user)
       return res.status(404).json({ message: "Request does not exist." });
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong when trying to verify user.",
     });
@@ -134,6 +138,7 @@ exports.handleFriendRequest = async (req, res, next) => {
       });
     }
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message:
         "Something went wrong when trying to accept/reject friend request.",
@@ -155,6 +160,7 @@ exports.removeFriend = async (req, res, next) => {
     if (!user)
       return res.status(404).json({ message: "Friend does not exist." });
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong when trying to verify user.",
     });
@@ -170,6 +176,7 @@ exports.removeFriend = async (req, res, next) => {
     ]);
     return res.status(200).json({ message: "Succesfully removed friend." });
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong when trying to remove friend.",
     });

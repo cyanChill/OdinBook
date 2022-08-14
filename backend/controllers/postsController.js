@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const debug = require("debug")("postsController");
 
 const {
   validateImg,
@@ -26,6 +27,7 @@ exports.getFeedPosts = async (req, res, next) => {
       posts: posts,
     });
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong on the server.",
     });
@@ -52,6 +54,7 @@ exports.createPost = [
       try {
         downloadUrl = await convertImgAndUploadToFirebase(req.file, req.userId);
       } catch (err) {
+        debug(err);
         return res.status(500).json({
           message: "An error has occurred when uploading post image.",
         });
@@ -81,6 +84,7 @@ exports.createPost = [
         post: popNewPost,
       });
     } catch (err) {
+      debug(err);
       // Delete image uploaded to firebase if it exists (was uploaded)
       if (downloadUrl) await deleteImageFromUrl(downloadUrl);
 
@@ -129,6 +133,7 @@ exports.deletePost = async (req, res, next) => {
 
     return res.status(200).json({ message: "Successfully deleted post." });
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong when trying to delete post.",
     });
@@ -158,6 +163,7 @@ exports.likePost = async (req, res, next) => {
       });
     }
   } catch (err) {
+    debug(err);
     return res.status(500).json({
       message: "Something went wrong when trying to like/unlike post.",
     });

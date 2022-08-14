@@ -43,3 +43,4 @@ We utilize a couple of environment variables in the frontend and backend:
 | PORT                        | This is the port number the server will run on.                                                      |
 | DEMO_USER_ID                | This is the id of the account use for demo purposes.                                                 |
 | FRONTEND_URL                | This contains the url to your frontend (make sure you don't have a "/" at the end. of the url).      |
+| DEBUG | A comma-seperated list specifying which debug messages we want to show. Possible values in the list: `authController`, `commentsController`, `friendsController`, `images`, `jwt`, `middleware`, `passport`, `postsController`, and `usersController`. |
