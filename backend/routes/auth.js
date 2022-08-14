@@ -6,10 +6,13 @@ const rateLimit = require("express-rate-limit");
 const authController = require("../controllers/authController");
 
 const limiterSignup = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 60 * 60 * 1000, // 1 hour
   max: 10, // Limit each IP to 10 requests per 'window'
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: JSON.stringify({
+    errors: [{ msg: "You can signup for up to 10 times per hour." }],
+  }),
 });
 
 const limiterLogin = rateLimit({
@@ -17,6 +20,9 @@ const limiterLogin = rateLimit({
   max: 5, // Limit each IP to 5 requests per 'window'
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: JSON.stringify({
+    errors: [{ msg: "You can login up to 5 times per 15 minutes." }],
+  }),
 });
 
 // ⭐ Current Route: "/api/auth" ⭐
