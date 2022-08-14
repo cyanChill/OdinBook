@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import useSignIn from "../../../hooks/useSignIn";
@@ -11,6 +11,8 @@ import FancyInput from "../../../components/formElements/fancyInput";
 import { getCookie } from "../../../util/cookie";
 
 const LoginPage = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const {
     signin,
     demoSignIn,
@@ -41,16 +43,15 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    // See if we have a "auth" cookie if we tried to login with facebook
-    if (document.cookie) {
-      const ck = getCookie("auth");
-      // Delete Cookie
-      document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      if (ck) {
-        verifyFacebookSignIn(ck).then((success) => {
-          if (success) toast.success("Successfully logged in with Facebook.");
-        });
-      }
+    const token = searchParams.get("token");
+    // See if we have a "token" in the url query params if we tried to login with facebook
+    if (token) {
+      verifyFacebookSignIn(token).then((success) => {
+        if (success) {
+          navigate("/", { replace: true });
+          toast.success("Successfully logged in with Facebook.");
+        }
+      });
     }
   }, []); // eslint-disable-line
 
