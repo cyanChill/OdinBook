@@ -9,6 +9,10 @@ This is a app that functions similarly to Facebook. You can create an account an
 
 > **Note:** It may take some time for the app to work as the backend running on Heroku may need to wake up.
 
+
+https://user-images.githubusercontent.com/83375816/184554584-2ebed335-655e-4c5e-a748-e4d994cbc5c3.mp4
+
+
 ## Project Info
 
 More about the project can be found at: https://www.theodinproject.com/lessons/nodejs-odin-book.
