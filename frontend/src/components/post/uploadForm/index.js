@@ -127,6 +127,7 @@ export const ProfileInputComp = ({
           value={value}
           onChange={onChange}
           data-disabled={disable}
+          autoComplete="off"
           required
         />
         <Button type="submit" data-disabled={disable}>
