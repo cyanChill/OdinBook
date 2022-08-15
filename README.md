@@ -63,5 +63,5 @@ To run this app locally, while in the current directory in a terminal:
 
 #### Then start the frontend.
 
-1. Open another terminal while in the project directory (contaiing the `backend` and `frontend` folders) and go to the `frontend` folder (ie: `cd frontend`).
+1. Open another terminal while in the project directory (containing the `backend` and `frontend` folders) and go to the `frontend` folder (ie: `cd frontend`).
 2. Run `npm start` to start the app. Alternatively, you can build the app with `npm run build` and React will give you instructions on how to host the app in the `build` folder (that'll be created) using `serve`.
