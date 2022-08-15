@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import useAuthContext from "../../../hooks/useAuthContext";
@@ -64,12 +65,16 @@ const FriendsList = () => {
         items={requests}
         type="REQUESTS"
         handleRequest={handleRequest}
+        userId={user.id}
+        limit={3}
       />
       <BasicList
         listName="Friends"
         loading={loading}
         items={friends}
         type="FRIENDS"
+        userId={user.id}
+        limit={7}
       />
     </Card>
   );
@@ -77,7 +82,15 @@ const FriendsList = () => {
 
 export default FriendsList;
 
-const BasicList = ({ listName, loading, items, type, handleRequest }) => {
+const BasicList = ({
+  listName,
+  loading,
+  items,
+  type,
+  handleRequest,
+  userId,
+  limit,
+}) => {
   return (
     <section className={styles.list}>
       <p className={styles.listName}>{listName}</p>
@@ -85,14 +98,25 @@ const BasicList = ({ listName, loading, items, type, handleRequest }) => {
       {loading && <Loading fullWidth />}
       {!loading && (
         <div className={styles.entryContainer}>
-          {items.map((user) => (
-            <FriendWidget
-              key={user._id}
-              user={user}
-              type={type}
-              handleRequest={handleRequest}
-            />
-          ))}
+          {items.map((user, idx) => {
+            if (idx < limit) {
+              return (
+                <FriendWidget
+                  key={user._id}
+                  user={user}
+                  type={type}
+                  handleRequest={handleRequest}
+                />
+              );
+            } else {
+              return undefined;
+            }
+          })}
+          {items.length > limit && (
+            <Link to={`/profiles/${userId}/friends`} className={styles.more}>
+              See More...
+            </Link>
+          )}
         </div>
       )}
     </section>
