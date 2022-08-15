@@ -48,3 +48,20 @@ We utilize a couple of environment variables in the frontend and backend:
 | `DEMO_USER_ID`                | This is the id of the account use for demo purposes.                                                 |
 | `FRONTEND_URL`                | This contains the url to your frontend (make sure you don't have a "/" at the end. of the url).      |
 | `DEBUG` | A comma-seperated list specifying which debug messages we want to show. Possible values in the list: `authController`, `commentsController`, `friendsController`, `images`, `jwt`, `middleware`, `passport`, `postsController`, and `usersController`. |
+
+
+### Running App Locally
+
+To run this app locally, while in the current directory in a terminal:
+
+#### First start by running the backend.
+
+1. Go to the `backend` folder (ie: `cd backend`).
+2. Run `npm run devstart` to run the backend app in development mode.
+
+> To run the backend in production mode, run `npm start` and make sure the `NODE_ENV` variable is set to `production`.
+
+#### Then start the frontend.
+
+1. Open another terminal while in the project directory (contaiing the `backend` and `frontend` folders) and go to the `frontend` folder (ie: `cd frontend`).
+2. Run `npm start` to start the app. Alternatively, you can build the app with `npm run build` and React will give you instructions on how to host the app in the `build` folder (that'll be created) using `serve`.
