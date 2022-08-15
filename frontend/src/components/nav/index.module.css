@@ -1,11 +1,11 @@
 :root {
   --nav-bkg-clr: var(--orange-500);
-  --nav-slide-out-bkg: 40 100% 0%;
+  --nav-slide-out-bkg: 0 0% 100%;
+  --nav-slide-out-bkg-alt: 0 0% 0%;
 }
 
 [data-theme="dark"] {
   --nav-bkg-clr: var(--brown-400);
-  --nav-slide-out-bkg: 0 0% 100%;
 }
 
 .nav {
@@ -70,15 +70,23 @@
   right: 0;
 
   padding: 4rem clamp(1.5rem, 3vw, 3rem);
-  background: hsl(var(--nav-slide-out-bkg) / 0.15);
+  background: hsl(var(--nav-slide-out-bkg) / 0.4);
   transform: translateX(100%);
   transition: transform 250ms ease-in-out;
 }
 
+[data-theme="dark"] .sidebar {
+  background: hsl(var(--nav-slide-out-bkg-alt) / 0.5);
+}
+
 @supports (backdrop-filter: blur(1rem)) {
   .sidebar {
-    background: hsl(var(--nav-slide-out-bkg) / 0.1);
+    background: hsl(var(--nav-slide-out-bkg) / 0.25);
     backdrop-filter: blur(1rem);
+  }
+
+  [data-theme="dark"] .sidebar {
+    background: hsl(var(--nav-slide-out-bkg) / 0.1);
   }
 }
 

@@ -1,0 +1,64 @@
+:root {
+  --del-dd-dlt-clr: var(--error-300);
+  --del-dd-hvr-dlt-clr: var(--error-500);
+  --del-dd-bkg-clr: var(--grey-25);
+}
+
+[data-theme="dark"] {
+  --del-dd-bkg-clr: var(--navy-700);
+}
+
+.ddContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0.25rem;
+}
+
+.ddContainer:hover {
+  cursor: pointer;
+}
+
+.ddItem {
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -1.75rem;
+  background-color: var(--del-dd-bkg-clr);
+  border-radius: 5rem;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.ddItem:before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  position: absolute;
+  right: -2.35px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  background-color: var(--del-dd-bkg-clr);
+}
+
+.ddItem.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.delete {
+  z-index: 1;
+  flex-shrink: 0;
+  color: var(--del-dd-dlt-clr);
+}
+
+.delete:hover {
+  cursor: pointer;
+  color: var(--del-dd-hvr-dlt-clr);
+}

@@ -8,6 +8,7 @@ import { correctPostDate } from "../../../util/date";
 import styles from "./index.module.css";
 import ProfilePic from "../../ui/profilePic";
 import LikeCounter from "../counters/likeCounter";
+import DeleteDropdown from "../../ui/deleteDropdown";
 
 const Comment = ({ postId, comment, handleDelete }) => {
   const { user } = useAuthContext();
@@ -37,9 +38,9 @@ const Comment = ({ postId, comment, handleDelete }) => {
             <span>({correctPostDate(comment.timestamp)})</span>
           </Link>
           {isOwner && (
-            <FaRegTrashAlt
-              onClick={() => handleDelete(comment._id)}
-              className={styles.delete}
+            <DeleteDropdown
+              handleDelete={() => handleDelete(comment._id)}
+              className={styles.altDDColors}
             />
           )}
         </div>

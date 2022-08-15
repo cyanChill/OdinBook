@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaRegTrashAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 import useAuthContext from "../../../hooks/useAuthContext";
@@ -11,6 +10,7 @@ import Card from "../../ui/card";
 import ProfilePic from "../../ui/profilePic";
 import LikeCounter from "../counters/likeCounter";
 import CommentCounter from "../counters/commentCounter";
+import DeleteDropdown from "../../ui/deleteDropdown";
 
 const PostBase = ({ post, children, isPreview, onDelete, className }) => {
   const navigate = useNavigate();
@@ -67,9 +67,9 @@ const PostBase = ({ post, children, isPreview, onDelete, className }) => {
           </div>
 
           {isOwner && (
-            <FaRegTrashAlt
-              onClick={() => handleDelete(post._id)}
-              className={`ignoreClick ${styles.delete}`}
+            <DeleteDropdown
+              handleDelete={() => handleDelete(post._id)}
+              className="ignoreClick"
             />
           )}
         </div>

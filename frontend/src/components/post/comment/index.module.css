@@ -2,8 +2,6 @@
   --cmt-txt-muted-clr: var(--grey-500);
   --cmt-bkg-clr: #fdfdfd;
   --cmt-bdr-clr: var(--grey-25);
-  --cmt-dlt-clr: var(--error-300);
-  --cmt-hvr-dlt-clr: var(--error-500);
   --cmt-sep-clr: var(--grey-100);
 }
 
@@ -55,14 +53,12 @@
   color: var(--cmt-txt-muted-clr);
 }
 
-.delete {
-  flex-shrink: 0;
-  color: var(--cmt-dlt-clr);
+.altDDColors {
+  --del-dd-bkg-clr: var(--grey-100);
 }
 
-.delete:hover {
-  cursor: pointer;
-  color: var(--cmt-hvr-dlt-clr);
+[data-theme="dark"] .altDDColors {
+  --del-dd-bkg-clr: var(--navy-800);
 }
 
 .commentContent {

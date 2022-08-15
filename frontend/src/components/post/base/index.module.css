@@ -1,6 +1,4 @@
 :root {
-  --post-base-dlt-clr: var(--error-300);
-  --post-base-hvr-dlt-clr: var(--error-500);
   --post-base-sep-clr: var(--grey-300);
 }
 
@@ -40,16 +38,6 @@
 
 .username > a {
   font-weight: 500;
-}
-
-.delete {
-  flex-shrink: 0;
-  color: var(--post-base-dlt-clr);
-}
-
-.delete:hover {
-  cursor: pointer;
-  color: var(--post-base-hvr-dlt-clr);
 }
 
 .postContent {
