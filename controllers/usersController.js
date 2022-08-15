@@ -299,7 +299,7 @@ exports.deleteAccount = async (req, res, next) => {
     await Promise.all([
       // Delete all posts & comments as we removed any reference to them
       Post.deleteMany({ author: userId }),
-      Comment.deleteMany({ author: userId }),
+      Comment.deleteMany({ user: userId }),
       // Delete images by user in firebase
       deleteAllUserImgs(userId),
     ]);
