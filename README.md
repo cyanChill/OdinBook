@@ -17,21 +17,20 @@ https://user-images.githubusercontent.com/83375816/184554584-2ebed335-655e-4c5e-
 
 More about the project can be found at: https://www.theodinproject.com/lessons/nodejs-odin-book.
 
-## Setup
 
-Setting up this app on your own is pretty simple.
+# Installation & Setup
 
-### Environment Variables
+## Environment Variables
 
 We utilize a couple of environment variables in the frontend and backend:
 
-#### Frontend
+### Frontend
 
 | Variable Name         | Value                                                                                                                           |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | `REACT_APP_BACKEND_URL` | This contains the url to your backend server. For example: "http://localhost:5000" (make sure you don't have a "/" at the end.) |
 
-#### Backend
+### Backend
 
 | Variable Name               | Value                                                                                                |
 | --------------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -50,18 +49,18 @@ We utilize a couple of environment variables in the frontend and backend:
 | `DEBUG` | A comma-seperated list specifying which debug messages we want to show. Possible values in the list: `authController`, `commentsController`, `friendsController`, `images`, `jwt`, `middleware`, `passport`, `postsController`, and `usersController`. |
 
 
-### Running App Locally
+## Running App Locally
 
 To run this app locally, while in the current directory in a terminal:
 
-#### First start by running the backend.
+### First start by running the backend.
 
 1. Go to the `backend` folder (ie: `cd backend`).
 2. Run `npm run devstart` to run the backend app in development mode.
 
 > To run the backend in production mode, run `npm start` and make sure the `NODE_ENV` variable is set to `production`.
 
-#### Then start the frontend.
+### Then start the frontend.
 
 1. Open another terminal while in the project directory (containing the `backend` and `frontend` folders) and go to the `frontend` folder (ie: `cd frontend`).
 2. Run `npm start` to start the app. Alternatively, you can build the app with `npm run build` and React will give you instructions on how to host the app in the `build` folder (that'll be created) using `serve`.
