@@ -19,9 +19,9 @@
   --form-btn-hvr-bkg-clr: var(--form-input-bkg-clr);
 
   align-self: stretch;
-  border: 0;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
 
 /* For seamless border around whole input */
