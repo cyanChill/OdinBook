@@ -47,7 +47,7 @@ const SearchPage = () => {
   return (
     <div className={styles.container}>
       {/* Add stylign to center search bar */}
-      <SearchBar className={styles.searchBar} showBtn />
+      <SearchBar className={styles.searchBar} />
 
       {loading && <Loading fullWidth />}
 

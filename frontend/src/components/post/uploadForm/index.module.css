@@ -30,17 +30,40 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
 }
 
 .formContent > input {
   width: 100%;
+  padding-right: 0;
+  outline: 0;
+  border: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .formContent > button {
-  width: max-content;
-  font-size: 1.25rem;
-  transition: color 250ms ease-in-out;
+  --form-btn-txt-clr: var(--form-input-placeholder-clr);
+  --form-btn-bkg-clr: var(--form-input-bkg-clr);
+  --form-btn-hvr-txt-clr: var(--form-input-txt-clr);
+  --form-btn-hvr-bkg-clr: var(--form-input-bkg-clr);
+
+  align-self: stretch;
+  border: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* For seamless border around whole input */
+.formContent > input:focus {
+  box-shadow: -1px 0 0 var(--form-input-fcs-bdr-clr),
+    0 1px 0 var(--form-input-fcs-bdr-clr),
+    0 -1px 0 var(--form-input-fcs-bdr-clr);
+}
+
+.formContent > input:focus ~ button {
+  box-shadow: 1px 0 0 var(--form-input-fcs-bdr-clr),
+    0 1px 0 var(--form-input-fcs-bdr-clr),
+    0 -1px 0 var(--form-input-fcs-bdr-clr);
 }
 
 /* Custom image input field */

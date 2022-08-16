@@ -1,27 +1,38 @@
 .searchBar {
-  width: 100%;
-  max-width: max-content;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
   margin-right: auto;
 }
 
 .searchBar input {
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
-  border-radius: 1rem;
+  padding-right: 0;
+  outline: 0;
   border: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .searchBtn {
-  visibility: hidden;
-  opacity: 0;
+  --form-btn-txt-clr: var(--form-input-placeholder-clr);
+  --form-btn-bkg-clr: var(--form-input-bkg-clr);
+  --form-btn-hvr-txt-clr: var(--form-input-txt-clr);
+  --form-btn-hvr-bkg-clr: var(--form-input-bkg-clr);
+
+  align-self: stretch;
+  border: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
-.searchBtn.show {
-  visibility: visible;
-  opacity: 1;
-  transition: opacity 250ms ease-in-out;
+/* For seamless border around whole input */
+.searchBar > input:focus {
+  box-shadow: -1px 0 0 var(--form-input-fcs-bdr-clr),
+    0 1px 0 var(--form-input-fcs-bdr-clr),
+    0 -1px 0 var(--form-input-fcs-bdr-clr);
+}
+
+.searchBar > input:focus ~ button {
+  box-shadow: 1px 0 0 var(--form-input-fcs-bdr-clr),
+    0 1px 0 var(--form-input-fcs-bdr-clr),
+    0 -1px 0 var(--form-input-fcs-bdr-clr);
 }

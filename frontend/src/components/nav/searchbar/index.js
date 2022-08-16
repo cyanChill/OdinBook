@@ -6,7 +6,7 @@ import styles from "./index.module.css";
 import Button from "../../formElements/button";
 import Input from "../../formElements/input";
 
-const SearchBar = ({ className, showBtn, ...rest }) => {
+const SearchBar = ({ className, ...rest }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -42,13 +42,7 @@ const SearchBar = ({ className, showBtn, ...rest }) => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      {/* Hide button until we enter something in the input */}
-      <Button
-        type="submit"
-        className={`${styles.searchBtn} ${
-          (searchTerm || showBtn) && styles.show
-        }`}
-      >
+      <Button type="submit" className={styles.searchBtn}>
         <AiOutlineSearch />
       </Button>
     </form>
